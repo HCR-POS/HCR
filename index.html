@@ -1,0 +1,2953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d1728">
+<title>南宫国际娱乐</title>
+<style>
+:root{--bg:#0d1728;--panel:#1a263d;--panel2:#26375c;--line:#3b517a;--text:#f0f4f9;--dim:#8ba0c0;--gold:#fbbf24;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6;--pink:#ec4899;--glass-bg:rgba(40,60,90,0.45);--glass-border:rgba(255,255,255,0.12)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(circle at 50% 0%,#1a2a4a 0%,var(--bg) 80%) fixed;color:var(--text);min-height:100vh;position:relative;overflow-x:hidden;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));-webkit-user-select:none;user-select:none;-webkit-font-smoothing:antialiased}
+body.playing{padding-bottom:0}
+body.danger-zone .ambient-glow{opacity:1;animation:ambientBreath 2s ease-in-out infinite}
+.ambient-glow{position:fixed;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,#ef4444,transparent);opacity:0;transition:opacity .5s ease;pointer-events:none;z-index:5}
+.ambient-glow.top{top:0;box-shadow:0 0 24px rgba(239,68,68,.8)}
+.ambient-glow.bottom{bottom:0;box-shadow:0 0 24px rgba(239,68,68,.8)}
+@keyframes ambientBreath{0%,100%{opacity:.4}50%{opacity:1}}
+.app{width:100%;max-width:480px;margin:0 auto;padding:8px;position:relative;z-index:1}
+.view{display:none;flex-direction:column;gap:10px}
+.view.active{display:flex}
+.hero-brand{position:relative;padding:18px 16px 16px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#1e2d4a 0%,#2a3d63 50%,#1a2a4a 100%);border:1px solid rgba(251,191,36,.3);box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06)}
+.hero-brand::before{content:'';position:absolute;top:-60%;right:-20%;width:220px;height:220px;background:radial-gradient(circle,rgba(251,191,36,.35),transparent 65%);pointer-events:none;animation:heroGlow 4s ease-in-out infinite}
+.hero-brand::after{content:'';position:absolute;bottom:-50%;left:-15%;width:180px;height:180px;background:radial-gradient(circle,rgba(59,130,246,.3),transparent 65%);pointer-events:none;animation:heroGlow 5s ease-in-out infinite reverse}
+@keyframes heroGlow{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+.hero-top{display:flex;align-items:center;gap:12px;position:relative;z-index:2}
+.hero-logo{position:relative;width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;box-shadow:0 6px 20px rgba(251,191,36,.5),inset 0 1px 0 rgba(255,255,255,.4)}
+.hero-logo::after{content:'';position:absolute;inset:-3px;border-radius:18px;background:linear-gradient(135deg,#fbbf24,#f59e0b);opacity:.35;filter:blur(8px);z-index:-1;animation:logoPulse 2s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.55;transform:scale(1.08)}}
+.hero-text{flex:1;min-width:0}
+.hero-title{font-size:20px;font-weight:900;letter-spacing:.5px;background:linear-gradient(to right,#fbbf24,#f59e0b,#fbbf24);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shine 3s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.hero-sub{font-size:11px;color:var(--dim);margin-top:4px;letter-spacing:1px}
+.hero-badges{display:flex;gap:6px;margin-top:8px}
+.hero-badge{font-size:9px;font-weight:800;padding:3px 8px;border-radius:8px;background:rgba(16,185,129,.2);color:#34d399;border:1px solid rgba(16,185,129,.4);letter-spacing:.5px}
+.hero-badge.gold{background:rgba(251,191,36,.2);color:var(--gold);border-color:rgba(251,191,36,.4)}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;position:relative;z-index:2}
+.hero-stat{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:8px 6px;text-align:center}
+.hero-stat .hs-label{font-size:9px;color:var(--dim);margin-bottom:3px}
+.hero-stat .hs-val{font-size:14px;font-weight:900;color:var(--gold);font-variant-numeric:tabular-nums}
+.hero-stat .hs-val.green{color:var(--green)}
+.hero-stat .hs-val.blue{color:#60a5fa}
+.banner-wrap{position:relative;border-radius:16px;overflow:hidden;background:var(--panel);border:1px solid var(--line);height:120px}
+.banner-track{display:flex;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.banner-slide{flex:0 0 100%;height:100%;position:relative;display:flex;align-items:center;padding:16px 20px;overflow:hidden}
+.banner-slide.b1{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}
+.banner-slide.b2{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.banner-slide.b3{background:linear-gradient(135deg,#10b981,#047857)}
+.banner-slide.b4{background:linear-gradient(135deg,#ec4899,#be185d)}
+.banner-slide::after{content:'';position:absolute;top:-40%;right:-10%;width:150px;height:150px;background:radial-gradient(circle,rgba(255,255,255,.25),transparent 65%);pointer-events:none}
+.banner-emoji{font-size:48px;margin-right:14px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
+.banner-info{flex:1;min-width:0;position:relative;z-index:2}
+.banner-tag{display:inline-block;font-size:9px;font-weight:800;padding:2px 8px;border-radius:6px;background:rgba(0,0,0,.3);color:#fff;margin-bottom:6px;letter-spacing:.5px}
+.banner-title{font-size:16px;font-weight:900;color:#fff;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,.2)}
+.banner-desc{font-size:11px;color:rgba(255,255,255,.85);line-height:1.4}
+.banner-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:3}
+.banner-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .3s}
+.banner-dot.active{background:#fff;width:18px;border-radius:3px}
+.notice-bar{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:8px;overflow:hidden}
+.notice-icon{font-size:14px;flex-shrink:0}
+.notice-track{flex:1;overflow:hidden;position:relative;height:16px}
+.notice-text{position:absolute;white-space:nowrap;font-size:12px;color:var(--gold);top:0;animation:scroll 120s linear infinite;padding-left:100%}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 8px}
+.quick-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:6px 2px;border-radius:10px}
+.quick-item:active{transform:scale(.9)}
+.quick-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;position:relative}
+.quick-icon.gold{background:linear-gradient(135deg,rgba(251,191,36,.25),rgba(180,120,10,.1))}
+.quick-icon.green{background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(6,95,70,.1))}
+.quick-icon.blue{background:linear-gradient(135deg,rgba(59,130,246,.25),rgba(29,78,216,.1))}
+.quick-icon.purple{background:linear-gradient(135deg,rgba(139,92,246,.25),rgba(76,29,149,.1))}
+.quick-icon.red{background:linear-gradient(135deg,rgba(239,68,68,.25),rgba(153,27,27,.1))}
+.quick-icon .dot{position:absolute;top:-2px;right:-2px;width:10px;height:10px;border-radius:50%;background:var(--red);border:2px solid var(--panel)}
+.quick-label{font-size:10px;color:var(--text);font-weight:600}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 0}
+.section-title h3{font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px}
+.section-title h3::before{content:'';width:3px;height:14px;background:linear-gradient(180deg,var(--gold),#f59e0b);border-radius:2px}
+.activity-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.activity-card{padding:14px 12px;border-radius:14px;border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;gap:6px;cursor:pointer;position:relative}
+.activity-card.gift{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(180,120,10,.05))}
+.activity-card.task{background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(6,95,70,.05))}
+.activity-icon{font-size:24px}
+.activity-title{font-size:13px;font-weight:800}
+.activity-desc{font-size:10px;color:var(--dim)}
+.activity-status{position:absolute;top:8px;right:8px;font-size:8px;font-weight:800;padding:2px 6px;border-radius:6px}
+.activity-status.done{background:rgba(16,185,129,.2);color:#34d399}
+.activity-status.todo{background:rgba(139,160,192,.15);color:var(--dim)}
+.page-title{display:flex;align-items:center;justify-content:space-between;padding:4px 4px 0}
+.page-title h2{font-size:18px;font-weight:900}
+.page-title .badge{font-size:10px;padding:3px 8px;border-radius:10px;background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3);font-weight:700}
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.search-bar .s-icon{font-size:14px;opacity:.6}
+.search-bar .s-input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:12px;font-family:inherit}
+.category-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.cat-chip{flex-shrink:0;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;color:var(--dim);background:var(--panel);border:1px solid var(--line);cursor:pointer;white-space:nowrap}
+.cat-chip.active{color:#000;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-color:var(--gold)}
+.game-list{display:flex;flex-direction:column;gap:10px}
+.game-card{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--panel);cursor:pointer;position:relative;overflow:hidden}
+.game-card.hidden{display:none}
+.game-card .fav-btn{position:absolute;bottom:8px;right:8px;background:transparent;border:none;font-size:16px;cursor:pointer;opacity:.5;z-index:2;color:var(--gold);padding:4px;line-height:1}
+.game-card .fav-btn.on{opacity:1}
+.game-icon-box{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+.game-icon-box.lucky{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.game-icon-box.zodiac{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.game-icon-box.wheel{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}
+.game-icon-box.pg{background:linear-gradient(135deg,#10b981,#047857)}
+.game-meta{flex:1;min-width:0;padding-right:60px}
+.game-name{font-size:15px;font-weight:800;margin-bottom:4px}
+.game-desc{font-size:11px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.game-badge{position:absolute;top:14px;right:14px;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:800;flex-shrink:0}
+.game-badge.live{background:rgba(16,185,129,.25);color:#34d399;border:1px solid rgba(16,185,129,.5)}
+.game-badge.soon{background:rgba(139,160,192,.1);color:var(--dim);border:1px solid rgba(139,160,192,.3)}
+.profile-card{padding:20px 18px;background:linear-gradient(135deg,rgba(251,191,36,.14),rgba(139,92,246,.1));border:1px solid rgba(251,191,36,.3);border-radius:20px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.profile-card::before{content:'';position:absolute;top:-40%;right:-15%;width:180px;height:180px;background:radial-gradient(circle,rgba(251,191,36,.3),transparent 70%);pointer-events:none}
+.avatar{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid rgba(251,191,36,.5);flex-shrink:0;position:relative;cursor:pointer;box-shadow:0 4px 16px rgba(251,191,36,.4)}
+.avatar .vip-badge{position:absolute;bottom:-5px;right:-5px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-size:9px;font-weight:900;padding:3px 7px;border-radius:8px;border:2px solid var(--panel)}
+.avatar .edit-hint{position:absolute;bottom:-2px;left:-2px;width:22px;height:22px;border-radius:50%;background:var(--panel2);border:2px solid var(--panel);display:flex;align-items:center;justify-content:center;font-size:11px}
+.profile-info{flex:1;min-width:0;position:relative;z-index:2}
+.profile-name{font-size:17px;font-weight:800;margin-bottom:4px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.profile-name .edit-icon{font-size:12px;opacity:.6}
+.profile-id{font-size:11px;color:var(--dim)}
+.profile-verify{font-size:9px;padding:2px 8px;border-radius:8px;background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3);display:inline-block;margin-top:4px}
+.profile-verify.pending{background:rgba(139,160,192,.15);color:var(--dim);border-color:rgba(139,160,192,.3)}
+.balance-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px}
+.balance-card{padding:16px;border-radius:16px;background:linear-gradient(135deg,rgba(251,191,36,.2),rgba(180,120,10,.08));border:1px solid rgba(251,191,36,.4);display:flex;flex-direction:column;justify-content:center;min-height:80px}
+.balance-label{font-size:11px;color:var(--dim);margin-bottom:6px}
+.balance-amount{font-size:24px;font-weight:900;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:.5px;word-break:break-all}
+.balance-amount .unit{font-size:14px;margin-right:2px}
+.mini-btn{border-radius:16px;border:1px solid var(--line);background:var(--panel);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-family:inherit;color:var(--text);padding:8px 4px;min-height:80px;transition:all .2s}
+.mini-btn:active{transform:scale(.96);background:var(--panel2)}
+.mini-btn .mb-icon{font-size:22px}
+.mini-btn .mb-label{font-size:10px;font-weight:700;color:var(--dim)}
+.action-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.action-card{padding:14px 4px;border-radius:16px;border:1px solid var(--line);background:var(--panel);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-family:inherit;position:relative;overflow:hidden}
+.action-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,var(--accent-color,rgba(255,255,255,.1)),transparent 60%);opacity:0;transition:opacity .3s}
+.action-card:active::before{opacity:.3}
+.action-card .a-icon{font-size:22px;width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.action-card.deposit .a-icon{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.action-card.withdraw .a-icon{background:linear-gradient(135deg,#10b981,#047857)}
+.action-card.service .a-icon{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+.action-card.vip .a-icon{background:linear-gradient(135deg,#ec4899,#be185d)}
+.action-card .a-label{font-size:11px;font-weight:800}
+.action-card.deposit .a-label{color:var(--gold)}
+.action-card.withdraw .a-label{color:var(--green)}
+.action-card.service .a-label{color:#60a5fa}
+.action-card.vip .a-label{color:#f472b6}
+.menu-list{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.menu-item{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;border-bottom:1px solid var(--line)}
+.menu-item:last-child{border-bottom:none}
+.menu-item .m-icon{width:32px;height:32px;border-radius:10px;background:rgba(59,130,246,.12);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.menu-item .m-icon.gold{background:rgba(251,191,36,.12)}
+.menu-item .m-icon.green{background:rgba(16,185,129,.12)}
+.menu-item .m-icon.purple{background:rgba(139,92,246,.12)}
+.menu-item .m-icon.red{background:rgba(239,68,68,.12)}
+.menu-item .m-label{flex:1;font-size:13px;font-weight:600}
+.menu-item .m-extra{font-size:11px;color:var(--dim)}
+.menu-item .m-arrow{font-size:14px;color:var(--dim)}
+.playing-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+.back-btn{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;line-height:1;padding-bottom:3px}
+.playing-title{font-size:15px;font-weight:800;background:linear-gradient(to right,#fbbf24,#f59e0b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.playing-live{font-size:10px;color:var(--green);font-weight:800}
+.tool-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px}
+.tool-btn{background:transparent;border:none;color:var(--dim);font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px 0;border-radius:8px}
+.tool-btn .t-icon{font-size:18px}
+.tool-btn .t-label{font-size:10px;font-weight:600}
+.tool-btn.active{color:var(--gold)}
+.play-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.play-chip{padding:10px 4px;border-radius:14px;font-size:12px;font-weight:800;color:var(--dim);background:var(--panel);border:1px solid var(--line);cursor:pointer;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .25s}
+.play-chip .pc-emoji{font-size:22px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.play-chip .pc-text{font-size:11px}
+.play-chip.active{color:#000;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-color:var(--gold);box-shadow:0 4px 14px rgba(251,191,36,.4);transform:translateY(-1px)}
+.play-chip.active .pc-emoji{filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.top-stats{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:8px}
+.stat-box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.stat-label{font-size:10px;color:var(--dim);margin-bottom:2px}
+.stat-value{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}
+.stat-value.gold{color:var(--gold)}
+.stat-value.green{color:var(--green)}
+.stat-value.warn{color:var(--red)}
+.stat-value .num{font-size:11px;color:var(--dim);margin-left:3px}
+.timer-box{position:relative;overflow:hidden;padding-bottom:14px}
+.timer-value{font-size:20px;color:var(--green)}
+.timer-value.draw-result{font-size:22px}
+.progress-track{position:absolute;bottom:0;left:0;width:100%;height:4px;background:var(--panel2)}
+.progress-fill{height:100%;width:100%;background:linear-gradient(90deg,var(--green),#34d399);transition:width .3s linear}
+.board-grid{display:grid;gap:5px;background:var(--panel);padding:8px;border-radius:14px;border:1px solid var(--line)}
+.board-grid.mode-animal{grid-template-columns:repeat(6,minmax(0,1fr))}
+.board-grid.mode-size{grid-template-columns:repeat(2,minmax(0,1fr))}
+.board-grid.mode-oddeven{grid-template-columns:repeat(2,minmax(0,1fr))}
+.board-grid.mode-tail{grid-template-columns:repeat(5,minmax(0,1fr))}
+.animal-cell{position:relative;aspect-ratio:1;border-radius:10px;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:52px;font-family:inherit;padding:2px;transition:all .15s}
+.animal-cell:active{transform:scale(.94)}
+.animal-cell .emoji{font-size:clamp(18px,5vw,24px);line-height:1}
+.animal-cell .number{font-size:8px;color:var(--dim);font-weight:600}
+.animal-cell .fake-data{font-size:10px;line-height:1;margin-top:1px;display:flex;gap:3px;justify-content:center;width:100%}
+.animal-cell .fake-players{color:#60a5fa}
+.animal-cell .fake-money{color:var(--gold)}
+.animal-cell .my-bet-badge{position:absolute;top:-6px;right:-6px;display:none;background:var(--gold);color:#000;font-size:10px;font-weight:900;padding:1px 6px;border-radius:8px}
+.animal-cell.has-bet .my-bet-badge{display:block}
+.animal-cell.has-data{background:linear-gradient(145deg,rgba(251,191,36,.25),rgba(180,120,10,.1));border-color:rgba(251,191,36,.6)}
+.animal-cell.has-bet{background:linear-gradient(145deg,rgba(251,191,36,.4),rgba(180,120,10,.2));border-color:var(--gold)}
+.animal-cell.winner{background:linear-gradient(145deg,#064e3b,#022c22);border-color:var(--green);box-shadow:0 0 20px rgba(16,185,129,.7);z-index:3}
+@keyframes scrollFlashing{0%{background:rgba(251,191,36,.2);transform:scale(1)}50%{background:rgba(251,191,36,.5);transform:scale(1.02)}100%{background:rgba(251,191,36,.2);transform:scale(1)}}
+.animal-cell.scrolling{animation:scrollFlashing .15s ease-in-out}
+@keyframes winnerPop{0%{transform:scale(1);box-shadow:0 0 0 rgba(16,185,129,0)}40%{transform:scale(1.35);box-shadow:0 0 40px rgba(16,185,129,1),0 0 80px rgba(251,191,36,.8)}70%{transform:scale(1.15);box-shadow:0 0 30px rgba(16,185,129,.8),0 0 60px rgba(251,191,36,.6)}100%{transform:scale(1.08);box-shadow:0 0 20px rgba(16,185,129,.7)}}
+.animal-cell.winner-anim{animation:winnerPop 1.2s cubic-bezier(.4,0,.2,1) forwards}
+.animal-cell.locked{opacity:.5;pointer-events:none;filter:grayscale(.6)}
+.board-grid.locked-board{background:linear-gradient(135deg,#0a0f1e,#141b2e);border-color:rgba(251,191,36,.25);box-shadow:inset 0 0 30px rgba(0,0,0,.6)}
+.board-grid.locked-board .animal-cell{background:linear-gradient(145deg,#111827,#0a0f1e);border-color:rgba(139,160,192,.15);opacity:.55;filter:grayscale(.7)}
+.board-grid.locked-board::before{content:'🔒 封盘中 · 数据核对';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:900;color:var(--gold);background:rgba(10,15,30,.9);padding:8px 20px;border-radius:10px;border:1px solid rgba(251,191,36,.4);z-index:10;pointer-events:none;letter-spacing:1px}
+.big-cell .big-label{font-size:30px;font-weight:900;line-height:1}
+.big-cell .big-sub{font-size:10px;color:var(--dim);margin-top:4px;font-weight:600}
+.big-cell .fake-data{margin-top:8px}
+.tail-cell .tail-num{font-size:30px;font-weight:900;line-height:1;color:var(--gold)}
+.tail-cell .tail-sub{font-size:9px;color:var(--dim);margin-top:2px}
+.bottom-panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.info-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.info-item{display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--dim);gap:2px;background:rgba(0,0,0,.2);border-radius:6px;padding:6px 0}
+.info-item .val{font-size:14px;font-weight:800}
+.info-item .val.gold{color:var(--gold)}
+.info-item .val.green{color:var(--green)}
+.info-item .val.white{color:var(--text)}
+.manual-input{width:100%;height:100%;min-height:28px;padding:0 4px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:12px;outline:none;text-align:center;font-family:inherit}
+.manual-input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(251,191,36,.2)}
+.chip-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.chip{padding:10px 0;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:15px;font-weight:700;cursor:pointer;text-align:center;font-family:inherit}
+.chip.on{background:var(--gold);color:#000;border-color:var(--gold)}
+.tabbar{position:fixed;bottom:0;left:0;right:0;height:calc(64px + env(safe-area-inset-bottom,0px));background:rgba(20,32,53,.92);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);z-index:100;padding-bottom:env(safe-area-inset-bottom,0)}
+body.playing .tabbar{display:none}
+.tab-btn{position:relative;background:transparent;border:none;color:var(--dim);font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:700;padding:0}
+.tab-btn .tab-icon{font-size:22px;line-height:1;filter:grayscale(1) opacity(.6)}
+.tab-btn.active{color:var(--gold)}
+.tab-btn.active .tab-icon{filter:grayscale(0) opacity(1)}
+.tab-btn.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:28px;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);border-radius:0 0 3px 3px}
+.toast{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%) scale(.8);background:rgba(14,22,38,.95);border:1px solid var(--line);padding:14px 28px;border-radius:10px;font-size:20px;font-weight:800;pointer-events:none;opacity:0;transition:all .25s ease;z-index:999;white-space:nowrap;max-width:80vw}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.toast.win{color:var(--green);border-color:var(--green)}
+.toast.lose{color:var(--red);border-color:var(--red)}
+.win-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;z-index:1000}
+.win-overlay.show{opacity:1;pointer-events:auto}
+.win-content{text-align:center;background:radial-gradient(circle at 50% 0%,#1a2540,#060b14);padding:25px 35px;border-radius:16px;border:1px solid var(--gold);min-width:240px}
+.heart-burst{font-size:45px;margin-bottom:10px}
+.win-content h2{color:var(--gold);font-size:22px;margin-bottom:8px}
+.win-content p{color:var(--green);font-size:24px;font-weight:800}
+.win-content .win-detail{font-size:12px;color:var(--dim);margin-top:8px;line-height:1.6}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;z-index:1100}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-content{width:100%;max-width:480px;max-height:85vh;background:var(--panel);border-top:1px solid var(--line);border-radius:20px 20px 0 0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line);flex-shrink:0}
+.modal-title{font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px}
+.modal-close{width:32px;height:32px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;line-height:1}
+.help-btn{width:24px;height:24px;border-radius:50%;background:rgba(251,191,36,.2);border:1px solid rgba(251,191,36,.4);color:var(--gold);font-size:13px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;line-height:1;margin-left:6px}
+.modal-body{flex:1;overflow-y:auto;padding:16px 18px;-webkit-overflow-scrolling:touch}
+.empty-tip{text-align:center;color:var(--dim);padding:30px 0;font-size:13px}
+.empty-tip .big-icon{font-size:40px;display:block;margin-bottom:10px;opacity:.5}
+.help-section{margin-bottom:16px}
+.help-section h4{font-size:13px;color:var(--gold);margin-bottom:8px;font-weight:800}
+.help-section p{font-size:12px;color:var(--text);line-height:1.7;margin-bottom:6px}
+.help-section .kv{display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px dashed var(--line)}
+.help-section .kv .k{color:var(--dim)}
+.help-section .kv .v{color:var(--gold);font-weight:700}
+.sign-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.sign-day{aspect-ratio:1;border-radius:10px;background:rgba(0,0,0,.2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;color:var(--dim);position:relative}
+.sign-day.done{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
+.sign-day.today{background:rgba(251,191,36,.15);border-color:var(--gold);color:var(--gold)}
+.sign-day.bonus{border-color:var(--pink);box-shadow:0 0 0 1px rgba(236,72,153,.3) inset}
+.sign-day .bonus-tag{position:absolute;top:-6px;right:-4px;font-size:8px;background:var(--pink);color:#fff;padding:1px 4px;border-radius:4px;font-weight:900}
+.sign-cond{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:10px;padding:12px;margin-bottom:14px}
+.sign-cond .sc-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;color:var(--text)}
+.sign-cond .sc-row .v{font-weight:800}
+.sign-cond .sc-row .v.ok{color:var(--green)}
+.sign-cond .sc-row .v.no{color:var(--red)}
+.sign-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-size:15px;font-weight:900;border:none;cursor:pointer;font-family:inherit}
+.sign-btn:disabled{background:var(--panel2);color:var(--dim);cursor:not-allowed}
+.sign-btn.bonus{background:linear-gradient(135deg,#ec4899,#be185d);color:#fff;animation:pulse 1.5s ease-in-out infinite}
+.about-box{text-align:center;padding:20px 0}
+.about-box .about-logo{font-size:60px;margin-bottom:12px}
+.about-box .about-title{font-size:20px;font-weight:900;margin-bottom:6px;color:var(--gold)}
+.about-box .about-version{font-size:12px;color:var(--dim);margin-bottom:20px}
+.about-box .about-desc{font-size:12px;color:var(--text);line-height:1.8;padding:0 20px}
+.form-item{margin-bottom:14px}
+.form-item label{display:block;font-size:12px;color:var(--dim);margin-bottom:6px;font-weight:600}
+.form-item input,.form-item select{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:13px;outline:none;font-family:inherit}
+.form-item input:focus,.form-item select:focus{border-color:var(--gold)}
+.form-item .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.form-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-size:14px;font-weight:900;border:none;cursor:pointer;font-family:inherit;margin-top:6px}
+.form-btn.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+.form-btn:disabled{background:var(--panel2);color:var(--dim);cursor:not-allowed}
+.msg-list{display:flex;flex-direction:column;gap:8px}
+.msg-item{padding:14px;border-radius:10px;background:rgba(0,0,0,.2);border:1px solid var(--line);display:flex;gap:12px;cursor:pointer;transition:background .2s}
+.msg-item:active{background:rgba(251,191,36,.08)}
+.msg-item .msg-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:rgba(251,191,36,.15)}
+.msg-item .msg-content{flex:1;min-width:0}
+.msg-item .msg-title{font-size:13px;font-weight:700;margin-bottom:4px;display:flex;justify-content:space-between;gap:6px}
+.msg-item .msg-title .dot-red{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px}
+.msg-item .msg-desc{font-size:11px;color:var(--dim);line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-item .msg-time{font-size:10px;color:var(--dim);margin-top:6px}
+.rank-list{display:flex;flex-direction:column;gap:6px}
+.rank-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;background:rgba(0,0,0,.2);border:1px solid var(--line)}
+.rank-item.top1{background:rgba(251,191,36,.15);border-color:rgba(251,191,36,.5)}
+.rank-item.top2{background:rgba(192,192,192,.15);border-color:rgba(192,192,192,.4)}
+.rank-item.top3{background:rgba(205,127,50,.15);border-color:rgba(205,127,50,.4)}
+.rank-item.me{background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.5)}
+.rank-item .rank-num{width:28px;height:28px;border-radius:50%;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+.rank-item.top1 .rank-num{background:#fbbf24;color:#000}
+.rank-item.top2 .rank-num{background:#c0c0c0;color:#000}
+.rank-item.top3 .rank-num{background:#cd7f32;color:#fff}
+.rank-item .rank-name{flex:1;font-size:13px;font-weight:600;letter-spacing:1px}
+.rank-item .rank-score{font-size:13px;color:var(--gold);font-weight:800}
+.trend-table{width:100%;border-collapse:collapse;font-size:11px}
+.trend-table th,.trend-table td{padding:6px 4px;text-align:center;border-bottom:1px solid var(--line)}
+.trend-table th{color:var(--dim);font-weight:700;font-size:10px;background:rgba(0,0,0,.2)}
+.trend-table .trend-emoji{font-size:16px}
+.trend-table .trend-win{color:var(--gold);font-weight:800}
+.record-item{padding:12px 14px;border-radius:10px;background:rgba(0,0,0,.2);border:1px solid var(--line);display:flex;align-items:center;margin-bottom:8px}
+.stat-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.stat-sum-card{background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:10px;padding:12px}
+.stat-sum-card .sc-label{font-size:10px;color:var(--dim);margin-bottom:4px}
+.stat-sum-card .sc-val{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums}
+.stat-sum-card .sc-val.gold{color:var(--gold)}
+.stat-sum-card .sc-val.green{color:var(--green)}
+.stat-sum-card .sc-val.red{color:var(--red)}
+.stat-sum-card .sc-val.blue{color:#60a5fa}
+.vip-card{text-align:center;background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(236,72,153,.1));border:1px solid rgba(251,191,36,.4);border-radius:16px;padding:20px;margin-bottom:14px}
+.vip-card .vip-level{font-size:38px;font-weight:900;color:var(--gold);margin-bottom:6px;text-shadow:0 0 20px rgba(251,191,36,.5)}
+.vip-card .vip-desc{font-size:12px;color:var(--dim);margin-bottom:14px}
+.vip-progress-wrap{margin-bottom:10px;text-align:left}
+.vip-progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-bottom:5px}
+.vip-progress-label .cur{color:var(--gold);font-weight:800}
+.vip-progress{height:10px;background:rgba(0,0,0,.3);border-radius:5px;overflow:hidden}
+.vip-progress-fill{height:100%;background:linear-gradient(90deg,#fbbf24,#f59e0b);transition:width .4s}
+.vip-progress-fill.blue{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.vip-pct{font-size:11px;color:var(--dim)}
+.channel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.channel-item{padding:12px 4px;border-radius:12px;border:1px solid var(--line);background:var(--panel);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;position:relative;font-family:inherit;color:var(--text)}
+.channel-item.active{border-color:var(--gold);background:rgba(251,191,36,.12)}
+.channel-item .ch-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.channel-item .ch-icon svg{width:100%;height:100%}
+.channel-item .ch-label{font-size:10px;font-weight:700}
+.channel-item .ch-maintain{position:absolute;top:-4px;right:-4px;font-size:8px;background:var(--red);color:#fff;padding:1px 5px;border-radius:5px;font-weight:800}
+.order-card{background:rgba(0,0,0,.2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+.order-card .oc-row{display:flex;justify-content:space-between;font-size:12px;padding:5px 0}
+.order-card .oc-row .k{color:var(--dim)}
+.order-card .oc-row .v{color:var(--text);font-weight:600}
+.order-card .oc-row .v.gold{color:var(--gold)}
+.order-card .oc-countdown{font-size:20px;font-weight:900;color:var(--red);text-align:center;margin:10px 0;font-variant-numeric:tabular-nums}
+.qr-box{background:#fff;border-radius:10px;padding:12px;text-align:center;margin:10px 0}
+.qr-box .qr-img{width:160px;height:160px;background:#f0f0f0;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#666;font-size:12px;margin-bottom:8px}
+.qr-box .qr-text{font-size:11px;color:#333;word-break:break-all;font-family:monospace}
+.addr-box{background:rgba(0,0,0,.3);border:1px dashed var(--line);border-radius:8px;padding:10px;font-size:11px;word-break:break-all;font-family:monospace;color:var(--gold);position:relative}
+.copy-mini{position:absolute;top:6px;right:6px;font-size:10px;padding:2px 8px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);color:var(--text);cursor:pointer;font-family:inherit}
+.maintain-tip{text-align:center;padding:30px 0}
+.maintain-tip .mt-icon{font-size:48px;margin-bottom:12px}
+.maintain-tip .mt-title{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:6px}
+.maintain-tip .mt-desc{font-size:12px;color:var(--dim);line-height:1.6}
+.announce-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;z-index:1200;padding:20px}
+.announce-overlay.show{opacity:1;pointer-events:auto}
+.announce-content{width:100%;max-width:380px;background:linear-gradient(135deg,#1a2540,#0d1728);border:1px solid var(--gold);border-radius:16px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.announce-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.announce-header .ah-icon{font-size:28px}
+.announce-header .ah-title{font-size:16px;font-weight:900;color:var(--gold)}
+.announce-body{font-size:13px;line-height:1.8;color:var(--text);margin-bottom:18px;max-height:50vh;overflow-y:auto}
+.announce-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-size:15px;font-weight:900;border:none;cursor:pointer;font-family:inherit}
+.frozen-banner{background:linear-gradient(135deg,rgba(239,68,68,.2),rgba(153,27,27,.15));border:1px solid rgba(239,68,68,.5);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.frozen-banner .fb-icon{font-size:20px}
+.frozen-banner .fb-text{flex:1;font-size:11px;color:var(--red);font-weight:700;line-height:1.5}
+</style>
+</head><body>
+
+<div class="ambient-glow top"></div>
+<div class="ambient-glow bottom"></div>
+
+<div class="app" id="app">
+<section class="view active" id="view-discover">
+<div class="hero-brand">
+<div class="hero-top">
+<div class="hero-logo">👑</div>
+<div class="hero-text">
+<div class="hero-title">南宫国际娱乐</div>
+<div class="hero-sub">南宫国际 · 每天都有新惊喜</div>
+<div class="hero-badges">
+<span class="hero-badge">● 在线</span>
+<span class="hero-badge gold">🏆 官方认证</span>
+</div>
+</div>
+</div>
+<div class="hero-stats">
+<div class="hero-stat"><div class="hs-label">当前期号</div><div class="hs-val" id="heroRound">#0000</div></div>
+<div class="hero-stat"><div class="hs-label">倒计时</div><div class="hs-val green" id="heroTimer">--</div></div>
+<div class="hero-stat"><div class="hs-label">在线人数</div><div class="hs-val blue" id="heroOnline">1,286</div></div>
+</div>
+</div>
+<div class="banner-wrap" id="bannerWrap">
+<div class="banner-track" id="bannerTrack"></div>
+<div class="banner-dots" id="bannerDots"></div>
+</div>
+<div class="notice-bar">
+<div class="notice-icon">📢</div>
+<div class="notice-track"><div class="notice-text" id="noticeText">正在加载...</div></div>
+</div>
+<div class="quick-grid" id="quickGrid"></div>
+<div class="section-title"><h3>热门活动</h3></div>
+<div class="activity-grid" id="discoverActivityGrid"></div>
+</section>
+
+<section class="view" id="view-games">
+<div class="page-title"><h2>游戏大厅</h2><span class="badge">5 款游戏</span></div>
+<div class="search-bar">
+<span class="s-icon">🔍</span>
+<input type="text" class="s-input" id="searchInput" placeholder="搜索游戏名称..." autocomplete="off">
+</div>
+<div class="category-tabs" id="categoryTabs"></div>
+<div class="game-list" id="gameList">
+<div class="game-card" data-game="lucky" data-name="幸运兽 3D" data-cat="self">
+<button class="fav-btn" data-fav="lucky" type="button">☆</button>
+<div class="game-icon-box lucky"><span class="emoji">👑</span></div>
+<div class="game-meta">
+<div class="game-name">动物世界 · 3D</div>
+<div class="game-desc">36 动物竞猜 · 60秒一局 · 33 倍赔率</div>
+</div>
+<div class="game-badge live">进入</div>
+</div>
+<div class="game-card" data-game="wheel" data-name="幸运大转盘" data-cat="self">
+<button class="fav-btn" data-fav="wheel" type="button">☆</button>
+<div class="game-icon-box wheel"><span class="emoji">🎡</span></div>
+<div class="game-meta">
+<div class="game-name">幸运大转盘</div>
+<div class="game-desc">转动圆盘 · 赢取丰厚奖励</div>
+</div>
+<div class="game-badge soon">进入</div>
+</div>
+<div class="game-card" data-game="zodiac" data-name="十二生肖" data-cat="self">
+<button class="fav-btn" data-fav="zodiac" type="button">☆</button>
+<div class="game-icon-box zodiac"><span class="emoji">🐲</span></div>
+<div class="game-meta">
+<div class="game-name">十二生肖</div>
+<div class="game-desc">经典生肖玩法 · 即将上线</div>
+</div>
+<div class="game-badge soon">敬请期待</div>
+</div>
+<div class="game-card coming" data-game="pg" data-name="PG 电子" data-cat="slot">
+<button class="fav-btn" data-fav="pg" type="button">☆</button>
+<div class="game-icon-box pg"><span class="emoji">🎰</span></div>
+<div class="game-meta">
+<div class="game-name">PG 电子</div>
+<div class="game-desc">经典电子游戏 · 震撼来袭</div>
+</div>
+<div class="game-badge soon">敬请期待</div>
+</div>
+</div>
+</section>
+
+<section class="view" id="view-mine">
+<div id="frozenBannerWrap"></div>
+<div class="profile-card">
+<div class="avatar" id="avatarEl">👑<div class="vip-badge" id="vipBadge">VIP 0</div><div class="edit-hint">✎</div></div>
+<div class="profile-info">
+<div class="profile-name" id="profileNameEl">玩家8888 <span class="edit-icon">✎</span></div>
+<div class="profile-id">ID: 10008888</div>
+<div class="profile-verify pending" id="verifyBadge">未实名</div>
+</div>
+</div>
+<div class="balance-row">
+<div class="balance-card">
+<div class="balance-label">账户余额</div>
+<div class="balance-amount" id="mineBalance"><span class="unit">¥</span>0.00</div>
+</div>
+<button class="mini-btn" id="btnMyBets" type="button"><div class="mb-icon">📋</div><div class="mb-label">投注记录</div></button>
+<button class="mini-btn" id="btnAccountLog" type="button"><div class="mb-icon">💰</div><div class="mb-label">账户明细</div></button>
+</div>
+<div class="section-title"><h3>账户操作</h3></div>
+<div class="action-grid">
+<button class="action-card deposit" id="btnDeposit" type="button"><div class="a-icon">💰</div><div class="a-label">充值</div></button>
+<button class="action-card withdraw" id="btnWithdraw" type="button"><div class="a-icon">💸</div><div class="a-label">提现</div></button>
+<button class="action-card service" id="btnService" type="button"><div class="a-icon">💬</div><div class="a-label">客服</div></button>
+<button class="action-card vip" id="btnVip" type="button"><div class="a-icon">👑</div><div class="a-label">VIP特权</div></button>
+</div>
+<div class="section-title"><h3>常用功能</h3></div>
+<div class="menu-list" id="menuList"></div>
+</section>
+
+<section class="view" id="view-playing">
+<div class="playing-bar">
+<button class="back-btn" id="btnBack" type="button">‹</button>
+<div class="playing-title">幸运兽 · 3D</div>
+<div class="playing-live">LIVE</div>
+</div>
+<div class="tool-bar" id="toolBar"></div>
+<div class="play-tabs" id="playTabs"></div>
+<div class="top-stats">
+<div class="stat-box">
+<div class="stat-label">当前期号</div>
+<div class="stat-value gold" id="roundNo" style="font-size:12px;">20261001-A3K9</div>
+</div>
+<div class="stat-box timer-box">
+<div class="stat-label" id="timerLabel">开奖倒计时</div>
+<div class="stat-value timer-value" id="timer">--</div>
+<div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+</div>
+<div class="stat-box">
+<div class="stat-label">上期开奖</div>
+<div class="stat-value" id="lastResult" style="font-size:16px;">--</div>
+</div>
+</div>
+<div class="board-grid mode-animal" id="boardGrid"></div>
+<div class="bottom-panel">
+<div class="info-row">
+<div class="info-item">余 <span class="val gold" id="coins">0</span></div>
+<div class="info-item">押 <span class="val white" id="betTotal">0</span></div>
+<div class="info-item">奖 <span class="val green" id="expectWin">0</span></div>
+<input type="number" class="manual-input" id="manualInput" placeholder="自填" min="1" max="5000" inputmode="numeric" autocomplete="off">
+</div>
+<div class="chip-grid" id="chipGrid">
+<button class="chip" data-v="1" type="button">1</button>
+<button class="chip" data-v="10" type="button">10</button>
+<button class="chip" data-v="20" type="button">20</button>
+<button class="chip" data-v="50" type="button">50</button>
+<button class="chip" data-v="100" type="button">100</button>
+<button class="chip" data-v="500" type="button">500</button>
+</div>
+</div>
+</section>
+
+<section class="view" id="view-service">
+<div class="playing-bar">
+<button class="back-btn" id="btnServiceBack" type="button">‹</button>
+<div class="playing-title">在线客服</div>
+<div class="playing-live">7×24</div>
+</div>
+<div class="maintain-tip">
+<div class="mt-icon">💬</div>
+<div class="mt-title">客服系统对接中</div>
+<div class="mt-desc">正在接入在线客服系统<br>请稍后重试</div>
+</div>
+<div class="help-section">
+<h4>📞 联系方式</h4>
+<div class="kv"><span class="k">Telegram</span><span class="v">@nangong_support</span></div>
+<div class="kv"><span class="k">邮箱</span><span class="v">support@nangong.com</span></div>
+<div class="kv"><span class="k">工作时间</span><span class="v">7×24 小时</span></div>
+</div>
+</section>
+</div>
+
+<nav class="tabbar">
+<button class="tab-btn active" data-tab="discover" type="button"><span class="tab-icon">🧭</span><span>发现</span></button>
+<button class="tab-btn" data-tab="games" type="button"><span class="tab-icon">🎮</span><span>游戏</span></button>
+<button class="tab-btn" data-tab="mine" type="button"><span class="tab-icon">👤</span><span>我的</span></button>
+</nav>
+
+<div class="win-overlay" id="winOverlay">
+<div class="win-content">
+<div class="heart-burst">💖 🎉 🎊 💖</div>
+<h2>恭喜中奖！</h2>
+<p id="winAmount">+0</p>
+<div class="win-detail" id="winDetail"></div>
+</div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+<div class="modal-content">
+<div class="modal-header">
+<div class="modal-title" id="modalTitle">标题</div>
+<button class="modal-close" id="modalClose" type="button">✕</button>
+</div>
+<div class="modal-body" id="modalBody"></div>
+</div>
+</div>
+
+<div class="announce-overlay" id="announceOverlay">
+<div class="announce-content">
+<div class="announce-header"><div class="ah-icon">📢</div><div class="ah-title">平台公告</div></div>
+<div class="announce-body" id="announceBody"></div>
+<button class="announce-btn" id="announceBtn" type="button">我已知晓</button>
+</div>
+</div>
+
+<div class="toast" id="toast"></div><script>
+function $(id){return document.getElementById(id);}
+function setText(el,t){if(el&&el.textContent!==String(t))el.textContent=String(t);}
+function padZero(n,len){var s=String(n);while(s.length<len)s='0'+s;return s;}
+function shuffle(a){var x=a.slice();for(var i=x.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=x[i];x[i]=x[j];x[j]=t;}return x;}
+function vibrate(ms){try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
+function fmtTime(ts){var d=new Date(ts);return padZero(d.getMonth()+1,2)+'-'+padZero(d.getDate(),2)+' '+padZero(d.getHours(),2)+':'+padZero(d.getMinutes(),2);}
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+padZero(d.getMonth()+1,2)+'-'+padZero(d.getDate(),2);}
+function fmtMoney(n){return Number(n).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function maskId(id){var s=String(id);if(s.length<=2)return s.charAt(0)+'*';return s.charAt(0)+'***'+s.charAt(s.length-1);}
+function maskName(name){if(!name)return '***';if(name.length<=2)return name.charAt(0)+'*';if(name.length<=4)return name.charAt(0)+'**'+name.charAt(name.length-1);return name.charAt(0)+'***'+name.charAt(name.length-1);}
+function getWeekRange(weekOffset){var now=new Date();var day=now.getDay()||7;var monday=new Date(now.getFullYear(),now.getMonth(),now.getDate()-day+1+weekOffset*7);var sunday=new Date(monday.getFullYear(),monday.getMonth(),monday.getDate()+6);monday.setHours(0,0,0,0);sunday.setHours(23,59,59,999);return [monday.getTime(),sunday.getTime()];}
+function inLastTwoWeeks(ts){var range=getWeekRange(-1);return ts>=range[0];}
+function genRoundNo(){var d=new Date();var dateStr=d.getFullYear()+padZero(d.getMonth()+1,2)+padZero(d.getDate(),2);var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';var suffix='';for(var i=0;i<4;i++)suffix+=chars.charAt(Math.floor(Math.random()*chars.length));return dateStr+'-'+suffix;}
+
+var Api={
+baseUrl:'/api/v1',
+async:function(path,data){return this.request('POST',path,data);},
+get:function(path,data){return this.request('GET',path,data);},
+request:function(method,path,data){console.log('[Api]',method,path,data);return Promise.resolve({code:0,data:null,msg:'接口未接入'});},
+userInfo:function(){return Api.get('/user/info');},
+updateProfile:function(d){return Api.async('/user/update',d);},
+realNameAuth:function(d){return Api.async('/user/realname',d);},
+balance:function(){return Api.get('/user/balance');},
+fundLog:function(p){return Api.get('/fund/log',p);},
+recharge:function(d){return Api.async('/fund/recharge',d);},
+withdraw:function(d){return Api.async('/fund/withdraw',d);},
+withdrawConfirm:function(d){return Api.async('/fund/withdraw/confirm',d);},
+rechargeOrder:function(d){return Api.async('/order/recharge',d);},
+withdrawOrder:function(d){return Api.async('/order/withdraw',d);},
+orderDetail:function(id){return Api.get('/order/detail',{id:id});},
+orderCancel:function(id){return Api.async('/order/cancel',{id:id});},
+channels:function(){return Api.get('/pay/channels');},
+rechargeNotice:function(){return Api.get('/pay/notice');},
+exchangeRate:function(){return Api.get('/pay/rate');},
+signInfo:function(){return Api.get('/sign/info');},
+signDo:function(){return Api.async('/sign/do');},
+signBonus88:function(){return Api.async('/sign/bonus88');},
+activityList:function(){return Api.get('/activity/list');},
+activityClaim:function(id){return Api.async('/activity/claim',{id:id});},
+vipInfo:function(){return Api.get('/vip/info');},
+vipRebate:function(){return Api.get('/vip/rebate');},
+vipUpgrade:function(){return Api.async('/vip/upgrade');},
+rankList:function(type){return Api.get('/rank/list',{type:type});},
+announcementList:function(){return Api.get('/announcement/list');},
+announcementLatest:function(){return Api.get('/announcement/latest');},
+announcementRead:function(id){return Api.async('/announcement/read',{id:id});},
+messageList:function(){return Api.get('/message/list');},
+messageRead:function(id){return Api.async('/message/read',{id:id});},
+inviteInfo:function(){return Api.get('/invite/info');},
+inviteLink:function(){return Api.get('/invite/link');},
+inviteSub:function(){return Api.get('/invite/sub');},
+stats:function(p){return Api.get('/stats/summary',p);},
+betsLog:function(p){return Api.get('/stats/bets',p);},
+newbieClaim:function(){return Api.async('/newbie/claim');},
+wheelConfig:function(){return Api.get('/wheel/config');},
+wheelSpin:function(){return Api.async('/wheel/spin');},
+riskCheck:function(d){return Api.async('/risk/check',d);},
+violationReport:function(d){return Api.async('/risk/violation',d);},
+alertAdmin:function(d){return Api.async('/alert/admin',d);}
+};
+
+var ROUND_SECONDS=60, START_COINS=0, DRAW_DELAY=900, NEXT_DELAY=3000, LOCK_BEFORE=10;
+var MAX_BET=5000, MAX_BET_WARN=3000, MAX_PER_ROUND=50000, MAX_PER_MODE=10000;
+var STORAGE_KEY='animal_3d_v4', HISTORY_LIMIT=100;
+
+var ODDS={animal:33,size:1.95,oddeven:1.95,tail:8.5};
+
+var PLAY_MODES=[
+{key:'animal',label:'动物',emoji:'🐾',icon:'🐾'},
+{key:'size',label:'大小',emoji:'⚖️',icon:'⚖️'},
+{key:'oddeven',label:'单双',emoji:'🎲',icon:'🎲'},
+{key:'tail',label:'尾数',emoji:'🔢',icon:'🔢'}
+];
+
+var ANIMALS=[[1,'🦆','鹭鸶'],[2,'🐱','家猫'],[3,'🐝','蜂子'],[4,'🐭','老鼠'],[5,'🐈','野猫'],[6,'🐴','马'],[7,'🐘','大象'],[8,'🐶','狗'],[9,'🐲','飞龙'],[10,'🐮','牛'],[11,'🐷','猪'],[12,'🐰','兔子'],[13,'🐯','老虎'],[14,'🪱','蚯蚓'],[15,'🦚','孔雀'],[16,'🦢','鹅'],[17,'🐌','螺蛳'],[18,'🐟','白鱼'],[19,'🧘‍♀️','尼姑'],[20,'🐠','金鱼'],[21,'🐍','黄鳝'],[22,'🐔','鸡'],[23,'🐢','乌龟'],[24,'🐑','羊'],[25,'🕷️','蜘蛛'],[26,'🦌','马鹿'],[27,'🦀','螃蟹'],[28,'🐍','蛇'],[29,'🐦','红鸟'],[30,'🕊️','鸽子'],[31,'💎','宝石'],[32,'🦋','蝴蝶'],[33,'🐸','青蛙'],[34,'🐦‍⬛','乌鸦'],[35,'🐵','猴子'],[36,'🐉','金龙']];
+
+var byId={};ANIMALS.forEach(function(a){byId[a[0]]={id:a[0],emoji:a[1],name:a[2]};});
+
+var VIP_RULES=[
+{level:0, upRecharge:0, upFlow:0, keepFlow:0, withdrawTimes:3, singleLimit:1000, platformRebate:0.1, selfRebate:1.0},
+{level:1, upRecharge:500, upFlow:600, keepFlow:3000, withdrawTimes:3, singleLimit:5000, platformRebate:0.2, selfRebate:1.0},
+{level:2, upRecharge:1000,upFlow:1500, keepFlow:6000, withdrawTimes:5, singleLimit:10000, platformRebate:0.3, selfRebate:1.2},
+{level:3, upRecharge:2000,upFlow:3000, keepFlow:15000, withdrawTimes:5, singleLimit:20000, platformRebate:0.4, selfRebate:1.4},
+{level:4, upRecharge:5000,upFlow:8000, keepFlow:40000, withdrawTimes:8, singleLimit:50000, platformRebate:0.5, selfRebate:1.5},
+{level:5, upRecharge:10000,upFlow:15000, keepFlow:80000, withdrawTimes:8, singleLimit:100000, platformRebate:0.6, selfRebate:1.6},
+{level:6, upRecharge:20000,upFlow:30000, keepFlow:150000, withdrawTimes:10, singleLimit:200000, platformRebate:0.7, selfRebate:1.8},
+{level:7, upRecharge:50000,upFlow:80000, keepFlow:400000, withdrawTimes:10, singleLimit:500000, platformRebate:0.8, selfRebate:2.0},
+{level:8, upRecharge:100000,upFlow:150000,keepFlow:800000, withdrawTimes:15, singleLimit:500000, platformRebate:0.9, selfRebate:2.2},
+{level:9, upRecharge:200000,upFlow:300000,keepFlow:1500000,withdrawTimes:15, singleLimit:800000, platformRebate:1.0, selfRebate:2.4},
+{level:10,upRecharge:500000,upFlow:800000,keepFlow:4000000,withdrawTimes:20, singleLimit:1000000, platformRebate:1.2, selfRebate:2.5}
+];
+
+var Storage={
+save:function(){try{var d={coins:state.coins,round:state.round,roundNo:state.roundNo,phase:state.phase,timeLeft:state.timeLeft,phaseStartTs:state.phaseStartTs,bets:state.bets,playerMarked:playerMarked,winId:state.winId,lastWinId:state.lastWinId,lastWinEmoji:state.lastWinEmoji,soundOn:state.soundOn,history:state.history.slice(0,HISTORY_LIMIT),myBets:state.myBets.slice(0,HISTORY_LIMIT),favorites:state.favorites,consecutiveSigns:state.consecutiveSigns,lastSignDate:state.lastSignDate,bonus88ClaimedDate:state.bonus88ClaimedDate,todayRecharge:state.todayRecharge,todayFlow:state.todayFlow,todayNetFlow:state.todayNetFlow,realName:state.realName,userInfo:state.userInfo,nickChanged:state.nickChanged,fundLog:state.fundLog.slice(0,200),vipLevel:state.vipLevel,vipUpgradeDate:state.vipUpgradeDate,vipPeriodStart:state.vipPeriodStart,vipPeriodFlow:state.vipPeriodFlow,vipLevelRecharge:state.vipLevelRecharge,vipLevelFlow:state.vipLevelFlow,pendingRebate:state.pendingRebate,rebateClaimed:state.rebateClaimed,violations:state.violations,frozen:state.frozen};localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}catch(e){console.error('[Storage.save]',e);}},
+load:function(){try{var raw=localStorage.getItem(STORAGE_KEY);if(!raw)return null;var d=JSON.parse(raw);if(typeof d.coins!=='number'||d.coins<0)return null;return d;}catch(e){console.error('[Storage.load]',e);return null;}}
+};
+
+var saved=null;
+try{saved=Storage.load();}catch(e){}
+
+var state={
+coins:saved?saved.coins:START_COINS,round:saved?saved.round:0,roundNo:saved?saved.roundNo:genRoundNo(),phase:saved?saved.phase:'idle',timeLeft:saved?saved.timeLeft:ROUND_SECONDS,phaseStartTs:saved?saved.phaseStartTs:0,chip:1,playMode:'animal',
+bets:saved&&saved.bets?saved.bets:{animal:{},size:{},oddeven:{},tail:{}},
+winId:saved?saved.winId:null,lastWinId:saved?saved.lastWinId:null,lastWinEmoji:saved?saved.lastWinEmoji:null,
+start5sBetCount:0,end5sBetCount:0,soundOn:false,isLocked:false,
+history:(saved&&saved.history)?saved.history:[],myBets:(saved&&saved.myBets)?saved.myBets:[],favorites:(saved&&saved.favorites)?saved.favorites:[],
+consecutiveSigns:saved?(saved.consecutiveSigns||0):0,lastSignDate:saved?saved.lastSignDate:null,bonus88ClaimedDate:saved?saved.bonus88ClaimedDate:null,
+todayRecharge:saved?(saved.todayRecharge||0):0,todayFlow:saved?(saved.todayFlow||0):0,todayNetFlow:saved?(saved.todayNetFlow||0):0,
+realName:saved?saved.realName:null,userInfo:(saved&&saved.userInfo)?saved.userInfo:{nickname:'玩家8888',avatar:'👑'},nickChanged:saved?saved.nickChanged:false,
+fundLog:(saved&&saved.fundLog)?saved.fundLog:[],
+vipLevel:saved?(saved.vipLevel||0):0,vipUpgradeDate:saved?saved.vipUpgradeDate:null,vipPeriodStart:saved?saved.vipPeriodStart:null,vipPeriodFlow:saved?(saved.vipPeriodFlow||0):0,vipLevelRecharge:saved?(saved.vipLevelRecharge||0):0,vipLevelFlow:saved?(saved.vipLevelFlow||0):0,
+pendingRebate:saved?(saved.pendingRebate||0):0,rebateClaimed:saved?(saved.rebateClaimed||0):0,
+violations:(saved&&saved.violations)?saved.violations:[],frozen:saved?saved.frozen:false
+};
+
+var fakeStats={}, playerMarked=(saved&&saved.playerMarked)?saved.playerMarked:{}, hotAnimals=[], fakeTimer=null, mainTimer=null, drawTimer=null, nextRoundTimer=null, toastTimer=null, lastBetTime=0, cellEls={};
+var roundHedgeFlags={big:false,small:false,odd:false,even:false,tailKeys:{}};
+
+var AudioCtx={
+ctx:null,
+init:function(){if(!this.ctx){try{this.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){this.ctx=null;}}if(this.ctx&&this.ctx.state==='suspended'){try{this.ctx.resume();}catch(e){}}},
+play:function(type){if(!this.ctx||!state.soundOn)return;try{var now=this.ctx.currentTime;
+if(type==='coin'){var o1=this.ctx.createOscillator(),g1=this.ctx.createGain();o1.connect(g1);g1.connect(this.ctx.destination);o1.type='sine';o1.frequency.setValueAtTime(880,now);g1.gain.setValueAtTime(0,now);g1.gain.linearRampToValueAtTime(0.15,now+0.01);g1.gain.exponentialRampToValueAtTime(0.001,now+0.08);o1.start(now);o1.stop(now+0.1);}
+else if(type==='tick'){var o3=this.ctx.createOscillator(),g3=this.ctx.createGain();o3.connect(g3);g3.connect(this.ctx.destination);o3.type='square';o3.frequency.setValueAtTime(800,now);g3.gain.setValueAtTime(0,now);g3.gain.linearRampToValueAtTime(0.14,now+0.002);g3.gain.exponentialRampToValueAtTime(0.001,now+0.03);o3.start(now);o3.stop(now+0.04);}
+else if(type==='lock'){var o4=this.ctx.createOscillator(),g4=this.ctx.createGain();o4.connect(g4);g4.connect(this.ctx.destination);o4.type='sawtooth';o4.frequency.setValueAtTime(440,now);o4.frequency.exponentialRampToValueAtTime(220,now+0.2);g4.gain.setValueAtTime(0,now);g4.gain.linearRampToValueAtTime(0.18,now+0.02);g4.gain.exponentialRampToValueAtTime(0.001,now+0.25);o4.start(now);o4.stop(now+0.3);}
+else if(type==='win'){var notes=[523,659,784];for(var i=0;i<notes.length;i++){var o=this.ctx.createOscillator(),g=this.ctx.createGain();o.connect(g);g.connect(this.ctx.destination);o.type='sine';var t=now+i*0.1;o.frequency.setValueAtTime(notes[i],t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.2,t+0.02);g.gain.exponentialRampToValueAtTime(0.001,t+0.3);o.start(t);o.stop(t+0.35);}}
+}catch(e){}}
+};
+
+function toast(text,type){type=type||'';var el=$('toast');if(!el)return;setText(el,text);el.className='toast show '+type;if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.className='toast '+type;},1500);}
+
+function openModal(title,content,options){options=options||{};var titleEl=$('modalTitle');titleEl.textContent='';var txt=document.createTextNode(title);titleEl.appendChild(txt);if(options.helpFn){var hb=document.createElement('button');hb.className='help-btn';hb.type='button';hb.textContent='?';hb.onclick=function(e){e.stopPropagation();options.helpFn();};titleEl.appendChild(hb);}var body=$('modalBody');body.textContent='';if(typeof content==='string'){var tmp=document.createElement('div');tmp.innerHTML=content;while(tmp.firstChild)body.appendChild(tmp.firstChild);}else if(content){body.appendChild(content);}$('modalOverlay').classList.add('show');}
+function closeModal(){$('modalOverlay').classList.remove('show');}
+
+var announceQueue=[];
+function showAnnounce(title,body){var el=$('announceBody');if(!el)return;el.innerHTML='<div style="font-weight:800;color:var(--gold);margin-bottom:8px;">'+title+'</div>'+body;$('announceOverlay').classList.add('show');}
+function closeAnnounce(){$('announceOverlay').classList.remove('show');if(announceQueue.length>0){var next=announceQueue.shift();setTimeout(function(){showAnnounce(next.title,next.body);},400);}}
+
+function isWinKey(mode,key,winId){if(mode==='animal')return Number(key)===winId;if(mode==='size')return key===(winId<=18?'small':'big');if(mode==='oddeven')return key===(winId%2===1?'odd':'even');if(mode==='tail')return Number(key)===(winId%10);return false;}
+
+function betTotalCurrent(){var t=0,bets=state.bets[state.playMode]||{};for(var k in bets)t+=bets[k];return t;}
+function betTotalAll(){var t=0;for(var mode in state.bets){for(var k in state.bets[mode])t+=state.bets[mode][k];}return t;}
+function betTotalMode(mode){var t=0,bets=state.bets[mode]||{};for(var k in bets)t+=bets[k];return t;}
+
+function detectHedge(){var hedges=[];if((state.bets.size.small||0)>0 && (state.bets.size.big||0)>0)hedges.push('大小对压');if((state.bets.oddeven.odd||0)>0 && (state.bets.oddeven.even||0)>0)hedges.push('单双对压');var tailCount=0;for(var k in state.bets.tail){if(state.bets.tail[k]>0)tailCount++;}if(tailCount>=5)hedges.push('尾数刷水('+tailCount+')');return hedges;}
+function isHedged(){return detectHedge().length>0;}
+
+function buildBoard(){
+var board=$('boardGrid');
+board.textContent='';
+cellEls={};
+board.className='board-grid mode-'+state.playMode;
+
+if(state.playMode==='animal'){
+ANIMALS.forEach(function(a){
+var id=a[0],emoji=a[1],animalName=a[2];
+var btn=document.createElement('button');
+btn.type='button';
+btn.className='animal-cell';
+btn.setAttribute('data-key',String(id));
+var e=document.createElement('span');e.className='emoji';e.textContent=emoji;
+var n=document.createElement('span');n.className='number';n.textContent=animalName;
+var fd=document.createElement('span');fd.className='fake-data';
+var fp=document.createElement('span');fp.className='fake-players';fp.style.display='none';
+var fm=document.createElement('span');fm.className='fake-money';fm.style.display='none';
+fd.appendChild(fp);fd.appendChild(fm);
+var b=document.createElement('span');b.className='my-bet-badge';
+btn.appendChild(e);btn.appendChild(n);btn.appendChild(fd);btn.appendChild(b);
+btn.onclick=function(){placeBet(String(id));};
+board.appendChild(btn);
+cellEls[String(id)]=btn;
+});
+}else if(state.playMode==='size'){
+[{key:'small',label:'小',sub:'001 ~ 018',emoji:'🐣'},{key:'big',label:'大',sub:'019 ~ 036',emoji:'🐘'}].forEach(function(item){
+var btn=document.createElement('button');
+btn.type='button';btn.className='animal-cell big-cell';
+btn.setAttribute('data-key',item.key);
+var l=document.createElement('span');l.className='big-label';l.textContent=item.emoji+' '+item.label;
+var s=document.createElement('span');s.className='big-sub';s.textContent=item.sub;
+var fd=document.createElement('span');fd.className='fake-data';
+var fp=document.createElement('span');fp.className='fake-players';fp.style.display='none';
+var fm=document.createElement('span');fm.className='fake-money';fm.style.display='none';
+fd.appendChild(fp);fd.appendChild(fm);
+var b=document.createElement('span');b.className='my-bet-badge';
+btn.appendChild(l);btn.appendChild(s);btn.appendChild(fd);btn.appendChild(b);
+btn.onclick=function(){placeBet(item.key);};
+board.appendChild(btn);
+cellEls[item.key]=btn;
+});
+}else if(state.playMode==='oddeven'){
+[{key:'odd',label:'单',sub:'1 · 3 · 5 · ...',emoji:'🔵'},{key:'even',label:'双',sub:'2 · 4 · 6 · ...',emoji:'🔴'}].forEach(function(item){
+var btn=document.createElement('button');
+btn.type='button';btn.className='animal-cell big-cell';
+btn.setAttribute('data-key',item.key);
+var l=document.createElement('span');l.className='big-label';l.textContent=item.emoji+' '+item.label;
+var s=document.createElement('span');s.className='big-sub';s.textContent=item.sub;
+var fd=document.createElement('span');fd.className='fake-data';
+var fp=document.createElement('span');fp.className='fake-players';fp.style.display='none';
+var fm=document.createElement('span');fm.className='fake-money';fm.style.display='none';
+fd.appendChild(fp);fd.appendChild(fm);
+var b=document.createElement('span');b.className='my-bet-badge';
+btn.appendChild(l);btn.appendChild(s);btn.appendChild(fd);btn.appendChild(b);
+btn.onclick=function(){placeBet(item.key);};
+board.appendChild(btn);
+cellEls[item.key]=btn;
+});
+}else if(state.playMode==='tail'){
+for(var ti=0;ti<10;ti++){
+(function(i){
+var btn=document.createElement('button');
+btn.type='button';btn.className='animal-cell tail-cell';
+btn.setAttribute('data-key',String(i));
+var num=document.createElement('span');num.className='tail-num';num.textContent=i;
+var sub=document.createElement('span');sub.className='tail-sub';sub.textContent='尾'+i;
+var fd=document.createElement('span');fd.className='fake-data';
+var fp=document.createElement('span');fp.className='fake-players';fp.style.display='none';
+var fm=document.createElement('span');fm.className='fake-money';fm.style.display='none';
+fd.appendChild(fp);fd.appendChild(fm);
+var b=document.createElement('span');b.className='my-bet-badge';
+btn.appendChild(num);btn.appendChild(sub);btn.appendChild(fd);btn.appendChild(b);
+btn.onclick=function(){placeBet(String(i));};
+board.appendChild(btn);
+cellEls[String(i)]=btn;
+})(ti);
+}
+}
+if(state.isLocked){
+for(var k in cellEls)cellEls[k].classList.add('locked');
+board.classList.add('locked-board');
+}
+}
+function updateCell(mode,key){
+if(mode!==state.playMode)return;
+var el=cellEls[key];
+if(!el)return;
+var bet=(state.bets[mode][key]||0);
+var fk=mode+'_'+key;
+var fake=fakeStats[fk]||{players:0,money:0};
+var pc=playerMarked[fk]?1:0;
+var tp=fake.players+pc;
+var tm=fake.money+bet;
+var pe=el.querySelector('.fake-players');
+var me=el.querySelector('.fake-money');
+if(pe){if(tp>0){pe.style.display='inline';setText(pe,tp+'👤');}else pe.style.display='none';}
+if(me){if(tm>0){me.style.display='inline';setText(me,tm+'¥');}else me.style.display='none';}
+var cls='animal-cell';
+if(mode==='size'||mode==='oddeven')cls+=' big-cell';
+if(mode==='tail')cls+=' tail-cell';
+if(tm>0)cls+=' has-data';
+if(bet>0)cls+=' has-bet';
+if(state.phase==='result'&&state.winId&&isWinKey(mode,key,state.winId))cls+=' winner';
+el.className=cls;
+var badge=el.querySelector('.my-bet-badge');
+if(badge)setText(badge,bet>0?bet:'');
+}
+
+function updateSummary(){
+setText($('coins'),fmtMoney(state.coins));
+var tCurrent=betTotalCurrent();
+setText($('betTotal'),tCurrent);
+setText($('expectWin'),Math.floor(tCurrent*ODDS[state.playMode]));
+setText($('mineBalance'),'');
+var mb=$('mineBalance');
+if(mb){
+mb.textContent='';
+var unit=document.createElement('span');unit.className='unit';unit.textContent='¥';
+mb.appendChild(unit);
+mb.appendChild(document.createTextNode(fmtMoney(state.coins)));
+}
+}
+
+function renderAll(){
+setText($('roundNo'),state.roundNo);
+updateSummary();
+for(var k in cellEls)updateCell(state.playMode,k);
+}
+
+function syncDiscover(){setText($('heroRound'),state.roundNo);}
+function updateDiscoverTimer(){
+var heroEl=$('heroTimer');
+if(!heroEl)return;
+var text;
+if(state.phase==='betting')text=state.timeLeft+'s';
+else if(state.phase==='drawing')text='开奖中';
+else if(state.phase==='result')text='已开奖';
+else text='--';
+setText(heroEl,text);
+}
+function isPlayingViewActive(){var v=$('view-playing');return v&&v.classList.contains('active');}
+
+function checkDailyReset(){
+var today=todayStr();
+var lastDate=localStorage.getItem(STORAGE_KEY+'_lastDate');
+if(lastDate!==today){
+state.todayRecharge=0;
+state.todayFlow=0;
+state.todayNetFlow=0;
+localStorage.setItem(STORAGE_KEY+'_lastDate',today);
+Storage.save();
+}
+}
+
+function placeBet(key){
+if(state.frozen){toast('账号已冻结，无法下注','lose');return;}
+if(state.isLocked||state.timeLeft<=LOCK_BEFORE){toast('已封盘，禁止下注','lose');return;}
+if(state.phase!=='betting')return;
+var now=Date.now();
+if(now-lastBetTime<150)return;
+lastBetTime=now;
+if(state.coins<state.chip){toast('余额不足','lose');return;}
+var mode=state.playMode;
+var curBet=state.bets[mode][key]||0;
+if(curBet+state.chip>MAX_BET){toast('单格上限 '+MAX_BET,'lose');return;}
+if(betTotalMode(mode)+state.chip>MAX_PER_MODE){toast('单玩法上限 '+MAX_PER_MODE,'lose');return;}
+if(betTotalAll()+state.chip>MAX_PER_ROUND){toast('单期总上限 '+MAX_PER_ROUND,'lose');return;}
+AudioCtx.play('coin');vibrate(15);
+state.coins-=state.chip;
+state.todayFlow+=state.chip;
+state.bets[mode][key]=curBet+state.chip;
+playerMarked[mode+'_'+key]=true;
+if(state.bets[mode][key]>=MAX_BET_WARN){
+Api.alertAdmin({round:state.roundNo,mode:mode,key:key,amount:state.bets[mode][key]});
+console.warn('[Alert] 单格 ≥'+MAX_BET_WARN+' 已报警给管理员');
+}
+updateCell(mode,key);
+updateSummary();
+Storage.save();
+refreshDataDebounced();
+}
+
+var refreshTimer=null;
+function refreshDataDebounced(){
+if(refreshTimer)return;
+refreshTimer=setTimeout(function(){
+refreshTimer=null;
+updateSummary();
+Storage.save();
+},3000);
+}
+
+function startFakeBetting(){
+stopFakeBetting();
+function next(){
+if(state.isLocked||state.phase!=='betting'||state.timeLeft<=0){stopFakeBetting();return;}
+var delay=30+Math.random()*500;
+var isWarmup=state.timeLeft>55;
+var isLast5s=state.timeLeft<=5;
+if(isWarmup){
+if(state.start5sBetCount>=3){fakeTimer=setTimeout(next,1000);return;}
+state.start5sBetCount++;
+delay=800+Math.random()*800;
+}
+if(isLast5s){
+if(state.end5sBetCount>=3){stopFakeBetting();return;}
+state.end5sBetCount++;
+delay=800+Math.random()*1000;
+}
+fakeTimer=setTimeout(function(){
+if(state.isLocked||state.phase!=='betting'||state.timeLeft<=0){stopFakeBetting();return;}
+var isSolo=Math.random()<0.3;
+var wr=Math.random();
+var players=1,money=0;
+if(wr<0.1)money=500+Math.floor(Math.random()*1500);
+else if(wr<0.3){players=Math.floor(Math.random()*3)+1;money=players*(20+Math.floor(Math.random()*80));}
+else{players=Math.floor(Math.random()*5)+1;money=players*(1+Math.floor(Math.random()*9));}
+if((isWarmup||isLast5s)&&money>100){players=1;money=10+Math.floor(Math.random()*20);}
+var modes=['animal','size','oddeven','tail'];
+var weights=[0.6,0.15,0.15,0.1];
+var r=Math.random(),cum=0,mode='animal';
+for(var i=0;i<modes.length;i++){cum+=weights[i];if(r<cum){mode=modes[i];break;}}
+var key;
+if(mode==='animal')key=isSolo?String(Math.floor(Math.random()*36)+1):String(hotAnimals[Math.floor(Math.random()*hotAnimals.length)]);
+else if(mode==='size')key=Math.random()<0.5?'small':'big';
+else if(mode==='oddeven')key=Math.random()<0.5?'odd':'even';
+else key=String(Math.floor(Math.random()*10));
+var fk=mode+'_'+key;
+if(!fakeStats[fk])fakeStats[fk]={players:0,money:0};
+fakeStats[fk].players+=players;
+fakeStats[fk].money+=money;
+if(mode===state.playMode)updateCell(mode,key);
+next();
+},delay);
+}
+next();
+}
+function stopFakeBetting(){if(fakeTimer){clearTimeout(fakeTimer);fakeTimer=null;}}
+
+function startRound(){
+if(state.winId){state.lastWinId=state.winId;}
+state.round++;
+state.roundNo=genRoundNo();
+state.phase='betting';
+state.timeLeft=ROUND_SECONDS;
+state.phaseStartTs=Date.now();
+state.bets={animal:{},size:{},oddeven:{},tail:{}};
+state.winId=null;
+playerMarked={};
+state.isLocked=false;
+state.start5sBetCount=0;
+state.end5sBetCount=0;
+roundHedgeFlags={big:false,small:false,odd:false,even:false,tailKeys:{}};
+setText($('timerLabel'),'开奖倒计时');
+$('timer').classList.remove('draw-result');
+document.body.classList.remove('danger-zone');
+$('progressBar').style.background='';
+$('progressBar').style.width='100%';
+fakeStats={};
+var board=$('boardGrid');
+if(board)board.classList.remove('locked-board');
+for(var k in cellEls){
+cellEls[k].classList.remove('winner');
+cellEls[k].classList.remove('winner-anim');
+cellEls[k].classList.remove('scrolling');
+cellEls[k].classList.remove('locked');
+}
+var hotCount=10+Math.floor(Math.random()*16);
+var all=[];for(var i=1;i<=36;i++)all.push(i);
+hotAnimals=shuffle(all).slice(0,hotCount);
+drawTimer=setTimeout(function(){
+drawTimer=null;
+if(state.phase==='betting'&&!state.isLocked)startFakeBetting();
+},1500+Math.random()*1500);
+renderAll();
+syncDiscover();
+updateDiscoverTimer();
+Storage.save();
+}
+
+function draw(){
+state.phase='drawing';
+state.isLocked=true;
+stopFakeBetting();
+setText($('timer'),'核对中');
+$('timer').className='stat-value timer-value';
+$('progressBar').style.width='0%';
+document.body.classList.remove('danger-zone');
+var board=$('boardGrid');
+if(board)board.classList.add('locked-board');
+updateDiscoverTimer();
+drawTimer=setTimeout(function(){
+drawTimer=null;
+var winId=Math.floor(Math.random()*36)+1;
+state.winId=winId;
+state.lastWinEmoji=byId[winId].emoji;
+playScrollAnimation(winId);
+},DRAW_DELAY);
+}
+
+function playScrollAnimation(winId){
+var scrollCount=0;
+var scrollTimer=setInterval(function(){
+for(var k in cellEls){cellEls[k].classList.remove('scrolling');}
+for(var i=0;i<3;i++){
+var randId=Math.floor(Math.random()*36)+1;
+var el=cellEls[String(randId)];
+if(el)el.classList.add('scrolling');
+}
+scrollCount++;
+if(scrollCount>=8){
+clearInterval(scrollTimer);
+for(var k in cellEls)cellEls[k].classList.remove('scrolling');
+finalizeDraw(winId);
+}
+},100);
+}
+
+function finalizeDraw(winId){
+settle(winId);
+state.phase='result';
+var emoji=byId[winId].emoji;
+var num=padZero(winId,3);
+var lr=$('lastResult');
+lr.textContent='';
+var sp=document.createElement('span');
+sp.style.fontSize='20px';
+sp.textContent=emoji+' '+num;
+lr.appendChild(sp);
+setText($('timerLabel'),'本期开奖');
+var t=$('timer');
+t.textContent='';
+var s2=document.createElement('span');
+s2.style.fontSize='20px';
+s2.textContent=emoji+' '+num;
+t.appendChild(s2);
+t.className='stat-value timer-value draw-result';
+if(state.playMode==='animal'&&cellEls[String(winId)]){
+cellEls[String(winId)].classList.add('winner','winner-anim');
+}else{
+for(var k in cellEls){
+if(isWinKey(state.playMode,k,winId)){
+cellEls[k].classList.add('winner','winner-anim');
+}
+}
+}
+renderAll();
+syncDiscover();
+updateDiscoverTimer();
+nextRoundTimer=setTimeout(function(){nextRoundTimer=null;startRound();},NEXT_DELAY);
+}
+
+function settle(winId){
+var totalPayout=0,details=[];
+var totalBet=betTotalAll();
+for(var mode in state.bets){
+for(var key in state.bets[mode]){
+var bet=state.bets[mode][key];
+if(bet>0&&isWinKey(mode,key,winId)){
+var payout=Math.floor(bet*ODDS[mode]);
+totalPayout+=payout;
+details.push({mode:mode,key:key,bet:bet,payout:payout});
+}
+}
+}
+state.history.unshift({round:state.roundNo,winId:winId,emoji:byId[winId].emoji,ts:Date.now()});
+if(state.history.length>HISTORY_LIMIT)state.history.pop();
+var netFlow=Math.max(0,totalBet-totalPayout);
+var hedged=isHedged();
+if(hedged){
+netFlow=0;
+var hedgeList=detectHedge();
+hedgeList.forEach(function(type){
+state.violations.push({game:'南宫国际',type:type,round:state.roundNo,ts:Date.now()});
+});
+Api.violationReport({round:state.roundNo,types:hedgeList});
+console.warn('[Violation] 对压/刷水:',hedgeList);
+toast('检测到对压/刷水，本局无效','lose');
+}
+state.todayNetFlow+=netFlow;
+state.vipLevelFlow+=netFlow;
+state.vipPeriodFlow+=netFlow;
+if(totalPayout>0){
+state.coins+=totalPayout;
+details.forEach(function(d){
+state.myBets.unshift({round:state.roundNo,winId:winId,emoji:byId[winId].emoji,mode:d.mode,key:d.key,bet:d.bet,payout:d.payout,ts:Date.now()});
+});
+if(state.myBets.length>HISTORY_LIMIT)state.myBets.length=HISTORY_LIMIT;
+state.fundLog.unshift({type:'中奖',amount:totalPayout,round:state.roundNo,ts:Date.now()});
+if(state.fundLog.length>200)state.fundLog.pop();
+AudioCtx.play('win');
+toast('+¥'+fmtMoney(totalPayout),'win');
+var wAmount=$('winAmount');
+if(wAmount)wAmount.textContent='+¥'+fmtMoney(totalPayout);
+var detailHtml='';
+details.forEach(function(d){
+var keyLabel=d.key;
+if(d.mode==='animal'&&byId[Number(d.key)])keyLabel=byId[Number(d.key)].emoji+' '+padZero(Number(d.key),3);
+else if(d.mode==='size')keyLabel=d.key==='small'?'🐣 小':'🐘 大';
+else if(d.mode==='oddeven')keyLabel=d.key==='odd'?'🔵 单':'🔴 双';
+else if(d.mode==='tail')keyLabel='尾 '+d.key;
+detailHtml+=keyLabel+' × '+ODDS[d.mode]+'倍 = <span style="color:var(--gold)">+¥'+fmtMoney(d.payout)+'</span><br>';
+});
+var wd=$('winDetail');
+if(wd)wd.innerHTML=detailHtml;
+$('winOverlay').classList.add('show');
+}else if(totalBet>0){
+state.myBets.unshift({round:state.roundNo,winId:winId,emoji:byId[winId].emoji,mode:state.playMode,key:'-',bet:totalBet,payout:0,ts:Date.now()});
+if(state.myBets.length>HISTORY_LIMIT)state.myBets.length=HISTORY_LIMIT;
+state.fundLog.unshift({type:'投注',amount:-totalBet,round:state.roundNo,ts:Date.now()});
+if(state.fundLog.length>200)state.fundLog.pop();
+toast('未猜中','lose');
+}
+checkVipUpgrade();
+Storage.save();
+}
+
+function checkVipUpgrade(){
+var cur=state.vipLevel;
+if(cur>=10)return;
+var next=VIP_RULES[cur+1];
+if(!next)return;
+if(state.vipLevelRecharge>=next.upRecharge&&state.vipLevelFlow>=next.upFlow){
+state.vipLevel=cur+1;
+state.vipUpgradeDate=Date.now();
+state.vipPeriodStart=Date.now();
+state.vipPeriodFlow=0;
+state.vipLevelRecharge=0;
+state.vipLevelFlow=0;
+toast('🎉 恭喜晋升 VIP '+state.vipLevel+'！','win');
+Storage.save();
+updateProfileUI();
+}
+}
+function checkVipKeep(){
+if(state.vipLevel<=0)return;
+var rule=VIP_RULES[state.vipLevel];
+if(!rule||!state.vipPeriodStart)return;
+var elapsed=Date.now()-state.vipPeriodStart;
+if(elapsed<90*24*3600*1000)return;
+if(state.vipPeriodFlow<rule.keepFlow){
+state.vipLevel=Math.max(0,state.vipLevel-1);
+state.vipPeriodStart=Date.now();
+state.vipPeriodFlow=0;
+toast('VIP 保级失败，降为 VIP '+state.vipLevel,'lose');
+Storage.save();
+updateProfileUI();
+}else{
+state.vipPeriodStart=Date.now();
+state.vipPeriodFlow=0;
+}
+}
+
+function tick(){
+if(state.phase!=='betting'){updateDiscoverTimer();return;}
+if(state.phaseStartTs){
+var elapsed=Math.floor((Date.now()-state.phaseStartTs)/1000);
+state.timeLeft=Math.max(0,ROUND_SECONDS-elapsed);
+}
+if(state.timeLeft<=0){
+state.timeLeft=0;
+setText($('timer'),'0s');
+$('progressBar').style.width='0%';
+draw();
+updateDiscoverTimer();
+return;
+}
+setText($('timer'),state.timeLeft+'s');
+$('progressBar').style.width=(state.timeLeft/ROUND_SECONDS*100)+'%';
+if(state.timeLeft<=LOCK_BEFORE&&!state.isLocked){
+if(isPlayingViewActive())toast('封盘，数据核对中...','lose');
+state.isLocked=true;
+$('timer').className='stat-value timer-value warn';
+$('progressBar').style.background='var(--red)';
+document.body.classList.add('danger-zone');
+AudioCtx.play('lock');
+var board=$('boardGrid');
+if(board)board.classList.add('locked-board');
+for(var k in cellEls)cellEls[k].classList.add('locked');
+}else if(state.timeLeft<=LOCK_BEFORE){
+AudioCtx.play('tick');
+}
+updateDiscoverTimer();
+}
+
+function switchTab(name){
+closeModal();
+var views=document.querySelectorAll('.view');
+for(var i=0;i<views.length;i++)views[i].classList.remove('active');
+var v=$('view-'+name);
+if(v)v.classList.add('active');
+var tabs=document.querySelectorAll('.tab-btn');
+for(var j=0;j<tabs.length;j++){
+if(tabs[j].getAttribute('data-tab')===name)tabs[j].classList.add('active');
+else tabs[j].classList.remove('active');
+}
+if(name==='playing')document.body.classList.add('playing');
+else document.body.classList.remove('playing');
+if(name==='playing'&&!state.soundOn){updateSoundBtnState();}
+try{window.scrollTo(0,0);}catch(e){}
+if(name==='discover'||name==='mine'){syncDiscover();updateSummary();updateProfileUI();}
+updateDiscoverTimer();
+}
+
+function updateSoundBtnState(){
+var btns=document.querySelectorAll('.tool-btn');
+for(var i=0;i<btns.length;i++){
+var lbl=btns[i].querySelector('.t-label');
+if(lbl&&lbl.textContent==='音效'){
+if(state.soundOn)btns[i].classList.add('active');
+else btns[i].classList.remove('active');
+}
+}
+}
+
+function getVipLevel(){return state.vipLevel;}
+function updateProfileUI(){
+var vip=state.vipLevel;
+setText($('vipBadge'),'VIP '+vip);
+var rv=$('verifyBadge');
+if(rv){
+if(state.realName){rv.textContent='已实名';rv.classList.remove('pending');}
+else{rv.textContent='未实名';rv.classList.add('pending');}
+}
+var nameEl=$('profileNameEl');
+if(nameEl){
+nameEl.textContent='';
+nameEl.appendChild(document.createTextNode(state.userInfo.nickname+' '));
+var ic=document.createElement('span');
+ic.className='edit-icon';
+ic.textContent='✎';
+nameEl.appendChild(ic);
+}
+var av=$('avatarEl');
+if(av){
+var firstChild=av.firstChild;
+if(firstChild&&firstChild.nodeType===3){firstChild.textContent=state.userInfo.avatar;}
+}
+renderFrozenBanner();
+}
+function renderFrozenBanner(){
+var wrap=$('frozenBannerWrap');
+if(!wrap)return;
+wrap.textContent='';
+if(state.frozen){
+var ban=document.createElement('div');
+ban.className='frozen-banner';
+ban.innerHTML='<div class="fb-icon">🚫</div><div class="fb-text">账号已冻结：因检测到违规行为，请联系客服解除限制</div>';
+wrap.appendChild(ban);
+}
+}
+
+var BANNERS=[
+{emoji:'👑',tag:'🔥 热门',title:'幸运兽 · 3D',desc:'36 动物竞猜 · 60秒一局',cls:'b1',action:function(){switchTab('playing');}},
+{emoji:'🎡',tag:'即将上线',title:'幸运大转盘',desc:'转动圆盘 · 赢取丰厚奖励',cls:'b2',action:function(){comingSoon('幸运大转盘');}},
+{emoji:'🎁',tag:'活动',title:'新人注册送 88 彩金',desc:'完成认证即可申请领取',cls:'b3',action:function(){openNewbie();}},
+{emoji:'👥',tag:'活动',title:'邀请好友得人头费',desc:'邀请好友充值，最高得 5% 返利',cls:'b4',action:function(){openInvite();}}
+];
+var bannerIndex=0,bannerTimer=null;
+function buildBanner(){
+var track=$('bannerTrack'),dots=$('bannerDots');
+if(!track||!dots)return;
+track.textContent='';dots.textContent='';
+BANNERS.forEach(function(b,i){
+var slide=document.createElement('div');
+slide.className='banner-slide '+b.cls;
+slide.innerHTML='<div class="banner-emoji">'+b.emoji+'</div><div class="banner-info"><div class="banner-tag">'+b.tag+'</div><div class="banner-title">'+b.title+'</div><div class="banner-desc">'+b.desc+'</div></div>';
+slide.onclick=function(){AudioCtx.init();vibrate(10);b.action();};
+track.appendChild(slide);
+var dot=document.createElement('div');
+dot.className='banner-dot'+(i===0?' active':'');
+dots.appendChild(dot);
+});
+startBannerAuto();
+}
+function startBannerAuto(){stopBannerAuto();bannerTimer=setInterval(function(){bannerIndex=(bannerIndex+1)%BANNERS.length;updateBannerPos();},4000);}
+function stopBannerAuto(){if(bannerTimer){clearInterval(bannerTimer);bannerTimer=null;}}
+function updateBannerPos(){
+var track=$('bannerTrack'),dots=$('bannerDots');
+if(!track)return;
+track.style.transform='translateX(-'+(bannerIndex*100)+'%)';
+if(dots){
+var ds=dots.querySelectorAll('.banner-dot');
+for(var i=0;i<ds.length;i++){
+if(i===bannerIndex)ds[i].classList.add('active');
+else ds[i].classList.remove('active');
+}
+}
+}
+
+function updateOnlineCount(){
+var hour=new Date().getHours();
+var baseMin,baseMax;
+if(hour>=0&&hour<6){baseMin=3;baseMax=30;}
+else if(hour>=6&&hour<12){baseMin=100;baseMax=600;}
+else if(hour>=12&&hour<18){baseMin=500;baseMax=1800;}
+else{baseMin=800;baseMax=3500;}
+if(!state.onlineCount){state.onlineCount=Math.floor(Math.random()*(baseMax-baseMin+1))+baseMin;}
+else{
+var delta=Math.floor(Math.random()*11)-5;
+state.onlineCount+=delta;
+if(state.onlineCount<baseMin)state.onlineCount=baseMin;
+if(state.onlineCount>baseMax)state.onlineCount=baseMax;
+}
+var el=$('heroOnline');
+if(el)setText(el,state.onlineCount.toLocaleString());
+}
+
+var announcements=[];
+function generateAnnouncements(){
+var prizes=[10,20,50,100,200,500,1000,2000,5000,10000];
+for(var i=0;i<999;i++){
+var uid='';
+for(var j=0;j<7;j++)uid+=Math.floor(Math.random()*10);
+var masked=maskId(uid);
+var prize=prizes[Math.floor(Math.random()*prizes.length)];
+announcements.push({id:masked,prize:prize});
+}
+announcements=shuffle(announcements);
+}
+function renderMarquee(){
+var text='';
+for(var i=0;i<announcements.length;i++){text+='🎉恭喜 '+announcements[i].id+' 赢得'+announcements[i].prize+'元 ';}
+var el=$('noticeText');
+if(!el)return;
+setText(el,text);
+var dur=Math.max(120,Math.min(600,text.length/3));
+el.style.animation='none';
+setTimeout(function(){el.style.animation='scroll '+dur+'s linear infinite';},50);
+}
+
+function openTrendChart(){
+var wrap=document.createElement('div');
+if(state.history.length===0){wrap.innerHTML='<div class="empty-tip"><span class="big-icon">📈</span>暂无数据</div>';}
+else{
+var table=document.createElement('table');
+table.className='trend-table';
+var html='<thead><tr><th>期号</th><th>开奖</th><th>号码</th><th>大小</th><th>单双</th><th>尾数</th></tr></thead><tbody>';
+state.history.slice(0,50).forEach(function(h){
+html+='<tr><td style="font-size:9px;">'+h.round+'</td><td class="trend-emoji">'+h.emoji+'</td><td class="trend-win">'+padZero(h.winId,3)+'</td><td>'+(h.winId<=18?'小':'大')+'</td><td>'+(h.winId%2===1?'单':'双')+'</td><td>'+(h.winId%10)+'</td></tr>';
+});
+html+='</tbody>';
+table.innerHTML=html;
+wrap.appendChild(table);
+}
+openModal('📈 走势图',wrap);
+}
+
+function openMyRecords(){
+var wrap=document.createElement('div');
+if(state.myBets.length===0){wrap.innerHTML='<div class="empty-tip"><span class="big-icon">📋</span>还没有下注记录</div>';}
+else{
+state.myBets.slice(0,50).forEach(function(r){
+var item=document.createElement('div');
+item.className='record-item';
+var isWin=r.payout>0;
+var modeLabel={animal:'动物',size:'大小',oddeven:'单双',tail:'尾数'}[r.mode]||'下注';
+var keyLabel=r.key;
+if(r.mode==='animal'&&byId[Number(r.key)])keyLabel=byId[Number(r.key)].emoji+padZero(Number(r.key),3);
+item.innerHTML='<div style="flex:1;display:flex;gap:10px;align-items:center;"><div style="font-size:22px;">'+r.emoji+'</div><div style="display:flex;flex-direction:column;gap:2px;"><div style="font-size:9px;color:var(--dim);">'+r.round+' · '+modeLabel+' '+keyLabel+'</div><div style="font-size:12px;color:var(--text);font-weight:600;">开奖 '+padZero(r.winId,3)+'</div></div></div><div style="text-align:right;"><div style="font-size:13px;font-weight:800;color:'+(isWin?'var(--green)':'var(--red)')+';">'+(isWin?'+¥'+fmtMoney(r.payout):'-¥'+fmtMoney(r.bet))+'</div><div style="font-size:9px;color:var(--dim);margin-top:2px;">'+fmtTime(r.ts)+'</div></div>';
+wrap.appendChild(item);
+});
+}
+openModal('📋 我的记录',wrap);
+}
+
+function openAccountLog(){
+var wrap=document.createElement('div');
+var list=(state.fundLog||[]).filter(function(f){return inLastTwoWeeks(f.ts);});
+if(list.length===0){wrap.innerHTML='<div class="empty-tip"><span class="big-icon">💰</span>暂无资金记录<br><span style="font-size:10px;"></span></div>';}
+else{
+var income=0,outcome=0;
+list.forEach(function(f){if(f.amount>0)income+=f.amount;else outcome+=Math.abs(f.amount);});
+var sum=document.createElement('div');
+sum.className='stat-summary';
+sum.innerHTML='<div class="stat-sum-card"><div class="sc-label">总收入</div><div class="sc-val green">+¥'+fmtMoney(income)+'</div></div><div class="stat-sum-card"><div class="sc-label">总支出</div><div class="sc-val red">-¥'+fmtMoney(outcome)+'</div></div>';
+wrap.appendChild(sum);
+list.slice(0,100).forEach(function(f){
+var item=document.createElement('div');
+item.className='record-item';
+item.style.justifyContent='space-between';
+item.innerHTML='<div><div style="font-size:12px;font-weight:700;">'+f.type+'</div><div style="font-size:10px;color:var(--dim);margin-top:3px;">'+fmtTime(f.ts)+'</div></div><div style="font-size:14px;font-weight:900;color:'+(f.amount>0?'var(--green)':'var(--red)')+';">'+(f.amount>0?'+¥':'-¥')+fmtMoney(Math.abs(f.amount))+'</div>';
+wrap.appendChild(item);
+});
+}
+openModal('💰 账户明细',wrap);
+}
+
+function openHelp(){
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="help-section"><h4>🦄 动物竞猜玩法</h4><p>从 001~036 共 36 个动物中选择一个或多个下注。开奖时若开出的号码就是你押的动物，即中奖。</p><div class="kv"><span class="k">赔率</span><span class="v">33 倍</span></div></div><div class="help-section"><h4>🎲大小玩法</h4><p>小：001~018，大：019~036。押中即中奖。</p><div class="kv"><span class="k">赔率</span><span class="v">1.95 倍</span></div></div><div class="help-section"><h4> π单双玩法</h4><p>单：号码为奇数，双：号码为偶数。押中即中奖。</p><div class="kv"><span class="k">赔率</span><span class="v">1.95 倍</span></div></div><div class="help-section"><h4>🔢 尾数玩法</h4><p>看号码的个位数（0~9）。押中尾数即中奖。</p><div class="kv"><span class="k">赔率</span><span class="v">8.5 倍</span></div></div><div class="help-section"><h4>⏰ 时间规则</h4><p>每期 60 秒。最后 10 秒封盘，不可下注。</p></div><div class="help-section"><h4>⚠️ 风控提示</h4><p>• 同一期押大+小、单+双、≥5个尾数 视为对压/刷水<br>• 对压/刷水不计有效流水，不参与反水<br>• 单格上限 ¥5,000 · 单期上限 ¥50,000<br>• 单格 ≥ ¥3,000 自动报警后台</p></div>';
+openModal('❓ 玩法说明',wrap);
+}
+
+var SIGN_REWARDS=[10,20,30,50,80,120,200];
+var SIGN_BONUS=88;
+function openSignRule(){
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="help-section"><h4>📅 签到规则</h4><p>1. 每日需完成 <b style="color:var(--gold)">充值 ≥ 100</b> 且 <b style="color:var(--gold)">打满 1 倍流水</b>，方可签到。</p><p>2. 每日 <b>23:59:59</b> 之前必须签到，逾期作废，连续天数从第 1 天重新计算。</p><p>3. 连续签到 7 天，可额外领取 <b style="color:var(--pink)">88 元彩金</b>。</p><p>4. 额外彩金需在 <b>第 7 天当日 23:59:59 前</b> 领取，逾期作废。</p><p>5. 领取的彩金需按活动规则打满流水后方可提现。</p></div>';
+openModal('📅 签到规则',wrap);
+}
+function openSign(){
+var today=todayStr();
+var signedToday=state.lastSignDate===today;
+var qualified=state.todayRecharge>=100&&state.todayFlow>=100;
+var wrap=document.createElement('div');
+var cond=document.createElement('div');
+cond.className='sign-cond';
+cond.innerHTML='<div class="sc-row"><span>今日充值</span><span class="v '+(state.todayRecharge>=100?'ok':'no')+'">¥'+fmtMoney(state.todayRecharge)+' / ¥100</span></div><div class="sc-row"><span>今日流水</span><span class="v '+(state.todayFlow>=100?'ok':'no')+'">¥'+fmtMoney(state.todayFlow)+' / ¥100</span></div><div class="sc-row"><span>连续签到</span><span class="v">'+state.consecutiveSigns+' 天</span></div>';
+wrap.appendChild(cond);
+var grid=document.createElement('div');
+grid.className='sign-grid';
+for(var i=0;i<7;i++){
+var day=document.createElement('div');
+day.className='sign-day';
+var idx=i+1;
+if(state.consecutiveSigns>=idx)day.classList.add('done');
+if(!signedToday&&idx===state.consecutiveSigns+1&&qualified)day.classList.add('today');
+if(idx===7)day.classList.add('bonus');
+var bonusTag=idx===7?'<span class="bonus-tag">+88</span>':'';
+day.innerHTML='<div>Day'+idx+'</div><div style="font-size:9px;">+'+(idx===7?SIGN_REWARDS[i]+'+88':SIGN_REWARDS[i])+'</div>'+bonusTag;
+grid.appendChild(day);
+}
+wrap.appendChild(grid);
+var tip=document.createElement('p');
+tip.style.cssText='text-align:center;font-size:12px;color:var(--dim);margin-bottom:14px;';
+if(signedToday)tip.textContent='今日已签到，连续 '+state.consecutiveSigns+' 天';
+else if(!qualified)tip.textContent='需完成充值 100 且打满 1 倍流水后方可签到';
+else tip.textContent='连续签到 '+state.consecutiveSigns+' 天 · 今日可签到';
+wrap.appendChild(tip);
+var btn=document.createElement('button');
+btn.className='sign-btn';btn.type='button';
+if(signedToday){btn.textContent='今日已签到';btn.disabled=true;}
+else if(!qualified){btn.textContent='未达条件';btn.disabled=true;}
+else{btn.textContent='立即签到 +'+SIGN_REWARDS[Math.min(state.consecutiveSigns,6)];}
+btn.onclick=function(){
+var t=todayStr();
+if(state.lastSignDate===t)return;
+if(state.todayRecharge<100||state.todayFlow<100){toast('未达签到条件','lose');return;}
+var y=new Date();y.setDate(y.getDate()-1);
+var ys=y.getFullYear()+'-'+padZero(y.getMonth()+1,2)+'-'+padZero(y.getDate(),2);
+if(state.lastSignDate===ys)state.consecutiveSigns=Math.min(state.consecutiveSigns+1,7);
+else state.consecutiveSigns=1;
+state.lastSignDate=t;
+var reward=SIGN_REWARDS[Math.min(state.consecutiveSigns-1,6)];
+state.coins+=reward;
+state.fundLog.unshift({type:'签到奖励',amount:reward,ts:Date.now()});
+AudioCtx.play('win');vibrate(20);
+toast('签到成功 +¥'+reward,'win');
+Storage.save();updateSummary();updateProfileUI();
+closeModal();
+setTimeout(openSign,200);
+};
+wrap.appendChild(btn);
+if(state.consecutiveSigns>=7&&state.bonus88ClaimedDate!==today&&state.lastSignDate===today){
+var bonusBtn=document.createElement('button');
+bonusBtn.className='sign-btn bonus';bonusBtn.type='button';
+bonusBtn.style.marginTop='10px';
+bonusBtn.textContent='🎁 领取第7天额外 88 彩金';
+bonusBtn.onclick=function(){
+if(state.bonus88ClaimedDate===today)return;
+state.bonus88ClaimedDate=today;
+state.coins+=SIGN_BONUS;
+state.fundLog.unshift({type:'7天连签彩金',amount:SIGN_BONUS,ts:Date.now()});
+AudioCtx.play('win');vibrate(30);
+toast('彩金 +¥'+SIGN_BONUS,'win');
+Storage.save();updateSummary();updateProfileUI();
+closeModal();
+};
+wrap.appendChild(bonusBtn);
+}
+openModal('📅 每日签到',wrap,{helpFn:openSignRule});
+}
+
+function openRank(){
+var wrap=document.createElement('div');
+var names=['锦鲤附体','一掷千金','稳如老狗','欧皇本皇','上岸翻身','小试牛刀','夜神月','猛虎下山','风一样的男','数据帝','财神爷','小赌怡情','大吉大利','一夜暴富','稳赚不亏','钱多多','开心就好','随便玩玩'];
+var list=[];
+for(var i=0;i<20;i++){list.push({name:maskName(names[i%names.length]+(i>9?'·'+i:'')),score:50000-i*1800-Math.floor(Math.random()*800),isMe:false});}
+var myScore=state.coins+state.todayFlow;
+if(myScore>=20000){list.push({name:maskName(state.userInfo.nickname),score:myScore,isMe:true});}
+list.sort(function(a,b){return b.score-a.score;});
+list=list.slice(0,20);
+wrap.className='rank-list';
+list.forEach(function(item,idx){
+var row=document.createElement('div');
+row.className='rank-item'+(idx<3?' top'+(idx+1):'')+(item.isMe?' me':'');
+row.innerHTML='<div class="rank-num">'+(idx+1)+'</div><div class="rank-name">'+item.name+(item.isMe?' <span style="font-size:9px;color:#60a5fa;">(我)</span>':'')+'</div><div class="rank-score">'+item.score.toLocaleString()+'</div>';
+wrap.appendChild(row);
+});
+openModal('🏆 排行榜',wrap);
+}
+
+var MESSAGES=[
+{icon:'🎉',title:'恭喜获得新人礼包',desc:'欢迎来到南宫国际娱乐',content:'欢迎来到南宫国际娱乐！<br><br>您已获得新人礼包。<br>完善实名认证后还可申请 88 元彩金。<br><br>祝您游戏愉快！',time:'刚刚',read:false},
+{icon:'📢',title:'系统公告',desc:'新版幸运兽·3D 已上线',content:'新版幸运兽·3D 已正式上线！<br><br>新增玩法：<br>· 大小（1.95 倍）<br>· 单双（1.95 倍）<br>· 尾数（8.5 倍）<br>· 动物（33 倍）<br><br>祝您好运！',time:'1小时前',read:false},
+{icon:'🎁',title:'每日任务提醒',desc:'完成今日签到可获得奖励',content:'每日签到可获得 10~200 金币奖励。<br><br>连续签到 7 天，还可额外领取 88 元彩金。<br><br>签到条件：<br>1. 今日充值 ≥ 100<br>2. 打满 1 倍流水',time:'2小时前',read:false},
+{icon:'🔒',title:'安全提示',desc:'建议尽快完成实名认证',content:'为了您的账户安全，建议尽快完成实名认证。<br><br>实名认证后可享受：<br>· 提现通道开启<br>· 新人彩金申请<br>· 账户安全保障',time:'1天前',read:true},
+{icon:'💬',title:'客服回复',desc:'您提交的反馈已处理完成',content:'您提交的反馈已处理完成。<br><br>如有疑问，请联系在线客服。<br>工作时间：7×24 小时。',time:'2天前',read:true}
+];
+function openMessages(){
+var wrap=document.createElement('div');
+wrap.className='msg-list';
+MESSAGES.forEach(function(m){
+var item=document.createElement('div');
+item.className='msg-item';
+item.innerHTML='<div class="msg-icon">'+m.icon+'</div><div class="msg-content"><div class="msg-title">'+m.title+(m.read?'':'<span class="dot-red"></span>')+'</div><div class="msg-desc">'+m.desc+'</div><div class="msg-time">'+m.time+'</div></div>';
+item.onclick=function(){m.read=true;openMessageDetail(m);};
+wrap.appendChild(item);
+});
+openModal('📬 消息中心',wrap);
+}
+function openMessageDetail(m){
+var wrap=document.createElement('div');
+wrap.innerHTML='<div style="text-align:center;font-size:50px;margin-bottom:14px;">'+m.icon+'</div><div style="font-size:16px;font-weight:800;text-align:center;margin-bottom:6px;">'+m.title+'</div><div style="font-size:10px;color:var(--dim);text-align:center;margin-bottom:16px;">'+m.time+'</div><div style="font-size:13px;line-height:1.8;color:var(--text);">'+m.content+'</div>';
+openModal('消息详情',wrap);
+}
+
+function openRealName(){
+var wrap=document.createElement('div');
+if(state.realName){
+var masked=state.realName.name.charAt(0)+'**';
+var maskedId=state.realName.id.slice(0,4)+'**********'+state.realName.id.slice(-4);
+var maskedPhone=state.realName.phone.slice(0,3)+'****'+state.realName.phone.slice(-4);
+wrap.innerHTML='<div style="text-align:center;padding:20px 0;"><div style="font-size:50px;margin-bottom:14px;">✅</div><div style="font-size:15px;color:var(--green);font-weight:800;margin-bottom:14px;">已实名认证</div></div><div class="help-section"><div class="kv"><span class="k">姓名</span><span class="v">'+masked+'</span></div><div class="kv"><span class="k">身份证</span><span class="v">'+maskedId+'</span></div><div class="kv"><span class="k">手机号</span><span class="v">'+maskedPhone+'</span></div><div class="kv"><span class="k">性别</span><span class="v">'+state.realName.gender+'</span></div></div><div style="text-align:center;font-size:11px;color:var(--dim);margin-top:12px;">为保护您的隐私，信息已脱敏展示<br>认证后不可修改</div>';
+}else{
+wrap.innerHTML='<div class="form-item"><label>真实姓名</label><input type="text" id="rnInput" placeholder="请输入真实姓名" autocomplete="off"></div><div class="form-item"><label>身份证号</label><input type="text" id="idInput" placeholder="请输入18位身份证号" autocomplete="off" maxlength="18"></div><div class="form-item"><label>手机号</label><input type="tel" id="phoneInput" placeholder="请输入手机号" autocomplete="off" maxlength="11"></div><div class="form-item"><label>性别</label><select id="genderInput"><option value="">请选择</option><option value="男">男</option><option value="女">女</option></select></div><button class="form-btn" id="rnSubmit" type="button">提交认证</button><div style="text-align:center;font-size:11px;color:var(--dim);margin-top:12px;">⚠️ 认证后信息不可修改，请谨慎填写</div>';
+}
+openModal('🪪 实名认证',wrap);
+if(!state.realName){
+setTimeout(function(){
+var btn=$('rnSubmit');
+if(!btn)return;
+btn.onclick=function(){
+var name=($('rnInput').value||'').trim();
+var id=($('idInput').value||'').trim();
+var phone=($('phoneInput').value||'').trim();
+var gender=$('genderInput').value;
+if(name.length<2){toast('请输入真实姓名','lose');return;}
+if(!/^\d{17}[\dXx]$/.test(id)){toast('请输入正确的18位身份证号','lose');return;}
+if(!/^1\d{10}$/.test(phone)){toast('请输入正确的手机号','lose');return;}
+if(!gender){toast('请选择性别','lose');return;}
+state.realName={name:name,id:id,phone:phone,gender:gender};
+Storage.save();AudioCtx.play('win');
+toast('实名认证成功','win');
+updateProfileUI();
+closeModal();
+setTimeout(openRealName,200);
+};
+},50);
+}
+}
+
+var BANK_METHODS=[
+{key:'usdt',icon:'₮',label:'USDT',enabled:true},
+{key:'alipay',icon:'💙',label:'支付宝',enabled:true},
+{key:'wechat',icon:'💚',label:'微信',enabled:true},
+{key:'bank',icon:'🏦',label:'银行卡',enabled:true}
+];
+var userBanks=[];
+function openBank(){
+var wrap=document.createElement('div');
+if(userBanks.length===0){wrap.innerHTML='<div class="empty-tip"><span class="big-icon">💳</span>暂无绑定收款方式</div>';}
+else{
+userBanks.forEach(function(b,i){
+var row=document.createElement('div');
+row.className='order-card';
+row.innerHTML='<div class="oc-row"><span class="k">'+b.label+'</span><span class="v" style="font-size:11px;word-break:break-all;">'+b.value+'</span></div><button class="form-btn ghost" style="margin-top:8px;padding:8px;" data-del="'+i+'" type="button">删除</button>';
+wrap.appendChild(row);
+});
+}
+var addBtn=document.createElement('button');
+addBtn.className='form-btn';addBtn.type='button';addBtn.textContent='+ 添加收款方式';
+addBtn.onclick=function(){openAddBank();};
+wrap.appendChild(addBtn);
+openModal('💳 银行卡管理',wrap);
+setTimeout(function(){
+var delBtns=wrap.querySelectorAll('[data-del]');
+for(var i=0;i<delBtns.length;i++){
+delBtns[i].onclick=function(){
+var idx=Number(this.getAttribute('data-del'));
+userBanks.splice(idx,1);
+closeModal();setTimeout(openBank,150);
+};
+}
+},50);
+}
+function openAddBank(){
+var wrap=document.createElement('div');
+var opts=BANK_METHODS.map(function(b){return '<option value="'+b.key+'">'+b.icon+' '+b.label+'</option>';}).join('');
+wrap.innerHTML='<div class="form-item"><label>收款方式</label><select id="bankType">'+opts+'</select></div><div class="form-item"><label>收款账号/地址</label><input type="text" id="bankValue" placeholder="请输入账号或地址" autocomplete="off"></div><button class="form-btn" id="bankSubmit" type="button">保存</button>';
+openModal('添加收款方式',wrap);
+setTimeout(function(){
+var btn=$('bankSubmit');
+if(btn)btn.onclick=function(){
+var type=$('bankType').value;
+var value=($('bankValue').value||'').trim();
+if(!value){toast('请输入账号/地址','lose');return;}
+var m=BANK_METHODS.filter(function(x){return x.key===type;})[0];
+userBanks.push({key:type,icon:m.icon,label:m.label,value:value});
+toast('已添加','win');
+closeModal();setTimeout(openBank,150);
+};
+},50);
+}
+
+function openAbout(){
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="about-box"><div class="about-logo">👑</div><div class="about-title">南宫国际娱乐</div><div class="about-version">Version 2.0.0</div><div class="about-desc">一款轻松有趣的动物竞猜小游戏，<br>36 个可爱动物，多种玩法等你体验。<br><br>本应用仅供娱乐，请理性游戏。</div></div>';
+openModal('ℹ️ 关于我们',wrap);
+}
+
+function openVIP(){
+var level=state.vipLevel;
+var cur=VIP_RULES[level];
+var next=VIP_RULES[level+1]||null;
+var wrap=document.createElement('div');
+var html='<div class="vip-card"><div class="vip-level">VIP '+level+'</div>';
+if(next){
+html+='<div class="vip-desc">距 VIP '+(level+1)+' 还差</div>';
+var pctR=Math.min(100,Math.round(state.vipLevelRecharge/next.upRecharge*100));
+var pctF=Math.min(100,Math.round(state.vipLevelFlow/next.upFlow*100));
+html+='<div class="vip-progress-wrap"><div class="vip-progress-label"><span>充值进度</span><span class="cur">¥'+fmtMoney(state.vipLevelRecharge)+' / ¥'+fmtMoney(next.upRecharge)+'</span></div><div class="vip-progress"><div class="vip-progress-fill" style="width:'+pctR+'%"></div></div></div>';
+html+='<div class="vip-progress-wrap"><div class="vip-progress-label"><span>流水进度</span><span class="cur">¥'+fmtMoney(state.vipLevelFlow)+' / ¥'+fmtMoney(next.upFlow)+'</span></div><div class="vip-progress"><div class="vip-progress-fill blue" style="width:'+pctF+'%"></div></div></div>';
+}else{html+='<div class="vip-desc">已达最高等级 VIP 10</div>';}
+if(level>0){
+var rule=VIP_RULES[level];
+var elapsed=state.vipPeriodStart?Math.floor((Date.now()-state.vipPeriodStart)/(24*3600*1000)):0;
+var remain=Math.max(0,90-elapsed);
+var keepPct=Math.min(100,Math.round(state.vipPeriodFlow/rule.keepFlow*100));
+html+='<div class="vip-progress-wrap" style="margin-top:14px;"><div class="vip-progress-label"><span>保级流水(90天)</span><span class="cur">¥'+fmtMoney(state.vipPeriodFlow)+' / ¥'+fmtMoney(rule.keepFlow)+'</span></div><div class="vip-progress"><div class="vip-progress-fill" style="width:'+keepPct+'%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div><div class="vip-pct" style="margin-top:4px;">剩余 '+remain+' 天</div></div>';
+}
+html+='</div>';
+html+='<div class="help-section"><h4>💰 反水点位</h4><div class="kv"><span class="k">平台游戏</span><span class="v">'+cur.platformRebate+'%</span></div><div class="kv"><span class="k">自研游戏</span><span class="v">'+cur.selfRebate+'%</span></div><div class="kv"><span class="k">待领反水</span><span class="v">¥'+fmtMoney(state.pendingRebate)+'</span></div></div>';
+html+='<div class="help-section"><h4>💸 提现权益</h4><div class="kv"><span class="k">每日次数</span><span class="v">'+cur.withdrawTimes+' 次</span></div><div class="kv"><span class="k">单笔上限</span><span class="v">¥'+fmtMoney(cur.singleLimit)+'</span></div></div>';
+html+='<div class="help-section"><h4>👑 等级权益一览</h4>';
+VIP_RULES.forEach(function(v){
+var isActive=v.level<=level;
+html+='<div style="padding:8px 10px;border-radius:8px;background:'+(isActive?'rgba(251,191,36,.1)':'rgba(0,0,0,.15)')+';border:1px solid '+(isActive?'rgba(251,191,36,.4)':'var(--line)')+';margin-bottom:6px;"><div style="font-size:12px;font-weight:800;color:'+(isActive?'var(--gold)':'var(--dim)')+';">VIP '+v.level+(isActive?' ✓':'')+'</div><div style="font-size:10px;color:var(--dim);margin-top:4px;">晋升：充值 ¥'+fmtMoney(v.upRecharge)+' + 流水 ¥'+fmtMoney(v.upFlow)+'</div><div style="font-size:10px;color:var(--dim);">保级：¥'+fmtMoney(v.keepFlow)+' / 90天</div><div style="font-size:10px;color:#60a5fa;margin-top:2px;">反水：平台 '+v.platformRebate+'% · 自研 '+v.selfRebate+'%</div></div>';
+});
+html+='</div>';
+wrap.innerHTML=html;
+openModal('👑 VIP 特权',wrap);
+}
+
+var activityClaimed={};
+function openActivity(){
+var wrap=document.createElement('div');
+var acts=[
+{id:'newbie',icon:'🎁',title:'新人礼包',desc:'完善认证后申请 88 彩金',check:function(){return !!state.realName;}},
+{id:'sign',icon:'📅',title:'每日签到',desc:'每日签到领彩金',check:function(){return state.lastSignDate===todayStr();}},
+{id:'recharge',icon:'💰',title:'首充奖励',desc:'首次充值 100 送 20',check:function(){return state.todayRecharge>=100;}},
+{id:'flow',icon:'🔥',title:'流水挑战',desc:'当日流水满 1000 送 50',check:function(){return state.todayFlow>=1000;}},
+{id:'invite',icon:'🤝',title:'邀请返利',desc:'邀请好友充值得 5% 返利',check:function(){return false;}}
+];
+acts.forEach(function(a){
+var done=a.check();
+var claimed=activityClaimed[a.id];
+var status=claimed?'已领取':(done?'可领取':'未达标');
+var statusCls=claimed?'done':(done?'done':'todo');
+var row=document.createElement('div');
+row.className='activity-card '+(a.id==='newbie'?'gift':'task');
+row.style.marginBottom='10px';
+row.innerHTML='<div class="activity-icon">'+a.icon+'</div><div class="activity-title">'+a.title+'</div><div class="activity-desc">'+a.desc+'</div><span class="activity-status '+statusCls+'">'+status+'</span>';
+if(done&&!claimed){
+var btn=document.createElement('button');
+btn.className='form-btn';btn.type='button';btn.style.marginTop='10px';btn.style.padding='8px';
+btn.textContent='申请领取';
+btn.onclick=function(e){
+e.stopPropagation();
+activityClaimed[a.id]=true;
+toast('已提交审核','win');
+closeModal();setTimeout(openActivity,200);
+};
+row.appendChild(btn);
+}
+wrap.appendChild(row);
+});
+openModal('🎉 活动中心',wrap);
+}
+
+function openNewbie(){
+var wrap=document.createElement('div');
+var claimed=activityClaimed.newbie;
+var qualified=!!state.realName;
+var status=claimed?'已申请':(qualified?'可申请':'需实名认证');
+wrap.innerHTML='<div style="text-align:center;padding:14px 0;"><div style="font-size:60px;margin-bottom:12px;">🎁</div><div style="font-size:18px;font-weight:900;color:var(--gold);margin-bottom:6px;">新人注册送 88 彩金</div><div style="font-size:12px;color:var(--dim);line-height:1.7;margin-bottom:16px;">完成实名认证后点击申请领取<br>后台审核通过后派发</div></div><div class="help-section"><div class="kv"><span class="k">当前状态</span><span class="v">'+status+'</span></div><div class="kv"><span class="k">彩金金额</span><span class="v">¥88</span></div><div class="kv"><span class="k">流水要求</span><span class="v">3 倍流水</span></div></div>';
+var btn=document.createElement('button');
+btn.className='form-btn';btn.type='button';
+if(claimed){btn.textContent='已申请，等待审核';btn.disabled=true;}
+else if(!qualified){btn.textContent='请先完成实名认证';btn.disabled=true;}
+else{btn.textContent='申请领取';btn.onclick=function(){activityClaimed.newbie=true;toast('已提交，等待审核','win');Storage.save();closeModal();};}
+wrap.appendChild(btn);
+openModal('🎁 新人彩金',wrap);
+}
+
+function openCoupon(){
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="empty-tip"><span class="big-icon">🎫</span>暂无可用优惠券</div>';
+openModal('🎫 我的优惠券',wrap);
+}
+
+function getUserInviteCode(){var uid=10008888;return 'NG'+uid.toString(36).toUpperCase();}
+function openInvite(){
+var code=getUserInviteCode();
+var wrap=document.createElement('div');
+wrap.innerHTML='<div style="text-align:center;padding:10px 0 20px;"><div style="font-size:50px;margin-bottom:12px;">🤝</div><div style="font-size:15px;font-weight:800;color:var(--gold);margin-bottom:10px;">邀请好友 · 双方得奖励</div><div style="font-size:12px;color:var(--dim);line-height:1.8;margin-bottom:16px;">好友注册后首次充值<br>你获得 5% 返利，好友获赠 ¥100</div><div style="background:rgba(0,0,0,.2);border:1px dashed var(--gold);padding:14px;border-radius:10px;font-size:20px;font-weight:900;color:var(--gold);letter-spacing:2px;margin-bottom:16px;">'+code+'</div></div>';
+var btn1=document.createElement('button');
+btn1.className='form-btn';btn1.type='button';btn1.textContent='复制邀请码';
+btn1.onclick=function(){
+try{
+if(navigator.clipboard&&navigator.clipboard.writeText){
+navigator.clipboard.writeText(code).then(function(){toast('邀请码已复制','win');}).catch(function(){toast('邀请码：'+code,'win');});
+}else{toast('邀请码：'+code,'win');}
+}catch(e){toast('邀请码：'+code,'win');}
+};
+wrap.appendChild(btn1);
+var btn2=document.createElement('button');
+btn2.className='form-btn ghost';btn2.type='button';btn2.textContent='📥 下载 APP 邀请';
+btn2.style.marginTop='8px';
+btn2.onclick=function(){toast('下载链接维护中','win');};
+wrap.appendChild(btn2);
+openModal('🤝 邀请好友',wrap);
+}
+function openMySub(){
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="maintain-tip"><div class="mt-icon">👥</div><div class="mt-title">下级详情</div><div class="mt-desc">功能维护中，敬请期待～<br>后期可查看下级账号、充值、流水等信息</div></div>';
+openModal('👥 我的下级',wrap);
+}
+
+function openFeedback(){
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="form-item"><label>反馈类型</label><input type="text" id="fbType" placeholder="例如：功能建议 / bug 反馈"></div><div class="form-item"><label>详细描述</label><input type="text" id="fbDesc" placeholder="请描述您遇到的问题或建议"></div><button class="form-btn" id="fbSubmit" type="button">提交反馈</button>';
+openModal('💬 意见反馈',wrap);
+setTimeout(function(){
+var btn=$('fbSubmit');
+if(btn)btn.onclick=function(){
+var t=($('fbType').value||'').trim();
+var d=($('fbDesc').value||'').trim();
+if(!t||!d){toast('请填写完整信息','lose');return;}
+toast('感谢您的反馈','win');
+closeModal();
+};
+},50);
+}
+
+function openStats(){
+var wrap=document.createElement('div');
+var recentBets=state.myBets.filter(function(b){return inLastTwoWeeks(b.ts);});
+var totalBet=0,totalWin=0;
+recentBets.forEach(function(b){totalBet+=b.bet;totalWin+=b.payout;});
+var profit=totalWin-totalBet;
+var html='<div class="stat-summary">';
+html+='<div class="stat-sum-card"><div class="sc-label">总投注</div><div class="sc-val gold">¥'+fmtMoney(totalBet)+'</div></div>';
+html+='<div class="stat-sum-card"><div class="sc-label">总中奖</div><div class="sc-val green">¥'+fmtMoney(totalWin)+'</div></div>';
+html+='<div class="stat-sum-card"><div class="sc-label">盈亏</div><div class="sc-val '+(profit>=0?'green':'red')+'">'+(profit>=0?'+¥':'-¥')+fmtMoney(Math.abs(profit))+'</div></div>';
+html+='<div class="stat-sum-card"><div class="sc-label">投注局数</div><div class="sc-val blue">'+recentBets.length+'</div></div>';
+html+='</div>';
+html+='<div style="font-size:11px;color:var(--dim);text-align:center;margin-bottom:12px;">📊 仅展示近两周数据</div>';
+html+='<div class="help-section"><h4>📋 最近投注</h4>';
+if(recentBets.length===0)html+='<div class="empty-tip">暂无投注记录</div>';
+else{
+recentBets.slice(0,20).forEach(function(b){
+var isWin=b.payout>0;
+html+='<div class="kv"><span class="k">'+b.round+' '+b.emoji+'</span><span class="v" style="color:'+(isWin?'var(--green)':'var(--red)')+'">'+(isWin?'+¥'+fmtMoney(b.payout):'-¥'+fmtMoney(b.bet))+'</span></div>';
+});
+}
+html+='</div>';
+wrap.innerHTML=html;
+openModal('📊 数据统计',wrap);
+}
+
+function svgWechat(){return '<svg viewBox="0 0 24 24" fill="#07C160"><path d="M8.7 4C4.5 4 1 6.9 1 10.4c0 2 1.2 3.8 3 5l-.7 2.2 2.6-1.4c.9.3 1.8.4 2.8.4h.5c-.1-.4-.2-.9-.2-1.4 0-3.4 3.3-6.2 7.4-6.2h.4C16.3 6 12.8 4 8.7 4zm-2.5 3.4c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9zm5 0c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z"/><path d="M23 15.2c0-2.9-2.9-5.2-6.5-5.2s-6.5 2.3-6.5 5.2 2.9 5.2 6.5 5.2c.8 0 1.5-.1 2.2-.3l2 1.1-.6-1.8c1.7-1 2.9-2.5 2.9-4.2zm-8.7-1.4c.4 0 .7.3.7.7s-.3.7-.7.7-.7-.3-.7-.7.3-.7.7-.7zm4.4 0c.4 0 .7.3.7.7s-.3.7-.7.7-.7-.3-.7-.7.3-.7.7-.7z"/></svg>';}
+function svgAlipay(){return '<svg viewBox="0 0 24 24" fill="#1677FF"><path d="M22 2H2v20h11c-.6-1-1.4-2.2-2.3-3.4-2 1.2-4.6 1.8-6.6 1.8-2.6 0-3.5-1.2-3.4-3 .1-2.3 2-4 5-3.7 1.8.2 3.5.8 5.2 1.5.4-.9.8-1.9 1.1-3H6v-1.3h4.5V9.5H5V8.2h5.5V6h2v2.2H18v1.3h-5.5v1.4H17c-.3 1.2-.8 2.4-1.3 3.5.9.4 1.8.8 2.6 1 .9.3 1.7.5 2.4.6.1 0 .5.1.6.1V2zm-9 13.7c-1.6-.8-3.3-1.4-5-1.5-2.3-.2-3.7 1-3.8 2.6-.1 1.4.7 2.2 2.5 2.2 1.7 0 4-.5 5.8-1.6-.1-.5-.2-1.1-.2-1.7h.7z"/></svg>';}
+function svgUSDT(){return '<svg viewBox="0 0 24 24" fill="#26A17B"><circle cx="12" cy="12" r="11"/><text x="12" y="16" font-size="11" font-weight="900" fill="#fff" text-anchor="middle">₮</text></svg>';}
+function svgBank(){return '<svg viewBox="0 0 24 24" fill="#fbbf24"><path d="M12 2L2 8v2h20V8L12 2zM4 12v8H2v2h20v-2h-2v-8h-3v8h-3v-8h-3v8H7v-8H4z"/></svg>';}
+function svgRMB(){return '<svg viewBox="0 0 24 24" fill="#ef4444"><circle cx="12" cy="12" r="11"/><text x="12" y="17" font-size="14" font-weight="900" fill="#fff" text-anchor="middle">¥</text></svg>';}
+
+function openRecharge(){
+var wrap=document.createElement('div');
+var channels=[
+{key:'usdt',label:'USDT',enabled:true,svg:svgUSDT()},
+{key:'wechat',label:'微信',enabled:false,svg:svgWechat()},
+{key:'alipay',label:'支付宝',enabled:false,svg:svgAlipay()},
+{key:'bank',label:'银行卡',enabled:false,svg:svgBank()},
+{key:'rmb',label:'数字人民币',enabled:false,svg:svgRMB()}
+];
+var chHtml='<div class="channel-grid">';
+channels.forEach(function(c){
+chHtml+='<div class="channel-item '+(c.enabled?'active':'')+'" data-ch="'+c.key+'">'+(c.enabled?'':'<span class="ch-maintain">维护</span>')+'<div class="ch-icon">'+c.svg+'</div><div class="ch-label">'+c.label+'</div></div>';
+});
+chHtml+='</div>';
+var formHtml='<div class="form-item"><label>充值金额（元）</label><input type="number" id="rcAmount" placeholder="最低 100" min="100" inputmode="numeric"></div><button class="form-btn" id="rcNext" type="button">下一步</button><div style="text-align:center;font-size:11px;color:var(--dim);margin-top:10px;">仅 USDT 通道开放，其他通道维护中</div>';
+wrap.innerHTML=chHtml+formHtml;
+openModal('💰 充值',wrap);
+var selected='usdt';
+setTimeout(function(){
+var items=wrap.querySelectorAll('.channel-item');
+for(var i=0;i<items.length;i++){
+(function(it){
+it.onclick=function(){
+var key=it.getAttribute('data-ch');
+if(key!=='usdt'){toast('该通道维护中','lose');return;}
+for(var j=0;j<items.length;j++)items[j].classList.remove('active');
+it.classList.add('active');
+selected=key;
+};
+})(items[i]);
+}
+var btn=$('rcNext');
+if(btn)btn.onclick=function(){
+var amt=parseInt($('rcAmount').value,10);
+if(!amt||amt<100){toast('最低充值 100','lose');return;}
+openRechargeOrder(selected,amt);
+};
+},50);
+}
+function openRechargeOrder(channel,amount){
+var orderId='RC'+Date.now()+Math.floor(Math.random()*1000);
+var rate=7.2;
+var usdt=(amount/rate).toFixed(2);
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="order-card"><div class="oc-row"><span class="k">订单号</span><span class="v" style="font-size:10px;">'+orderId+'</span></div><div class="oc-row"><span class="k">充值金额</span><span class="v gold">¥'+fmtMoney(amount)+'</span></div><div class="oc-row"><span class="k">应付 USDT</span><span class="v gold">'+usdt+' USDT</span></div><div class="oc-row"><span class="k">汇率</span><span class="v">1 USDT = ¥'+rate+'</span></div></div><div class="oc-countdown" id="rcCountdown">30:00</div><div class="qr-box"><div class="qr-img">📱 收款二维码<br>（后台上传）</div><div class="qr-text">USDT-TRC20 收款地址</div></div><div class="addr-box">TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<span class="copy-mini" data-copy="TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX">复制</span></div><div class="help-section" style="margin-top:14px;"><h4>📌 充值须知</h4><p>1. 请使用 USDT-TRC20 通道转账</p><p>2. 转账金额必须与订单一致</p><p>3. 30 分钟内未付款订单自动关闭</p><p>4. 付款后请点击「我已付款」提交凭证</p></div>';
+var btn=document.createElement('button');
+btn.className='form-btn';btn.type='button';btn.textContent='✅ 我已付款';
+btn.style.marginTop='10px';
+btn.onclick=function(){
+state.coins+=amount;
+state.todayRecharge+=amount;
+state.vipLevelRecharge+=amount;
+state.fundLog.unshift({type:'充值',amount:amount,ts:Date.now()});
+toast('已提交，等待审核','win');
+Storage.save();updateSummary();updateProfileUI();
+closeModal();
+};
+wrap.appendChild(btn);
+openModal('💰 充值订单',wrap);
+setTimeout(function(){
+var cp=wrap.querySelector('[data-copy]');
+if(cp)cp.onclick=function(){try{navigator.clipboard.writeText(cp.getAttribute('data-copy'));toast('已复制','win');}catch(e){toast('复制失败','lose');}};
+},50);
+var left=30*60;
+var t=setInterval(function(){
+left--;
+if(left<=0){clearInterval(t);closeModal();toast('订单已关闭','lose');return;}
+var m=Math.floor(left/60),s=left%60;
+var el=$('rcCountdown');
+if(el)setText(el,padZero(m,2)+':'+padZero(s,2));
+else clearInterval(t);
+},1000);
+}
+
+function openWithdraw(){
+var wrap=document.createElement('div');
+var channels=[
+{key:'usdt',label:'USDT',enabled:true,svg:svgUSDT()},
+{key:'wechat',label:'微信',enabled:false,svg:svgWechat()},
+{key:'alipay',label:'支付宝',enabled:false,svg:svgAlipay()},
+{key:'bank',label:'银行卡',enabled:false,svg:svgBank()},
+{key:'rmb',label:'数字人民币',enabled:false,svg:svgRMB()}
+];
+var chHtml='<div class="channel-grid">';
+channels.forEach(function(c){
+chHtml+='<div class="channel-item '+(c.enabled?'active':'')+'" data-ch="'+c.key+'">'+(c.enabled?'':'<span class="ch-maintain">维护</span>')+'<div class="ch-icon">'+c.svg+'</div><div class="ch-label">'+c.label+'</div></div>';
+});
+chHtml+='</div>';
+var vip=VIP_RULES[state.vipLevel];
+var formHtml='<div class="form-item"><label>提现金额（元）</label><input type="number" id="wdAmount" placeholder="最低 100" min="100" inputmode="numeric"></div><div class="form-item"><label>收款地址</label><input type="text" id="wdAddr" placeholder="请输入 USDT 收款地址"></div><button class="form-btn" id="wdNext" type="button">提交提现</button><div style="text-align:center;font-size:11px;color:var(--dim);margin-top:10px;line-height:1.6;">最低提现 100 元<br>需打满 1 倍流水<br>需完成实名认证<br>VIP'+state.vipLevel+' 每日 '+vip.withdrawTimes+' 次 · 单笔上限 ¥'+fmtMoney(vip.singleLimit)+'</div>';
+wrap.innerHTML=chHtml+formHtml;
+openModal('💸 提现',wrap);
+setTimeout(function(){
+var items=wrap.querySelectorAll('.channel-item');
+for(var i=0;i<items.length;i++){
+(function(it){
+it.onclick=function(){
+var key=it.getAttribute('data-ch');
+if(key!=='usdt'){toast('该通道维护中','lose');return;}
+for(var j=0;j<items.length;j++)items[j].classList.remove('active');
+it.classList.add('active');
+};
+})(items[i]);
+}
+var btn=$('wdNext');
+if(btn)btn.onclick=function(){
+var amt=parseInt($('wdAmount').value,10);
+var addr=($('wdAddr').value||'').trim();
+if(!state.realName){toast('请先完成实名认证','lose');return;}
+if(!amt||amt<100){toast('最低提现 100','lose');return;}
+if(amt>state.coins){toast('余额不足','lose');return;}
+if(amt>vip.singleLimit){toast('单笔上限 ¥'+fmtMoney(vip.singleLimit),'lose');return;}
+if(!addr){toast('请输入收款地址','lose');return;}
+var needFlow=state.todayRecharge;
+if(state.todayNetFlow<needFlow){toast('有效流水不足，需 ¥'+fmtMoney(needFlow),'lose');return;}
+var orderId='WD'+Date.now();
+state.coins-=amt;
+state.fundLog.unshift({type:'提现',amount:-amt,ts:Date.now()});
+Storage.save();updateSummary();updateProfileUI();
+openWithdrawOrder(orderId,amt,addr);
+};
+},50);
+}
+function openWithdrawOrder(orderId,amount,addr){
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="order-card"><div class="oc-row"><span class="k">订单号</span><span class="v" style="font-size:10px;">'+orderId+'</span></div><div class="oc-row"><span class="k">提现金额</span><span class="v gold">¥'+fmtMoney(amount)+'</span></div><div class="oc-row"><span class="k">收款地址</span><span class="v" style="font-size:10px;word-break:break-all;">'+addr+'</span></div><div class="oc-row"><span class="k">状态</span><span class="v" style="color:var(--gold);">审核中</span></div></div><div style="text-align:center;font-size:11px;color:var(--dim);line-height:1.7;margin-bottom:14px;">预计 1~30 分钟到账<br>到账后请在 30 分钟内确认<br>超时自动确认到账</div><div style="font-size:12px;color:var(--text);margin-bottom:8px;">请选择到账情况：</div>';
+var btns=[
+{key:'ok',label:'✅ 确认到账',cls:''},
+{key:'less',label:'⚠️ 到账不足',cls:'ghost'},
+{key:'none',label:'❌ 全部未到账',cls:'ghost'}
+];
+btns.forEach(function(b){
+var btn=document.createElement('button');
+btn.className='form-btn '+(b.cls||'');btn.type='button';btn.textContent=b.label;
+btn.style.marginTop='6px';
+btn.onclick=function(){
+if(b.key==='ok'){toast('已确认到账','win');closeModal();}
+else{var v=prompt('请输入实际收到的金额（元）');if(v!==null){toast('已提交，等待处理','win');closeModal();}}
+};
+wrap.appendChild(btn);
+});
+openModal('💸 提现订单',wrap);
+}
+
+function openRebate(){
+var rule=VIP_RULES[state.vipLevel];
+var wrap=document.createElement('div');
+wrap.innerHTML='<div class="help-section"><h4>💰 我的反水</h4><div class="kv"><span class="k">当前等级</span><span class="v">VIP '+state.vipLevel+'</span></div><div class="kv"><span class="k">平台游戏点位</span><span class="v">'+rule.platformRebate+'%</span></div><div class="kv"><span class="k">自研游戏点位</span><span class="v">'+rule.selfRebate+'%</span></div><div class="kv"><span class="k">待领反水</span><span class="v">¥'+fmtMoney(state.pendingRebate)+'</span></div><div class="kv"><span class="k">累计已领</span><span class="v">¥'+fmtMoney(state.rebateClaimed)+'</span></div></div><div class="help-section"><h4>📌 反水规则</h4><p>• 次日 3~6 点统一派发<br>• 需再打 1 倍流水才可提现<br>• 有效流水 = max(0, 总输 - 总赢)<br>• 对冲/刷水不计入有效流水<br>• 彩金产生的流水，反水按 50% 计</p></div>';
+var btn=document.createElement('button');
+btn.className='form-btn';btn.type='button';btn.textContent='领取反水（¥'+fmtMoney(state.pendingRebate)+'）';
+if(state.pendingRebate<=0){btn.disabled=true;btn.textContent='暂无可领取反水';}
+btn.onclick=function(){
+if(state.pendingRebate<=0)return;
+state.coins+=state.pendingRebate;
+state.fundLog.unshift({type:'反水',amount:state.pendingRebate,ts:Date.now()});
+state.rebateClaimed+=state.pendingRebate;
+state.pendingRebate=0;
+toast('已领取反水','win');
+Storage.save();updateSummary();
+closeModal();
+};
+wrap.appendChild(btn);
+openModal('💰 反水中心',wrap);
+}
+
+function comingSoon(name){toast(name+' 即将上线','win');}
+
+var QUICK_ACTIONS=[
+{key:'signin',icon:'📅',label:'每日签到',color:'gold',dot:true,fn:openSign},
+{key:'rank',icon:'🏆',label:'排行榜',color:'gold',fn:openRank},
+{key:'msg',icon:'📬',label:'消息',color:'blue',dot:true,fn:openMessages},
+{key:'coupon',icon:'🎫',label:'优惠券',color:'purple',fn:openCoupon},
+{key:'invite',icon:'🤝',label:'邀请好友',color:'green',fn:openInvite},
+{key:'activity',icon:'🎉',label:'活动中心',color:'red',fn:openActivity},
+{key:'vip',icon:'👑',label:'VIP 中心',color:'gold',fn:openVIP},
+{key:'stats',icon:'📊',label:'数据统计',color:'blue',fn:openStats}
+];
+
+var CATEGORIES=[
+{key:'all',label:'全部'},
+{key:'self',label:'🏆 独家尊享'},
+{key:'hot',label:'🔥 热门'},
+{key:'slot',label:'电子'},
+{key:'chess',label:'棋牌'},
+{key:'fish',label:'捕鱼'},
+{key:'sport',label:'体育'},
+{key:'fav',label:'⭐ 收藏'}
+];
+
+var MENU_ITEMS=[
+{key:'realname',icon:'🪪',label:'实名认证',color:'gold',fn:openRealName},
+{key:'bank',icon:'💳',label:'银行卡管理',color:'blue',fn:openBank},
+{key:'rebate',icon:'💰',label:'反水中心',color:'gold',fn:openRebate},
+{key:'mycoupon',icon:'🎫',label:'我的优惠券',color:'purple',extra:'0 张',fn:openCoupon},
+{key:'invite',icon:'🤝',label:'邀请好友',color:'green',fn:openInvite},
+{key:'mysub',icon:'👥',label:'我的下级',color:'green',fn:openMySub},
+{key:'agent',icon:'👔',label:'代理中心',color:'gold',fn:function(){comingSoon('代理中心');}},
+{key:'security',icon:'🔒',label:'安全中心',color:'red',fn:function(){comingSoon('安全中心');}},
+{key:'stats',icon:'📊',label:'数据统计',color:'blue',fn:openStats},
+{key:'message',icon:'📬',label:'消息中心',color:'blue',fn:openMessages},
+{key:'feedback',icon:'💬',label:'意见反馈',color:'purple',fn:openFeedback},
+{key:'about',icon:'ℹ️',label:'关于我们',color:'blue',extra:'v2.0.0',fn:openAbout}
+];
+
+var GAME_TOOLS=[
+{key:'sound',icon:'🔇',label:'音效',fn:null},
+{key:'chart',icon:'📈',label:'走势图',fn:openTrendChart},
+{key:'record',icon:'📋',label:'我的记录',fn:openMyRecords},
+{key:'help',icon:'❓',label:'玩法说明',fn:openHelp}
+];
+
+function buildQuickGrid(){
+var el=$('quickGrid');
+if(!el)return;
+el.textContent='';
+QUICK_ACTIONS.forEach(function(q){
+var item=document.createElement('div');
+item.className='quick-item';
+var icon=document.createElement('div');
+icon.className='quick-icon '+q.color;
+icon.textContent=q.icon;
+if(q.dot){var d=document.createElement('span');d.className='dot';icon.appendChild(d);}
+var label=document.createElement('div');
+label.className='quick-label';label.textContent=q.label;
+item.appendChild(icon);item.appendChild(label);
+item.onclick=function(){AudioCtx.init();vibrate(10);if(q.fn)q.fn();};
+el.appendChild(item);
+});
+}
+
+function buildDiscoverActivity(){
+var el=$('discoverActivityGrid');
+if(!el)return;
+el.textContent='';
+var items=[
+{icon:'🎁',title:'新人礼包',desc:'完善认证领 88 彩金',cls:'gift',fn:openNewbie},
+{icon:'📅',title:'每日签到',desc:'连签 7 天得 88',cls:'task',fn:openSign},
+{icon:'🔥',title:'流水挑战',desc:'当日满 1000 送 50',cls:'gift',fn:openActivity},
+{icon:'🤝',title:'邀请返利',desc:'好友充值得 5%',cls:'task',fn:openInvite}
+];
+items.forEach(function(a){
+var card=document.createElement('div');
+card.className='activity-card '+a.cls;
+card.innerHTML='<div class="activity-icon">'+a.icon+'</div><div class="activity-title">'+a.title+'</div><div class="activity-desc">'+a.desc+'</div>';
+card.onclick=function(){AudioCtx.init();vibrate(10);a.fn();};
+el.appendChild(card);
+});
+}
+
+function buildCategoryTabs(){
+var el=$('categoryTabs');
+if(!el)return;
+el.textContent='';
+CATEGORIES.forEach(function(c,i){
+var chip=document.createElement('div');
+chip.className='cat-chip'+(i===0?' active':'');
+chip.textContent=c.label;
+chip.onclick=function(){
+var all=el.querySelectorAll('.cat-chip');
+for(var j=0;j<all.length;j++)all[j].classList.remove('active');
+chip.classList.add('active');
+filterGames(c.key);
+};
+el.appendChild(chip);
+});
+}
+
+function filterGames(cat){
+var cards=document.querySelectorAll('.game-card');
+for(var i=0;i<cards.length;i++){
+var card=cards[i];
+var show=true;
+var cardCat=card.getAttribute('data-cat')||'';
+if(cat==='fav')show=state.favorites.indexOf(card.getAttribute('data-game'))>=0;
+else if(cat==='all')show=true;
+else if(cat==='hot'||cat==='slot')show=cardCat==='slot';
+else show=cardCat===cat;
+if(show)card.classList.remove('hidden');
+else card.classList.add('hidden');
+}
+}
+
+function buildMenuList(){
+var el=$('menuList');
+if(!el)return;
+el.textContent='';
+MENU_ITEMS.forEach(function(m){
+var item=document.createElement('div');
+item.className='menu-item';
+var icon=document.createElement('div');
+icon.className='m-icon '+m.color;icon.textContent=m.icon;
+var label=document.createElement('div');
+label.className='m-label';label.textContent=m.label;
+item.appendChild(icon);item.appendChild(label);
+if(m.extra){var extra=document.createElement('div');extra.className='m-extra';extra.textContent=m.extra;item.appendChild(extra);}
+var arrow=document.createElement('div');
+arrow.className='m-arrow';arrow.textContent='›';
+item.appendChild(arrow);
+item.onclick=function(){AudioCtx.init();vibrate(10);if(m.fn)m.fn();};
+el.appendChild(item);
+});
+}
+
+function buildPlayTabs(){
+var el=$('playTabs');
+if(!el)return;
+el.textContent='';
+PLAY_MODES.forEach(function(p){
+var chip=document.createElement('div');
+chip.className='play-chip'+(p.key===state.playMode?' active':'');
+var emojiEl=document.createElement('div');emojiEl.className='pc-emoji';emojiEl.textContent=p.emoji;
+var txtEl=document.createElement('div');txtEl.className='pc-text';txtEl.textContent=p.label;
+chip.appendChild(emojiEl);chip.appendChild(txtEl);
+chip.onclick=function(){
+if(state.phase==='drawing'){toast('开奖中，请稍候','lose');return;}
+AudioCtx.init();vibrate(8);
+var all=el.querySelectorAll('.play-chip');
+for(var j=0;j<all.length;j++)all[j].classList.remove('active');
+chip.classList.add('active');
+state.playMode=p.key;
+buildBoard();
+renderAll();
+};
+el.appendChild(chip);
+});
+}
+
+function buildToolBar(){
+var el=$('toolBar');
+if(!el)return;
+el.textContent='';
+GAME_TOOLS.forEach(function(t){
+var btn=document.createElement('button');
+btn.type='button';
+btn.className='tool-btn'+(t.key==='sound'&&state.soundOn?' active':'');
+var icon=document.createElement('span');
+icon.className='t-icon';icon.textContent=t.key==='sound'?(state.soundOn?'🔊':'🔇'):t.icon;
+var label=document.createElement('span');
+label.className='t-label';label.textContent=t.label;
+btn.appendChild(icon);btn.appendChild(label);
+btn.onclick=function(){
+AudioCtx.init();vibrate(10);
+if(t.key==='sound'){
+state.soundOn=!state.soundOn;
+icon.textContent=state.soundOn?'🔊':'🔇';
+if(state.soundOn)btn.classList.add('active');
+else btn.classList.remove('active');
+toast(state.soundOn?'音效已开启':'音效已关闭',state.soundOn?'win':'lose');
+Storage.save();
+}else if(t.fn){t.fn();}
+};
+el.appendChild(btn);
+});
+}
+
+function bindChips(){
+var grid=$('chipGrid');
+if(!grid)return;
+var chips=grid.querySelectorAll('.chip');
+for(var i=0;i<chips.length;i++){
+(function(chip){
+chip.onclick=function(){
+AudioCtx.init();vibrate(10);
+for(var j=0;j<chips.length;j++)chips[j].classList.remove('on');
+chip.classList.add('on');
+state.chip=Number(chip.getAttribute('data-v'));
+var mi=$('manualInput');
+if(mi)mi.value='';
+};
+})(chips[i]);
+}
+if(chips[0])chips[0].classList.add('on');
+}
+
+function bindManualInput(){
+var input=$('manualInput');
+if(!input)return;
+var grid=$('chipGrid');
+input.oninput=function(){
+var val=parseInt(input.value,10);
+var chips=grid?grid.querySelectorAll('.chip'):[];
+if(isNaN(val)||val<=0){
+for(var j=0;j<chips.length;j++)chips[j].classList.remove('on');
+if(chips[0])chips[0].classList.add('on');
+state.chip=1;
+input.value='';
+return;
+}
+if(val>MAX_BET){val=MAX_BET;input.value=String(val);}
+for(var k=0;k<chips.length;k++)chips[k].classList.remove('on');
+state.chip=val;
+};
+}
+
+function bindEvents(){
+var tabs=document.querySelectorAll('.tab-btn');
+for(var i=0;i<tabs.length;i++){
+(function(tab){
+tab.onclick=function(){
+AudioCtx.init();vibrate(8);
+switchTab(tab.getAttribute('data-tab'));
+};
+})(tabs[i]);
+}
+var back=$('btnBack');
+if(back)back.onclick=function(){AudioCtx.init();vibrate(10);switchTab('games');};
+var sback=$('btnServiceBack');
+if(sback)sback.onclick=function(){AudioCtx.init();vibrate(10);switchTab('mine');};
+var si=$('searchInput');
+if(si){
+si.oninput=function(){
+var q=si.value.trim().toLowerCase();
+var cards=document.querySelectorAll('.game-card');
+for(var i=0;i<cards.length;i++){
+var name=(cards[i].getAttribute('data-name')||'').toLowerCase();
+if(!q||name.indexOf(q)>=0)cards[i].classList.remove('hidden');
+else cards[i].classList.add('hidden');
+}
+};
+}
+var gameCards=document.querySelectorAll('.game-card');
+for(var j=0;j<gameCards.length;j++){
+(function(card){
+var fav=card.querySelector('.fav-btn');
+if(fav){
+if(state.favorites.indexOf(card.getAttribute('data-game'))>=0){fav.classList.add('on');fav.textContent='★';}
+fav.onclick=function(e){
+if(e.stopPropagation)e.stopPropagation();
+var id=card.getAttribute('data-game');
+var idx=state.favorites.indexOf(id);
+if(idx>=0){state.favorites.splice(idx,1);fav.classList.remove('on');fav.textContent='☆';}
+else{state.favorites.push(id);fav.classList.add('on');fav.textContent='★';}
+Storage.save();
+};
+}
+card.onclick=function(){
+if(card.getAttribute('data-game')==='lucky'){AudioCtx.init();vibrate(10);switchTab('playing');}
+else{comingSoon(card.getAttribute('data-name')||'该游戏');}
+};
+})(gameCards[j]);
+}
+var bd=$('btnDeposit');
+if(bd)bd.onclick=function(){AudioCtx.init();vibrate(15);openRecharge();};
+var bw=$('btnWithdraw');
+if(bw)bw.onclick=function(){AudioCtx.init();vibrate(15);openWithdraw();};
+var bs=$('btnService');
+if(bs)bs.onclick=function(){AudioCtx.init();vibrate(15);switchTab('service');};
+var bv=$('btnVip');
+if(bv)bv.onclick=function(){AudioCtx.init();vibrate(15);openVIP();};
+var bMyBets=$('btnMyBets');
+if(bMyBets)bMyBets.onclick=function(){AudioCtx.init();vibrate(10);openMyRecords();};
+var bLog=$('btnAccountLog');
+if(bLog)bLog.onclick=function(){AudioCtx.init();vibrate(10);openAccountLog();};
+var av=$('avatarEl');
+if(av)av.onclick=function(){AudioCtx.init();vibrate(10);openEditProfile('avatar');};
+var pn=$('profileNameEl');
+if(pn)pn.onclick=function(){AudioCtx.init();vibrate(10);openEditProfile('nickname');};
+var mc=$('modalClose');
+if(mc)mc.onclick=closeModal;
+var mo=$('modalOverlay');
+if(mo)mo.onclick=function(e){if(e.target===mo)closeModal();};
+var wo=$('winOverlay');
+if(wo)wo.onclick=function(){wo.classList.remove('show');};
+var ab=$('announceBtn');
+if(ab)ab.onclick=closeAnnounce;
+document.body.addEventListener('touchstart',function(){AudioCtx.init();},{passive:true});
+document.body.addEventListener('click',function(){AudioCtx.init();});
+document.addEventListener('visibilitychange',function(){
+if(document.hidden){if(AudioCtx.ctx&&AudioCtx.ctx.suspend)AudioCtx.ctx.suspend();}
+else{AudioCtx.init();tick();}
+});
+window.addEventListener('pagehide',function(){
+Storage.save();
+stopFakeBetting();
+stopBannerAuto();
+if(drawTimer)clearTimeout(drawTimer);
+if(nextRoundTimer)clearTimeout(nextRoundTimer);
+if(mainTimer)clearInterval(mainTimer);
+});
+}
+
+function openEditProfile(type){
+if(state.nickChanged){toast('已修改过，不可再改','lose');return;}
+if(state.todayRecharge<100&&state.todayFlow<100){toast('需充值 100 后才可修改','lose');return;}
+var wrap=document.createElement('div');
+if(type==='avatar'){
+var emojis=['👑','🦄','🐯','🐲','🦁','🐼','🐸','🐵','🐺','🦊','🐻','🐨','🐮','🐷','🐔','🦅','🦉','🐬','🐳','🦈'];
+wrap.innerHTML='<div style="text-align:center;margin-bottom:14px;font-size:12px;color:var(--dim);">选择一个头像</div><div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;">'+emojis.map(function(e){return '<div class="avatar-opt" data-emoji="'+e+'" style="aspect-ratio:1;border-radius:14px;background:rgba(0,0,0,.2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;">'+e+'</div>';}).join('')+'</div>';
+openModal('更换头像',wrap);
+setTimeout(function(){
+var opts=wrap.querySelectorAll('.avatar-opt');
+for(var i=0;i<opts.length;i++){
+opts[i].onclick=function(){
+var e=this.getAttribute('data-emoji');
+state.userInfo.avatar=e;
+state.nickChanged=true;
+Storage.save();updateProfileUI();
+toast('头像已更换','win');
+closeModal();
+};
+}
+},50);
+}else{
+wrap.innerHTML='<div class="form-item"><label>新昵称</label><input type="text" id="nickInput" placeholder="请输入新昵称（2~12字）" maxlength="12" value="'+state.userInfo.nickname+'"></div><button class="form-btn" id="nickSubmit" type="button">保存</button><div style="text-align:center;font-size:11px;color:var(--dim);margin-top:10px;">⚠️ 仅可修改一次</div>';
+openModal('修改昵称',wrap);
+setTimeout(function(){
+var btn=$('nickSubmit');
+if(btn)btn.onclick=function(){
+var v=($('nickInput').value||'').trim();
+if(v.length<2||v.length>12){toast('昵称 2~12 字','lose');return;}
+state.userInfo.nickname=v;
+state.nickChanged=true;
+Storage.save();updateProfileUI();
+toast('昵称已修改','win');
+closeModal();
+};
+},50);
+}
+}
+
+var announceTimer=null;
+function startAnnouncePush(){
+setTimeout(function(){
+showAnnounce('欢迎回来','欢迎来到南宫国际娱乐！<br><br>今日活动：<br>· 新人认证领 88 彩金<br>· 连签 7 天得 88 彩金<br><br>祝您游戏愉快！');
+},1500);
+announceTimer=setInterval(function(){
+var list=[
+{title:'活动通知',body:'今日充值满 100 即可参与签到活动，连签 7 天得 88 彩金！'},
+{title:'系统公告',body:'平台新增「独家尊享」游戏分类，欢迎体验自研游戏！'},
+{title:'风控提醒',body:'请勿对压/刷水，系统自动检测，违规将冻结账号。'},
+{title:'VIP 特权',body:'充值越多，VIP 等级越高，反水点位越高，提现额度越大！'}
+];
+var pick=list[Math.floor(Math.random()*list.length)];
+showAnnounce(pick.title,pick.body);
+},60000);
+}
+
+function boot(){
+try{checkDailyReset();}catch(e){}
+try{checkVipKeep();}catch(e){}
+try{generateAnnouncements();}catch(e){}
+try{renderMarquee();}catch(e){}
+try{buildBanner();}catch(e){}
+try{buildQuickGrid();}catch(e){}
+try{buildDiscoverActivity();}catch(e){}
+try{buildCategoryTabs();}catch(e){}
+try{buildMenuList();}catch(e){}
+try{buildPlayTabs();}catch(e){}
+try{buildToolBar();}catch(e){}
+try{buildBoard();}catch(e){}
+try{bindChips();}catch(e){}
+try{bindManualInput();}catch(e){}
+try{bindEvents();}catch(e){}
+try{renderAll();}catch(e){}
+try{syncDiscover();}catch(e){}
+try{updateDiscoverTimer();}catch(e){}
+try{updateProfileUI();}catch(e){}
+updateOnlineCount();
+setInterval(updateOnlineCount,5000);
+startAnnouncePush();
+setTimeout(function(){
+try{
+if(state.phase==='idle'||state.phase==='result'||state.phase==='drawing'){startRound();}
+else if(state.phase==='betting'){
+if(state.phaseStartTs){
+var elapsed=Math.floor((Date.now()-state.phaseStartTs)/1000);
+state.timeLeft=Math.max(0,ROUND_SECONDS-elapsed);
+if(state.timeLeft<=0){draw();}
+else{startFakeBetting();}
+}else{startRound();}
+}
+}catch(e){}
+},600);
+mainTimer=setInterval(tick,500);
+setInterval(checkVipKeep,3600*1000);
+}
+
+if(document.readyState==='loading'){
+document.addEventListener('DOMContentLoaded',boot);
+}else{
+boot();
+}
+
+(function(){
+'use strict';
+var css=document.createElement('style');
+css.textContent='.wheel-hub-list{display:flex;flex-direction:column;gap:12px}'
++'.wheel-hub-card{position:relative;height:100px;border-radius:18px;padding:0 20px;display:flex;align-items:center;gap:18px;cursor:pointer;overflow:hidden;border:1px solid rgba(255,255,255,.08)}'
++'.wheel-hub-card:active{transform:scale(.98)}'
++'.wheel-hub-card.w-animal{background:linear-gradient(135deg,#fbbf24,#f59e0b)}'
++'.wheel-hub-card.w-classic{background:linear-gradient(135deg,#ef4444,#b91c1c)}'
++'.wheel-hub-card.w-multi{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}'
++'.wheel-hub-card.w-rainbow{background:linear-gradient(135deg,#10b981,#047857)}'
++'.whc-icon{font-size:56px;line-height:1;flex-shrink:0}'
++'.whc-info{flex:1;min-width:0}'
++'.whc-name{font-size:18px;font-weight:900;color:#fff;margin-bottom:6px}'
++'.whc-desc{font-size:12px;color:rgba(255,255,255,.85)}'
++'.whc-arrow{font-size:28px;color:rgba(255,255,255,.8);font-weight:300}'
++'.wheel-canvas-wrap{position:relative;width:100%;max-width:360px;margin:8px auto;aspect-ratio:1}'
++'.wheel-canvas-wrap canvas{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 8px rgba(20,30,50,.9),0 0 0 10px rgba(251,191,36,.4)}'
++'.wheel-pointer{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:32px;color:#fbbf24;text-shadow:0 0 12px rgba(251,191,36,.8);z-index:5;pointer-events:none}'
++'.wheel-center-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fbbf24,#f59e0b,#b45309);border:3px solid #fff;color:#000;font-size:18px;font-weight:900;cursor:pointer;font-family:inherit;box-shadow:0 6px 20px rgba(0,0,0,.5);z-index:6}'
++'.wheel-center-btn:disabled{opacity:.7;cursor:not-allowed}'
++'.wheel-bet-panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:10px;margin-top:10px}'
++'.wheel-options{display:flex;flex-wrap:wrap;gap:6px;max-height:220px;overflow-y:auto}'
++'.wheel-opt{border-radius:8px;background:var(--glass-bg);border:1px solid var(--glass-border);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:inherit;color:var(--text);padding:6px 8px;font-size:13px;font-weight:700;min-width:42px;min-height:42px}'
++'.wheel-opt.on{background:linear-gradient(145deg,#fbbf24,#f59e0b);border-color:#fff;color:#000}'
++'.wheel-opt .num{font-size:9px;color:var(--dim);font-weight:600;margin-top:2px}'
++'.wheel-opt.on .num{color:#000}'
++'.wheel-opt.red{background:linear-gradient(145deg,#dc2626,#991b1b);color:#fff;border-color:#7f1d1d}'
++'.wheel-opt.black{background:linear-gradient(145deg,#1f2937,#111827);color:#fff;border-color:#000}'
++'.wheel-opt.green{background:linear-gradient(145deg,#059669,#047857);color:#fff;border-color:#065f46}'
++'.wheel-opt.wide{min-width:64px}'
++'.wheel-status{text-align:center;font-size:12px;color:var(--dim);padding:6px 0}'
++'.wheel-result-pop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.6);background:radial-gradient(circle at 50% 0%,#1a2540,#060b14);padding:24px 32px;border-radius:16px;border:2px solid var(--gold);text-align:center;opacity:0;pointer-events:none;transition:all .35s;z-index:1300}'
++'.wheel-result-pop.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}'
++'.wr-emoji{font-size:60px;margin-bottom:10px}'
++'.wr-title{font-size:16px;color:var(--gold);font-weight:900;margin-bottom:6px}'
++'.wr-amount{font-size:24px;font-weight:900;color:var(--green)}'
++'.wr-close{margin-top:16px;padding:10px 24px;border-radius:10px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-size:14px;font-weight:900;border:none;cursor:pointer;font-family:inherit}';
+document.head.appendChild(css);
+function inject(){
+var app=document.getElementById('app');
+if(!app||document.getElementById('view-wheel-hub'))return;
+app.insertAdjacentHTML('beforeend','<section class="view" id="view-wheel-hub"><div class="page-title"><button class="back-btn" id="btnWheelHubBack" type="button" style="width:auto;padding:0 12px;font-size:14px;">‹ 返回</button><h2>🎡 幸运大转盘</h2><span class="badge">4 款游戏</span></div><div class="wheel-hub-list" id="wheelHubList"></div></section>'
++'<section class="view" id="view-wheel-play"><div class="playing-bar"><button class="back-btn" id="btnWheelPlayBack" type="button">‹</button><div class="playing-title" id="wheelPlayTitle">动物大转盘</div><div class="playing-live">LIVE</div></div><div class="wheel-canvas-wrap"><div class="wheel-pointer">▼</div><canvas id="wheelCanvas"></canvas><button class="wheel-center-btn" id="wheelSpinBtn" type="button">旋转</button></div><div class="wheel-status" id="wheelStatus">请选择下注项</div><div class="wheel-bet-panel"><div class="info-row"><div class="info-item">余 <span class="val gold" id="wheelCoins">¥0</span></div><div class="info-item">押 <span class="val white" id="wheelBet">0</span></div><div class="info-item">奖 <span class="val green" id="wheelWin">0</span></div><input type="number" class="manual-input" id="wheelManualInput" placeholder="自填" min="1" max="1000" inputmode="numeric" autocomplete="off"></div><div class="chip-grid" id="wheelChipGrid"><button class="chip" data-v="1" type="button">1</button><button class="chip" data-v="10" type="button">10</button><button class="chip" data-v="50" type="button">50</button><button class="chip" data-v="100" type="button">100</button><button class="chip" data-v="500" type="button">500</button><button class="chip" data-v="1000" type="button">1000</button></div><div class="wheel-options" id="wheelOptions"></div><button class="form-btn" id="wheelConfirmBet" type="button">下注</button></div></section>');
+document.body.insertAdjacentHTML('beforeend','<div class="wheel-result-pop" id="wheelResultPop"><div class="wr-emoji" id="wheelResultEmoji">🎉</div><div class="wr-title" id="wheelResultTitle">恭喜中奖</div><div class="wr-amount" id="wheelResultAmount">+¥0</div><button class="wr-close" id="wheelResultClose" type="button">知道了</button></div>');
+}
+var GAMES=[
+{key:'animal',name:'🐾 动物大转盘',desc:'36 格 · 33 倍赔率',icon:'🐾',cls:'w-animal',slots:36},
+{key:'classic',name:'🎡 经典轮盘',desc:'37 格 · 单号/红黑/大小/单双',icon:'🎡',cls:'w-classic',slots:37},
+{key:'multi',name:'💎 倍率转盘',desc:'24 格 · 8 档倍率',icon:'💎',cls:'w-multi',slots:24},
+{key:'rainbow',name:'🌈 综合轮盘',desc:'48 格 · 颜色/大小/区域',icon:'🌈',cls:'w-rainbow',slots:48}
+];
+var COLORS={
+animal:function(i){var h=(i*360/36);return {bg:'hsl('+h+',65%,'+(i%2?32:42)+'%)',fg:'#fff'};},
+classic:function(i){if(i===0)return {bg:'#059669',fg:'#fff'};return {bg:(i%2?'#dc2626':'#1f2937'),fg:'#fff'};},
+multi:function(i){var h=(i*360/24);return {bg:'hsl('+h+',70%,'+(i%2?35:45)+'%)',fg:'#fff'};},
+rainbow:function(i){var cs=['#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#8b5cf6','#ec4899'];return {bg:cs[i%8],fg:'#fff'};}
+};
+function label(k,i){
+if(k==='animal'){var a=window.ANIMALS&&ANIMALS[i];return a?a[1]+' '+('00'+a[0]).slice(-3):String(i+1);}
+if(k==='classic')return String(i);
+if(k==='multi')return ['0.5x','1x','2x','3x','5x','10x','20x','50x'][i%8];
+return String(i+1);
+}
+function $(id){return document.getElementById(id);}
+function setText(el,t){if(el&&el.textContent!==String(t))el.textContent=String(t);}
+function T(t,ty){try{if(window.toast)toast(t,ty);}catch(e){}}
+function V(ms){try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
+function AI(){try{if(window.AudioCtx)AudioCtx.init();}catch(e){}}
+function AP(t){try{if(window.AudioCtx)AudioCtx.play(t);}catch(e){}}
+function show(id){var vs=document.querySelectorAll('.view');for(var i=0;i<vs.length;i++)vs[i].classList.remove('active');var v=$(id);if(v)v.classList.add('active');document.body.classList.remove('playing');try{window.scrollTo(0,0);}catch(e){}}
+var cur=null,chip=1;
+var W={canvas:null,ctx:null,rot:0,spin:false,anim:null,slots:36,items:[],bet:0,sel:null,lastTick:-1,size:320,cb:null};
+function buildHub(){
+var el=$('wheelHubList');if(!el)return;
+el.textContent='';
+GAMES.forEach(function(g){
+var c=document.createElement('div');
+c.className='wheel-hub-card '+g.cls;
+c.innerHTML='<div class="whc-icon">'+g.icon+'</div><div class="whc-info"><div class="whc-name">'+g.name+'</div><div class="whc-desc">'+g.desc+'</div></div><div class="whc-arrow">›</div>';
+c.onclick=function(){AI();V(10);enter(g);};
+el.appendChild(c);
+});
+}
+function enter(g){
+cur=g;W.slots=g.slots;W.rot=0;W.bet=0;W.sel=null;
+setText($('wheelPlayTitle'),g.name);
+W.items=[];
+for(var i=0;i<g.slots;i++)W.items.push(label(g.key,i));
+show('view-wheel-play');
+setTimeout(function(){initCanvas();draw();buildOpts();updateInfo();setText($('wheelStatus'),'请选择下注项');},100);
+}
+function initCanvas(){
+var c=$('wheelCanvas');if(!c)return;
+W.canvas=c;W.ctx=c.getContext('2d');
+var dpr=window.devicePixelRatio||1,size=c.offsetWidth||320;
+c.width=size*dpr;c.height=size*dpr;
+W.ctx.scale(dpr,dpr);W.size=size;
+}
+function draw(){
+var ctx=W.ctx;if(!ctx)return;
+var s=W.size,cx=s/2,cy=s/2,R=s/2-4,N=W.slots,arc=2*Math.PI/N;
+var scheme=COLORS[cur.key];
+ctx.clearRect(0,0,s,s);
+ctx.beginPath();ctx.arc(cx,cy,R,0,2*Math.PI);ctx.fillStyle='#0a1220';ctx.fill();
+for(var i=0;i<N;i++){
+var sa=i*arc-Math.PI/2+W.rot,ea=sa+arc;
+ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R-2,sa,ea);ctx.closePath();
+var cs=scheme(i);
+ctx.fillStyle=cs.bg;ctx.fill();
+ctx.strokeStyle='rgba(255,255,255,.15)';ctx.lineWidth=1;ctx.stroke();
+ctx.save();ctx.translate(cx,cy);ctx.rotate(sa+arc/2);
+ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillStyle=cs.fg;
+ctx.font='bold '+Math.max(9,Math.round(13-N/10))+'px sans-serif';
+ctx.fillText(W.items[i],R-12,0);ctx.restore();
+}
+ctx.beginPath();ctx.arc(cx,cy,52,0,2*Math.PI);ctx.fillStyle='#0a1220';ctx.fill();
+}
+function ease(t){if(t<0.15)return (t*t)/(0.15*0.15)*0.15;if(t<0.85)return 0.15+(t-0.15);var p=(t-0.85)/0.15;return 0.85+(1-(1-p)*(1-p));}
+function isWin(i){
+var sel=W.sel;if(!sel)return false;
+var k=cur.key;
+if(k==='animal')return String(i)===sel;
+if(k==='classic'){
+if(sel==='red')return i>0&&i%2===1;
+if(sel==='black')return i>0&&i%2===0;
+if(sel==='green')return i===0;
+if(sel==='small')return i>=1&&i<=18;
+if(sel==='big')return i>=19&&i<=36;
+if(sel==='odd')return i>0&&i%2===1;
+if(sel==='even')return i>0&&i%2===0;
+if(sel==='1st')return i>=1&&i<=12;
+if(sel==='2nd')return i>=13&&i<=24;
+if(sel==='3rd')return i>=25&&i<=36;
+if(sel.indexOf('n_')===0)return i===+sel.slice(2);
+}
+if(k==='multi'){
+if(sel.indexOf('b_')===0)return (i%8)===+sel.slice(2);
+if(sel.indexOf('u_')===0)return (i%8)>=+sel.slice(2);
+}
+if(k==='rainbow'){
+if(sel==='red')return i%8===0||i%8===7;
+if(sel==='black')return i%8>=1&&i%8<=6;
+if(sel==='small')return i<24;
+if(sel==='big')return i>=24;
+if(sel==='odd')return i%2===0;
+if(sel==='even')return i%2===1;
+if(sel.indexOf('z_')===0)return Math.floor(i/12)===+sel.slice(2);
+if(sel.indexOf('n_')===0)return i===+sel.slice(2);
+}
+return false;
+}
+function odds(){
+var sel=W.sel,k=cur.key;
+if(k==='animal')return 33;
+if(k==='classic'){
+if(sel==='red'||sel==='black')return 1.95;
+if(sel==='green')return 35;
+if(sel==='small'||sel==='big'||sel==='odd'||sel==='even')return 1.95;
+if(sel==='1st'||sel==='2nd'||sel==='3rd')return 2.9;
+if(sel&&sel.indexOf('n_')===0)return 33;
+}
+if(k==='multi'){
+if(sel&&sel.indexOf('b_')===0)return [1.7,1.9,2.2,2.6,3.3,4.5,7.5,12][+sel.slice(2)];
+if(sel&&sel.indexOf('u_')===0)return [1.95,1.95,2.05,2.2,2.4,2.75,3.6,7.5][+sel.slice(2)];
+}
+if(k==='rainbow'){
+if(sel==='red'||sel==='black')return 2.3;
+if(sel==='small'||sel==='big'||sel==='odd'||sel==='even')return 1.95;
+if(sel&&sel.indexOf('z_')===0)return 3.9;
+if(sel&&sel.indexOf('n_')===0)return 45;
+}
+return 2;
+}
+var spinOsc=null,spinGain=null;
+function startSpinSound(){try{if(!window.AudioCtx||!AudioCtx.ctx)return;if(window.state&&!state.soundOn)return;var ctx=AudioCtx.ctx,osc=ctx.createOscillator(),g=ctx.createGain();osc.connect(g);g.connect(ctx.destination);osc.type='sawtooth';osc.frequency.setValueAtTime(60,ctx.currentTime);osc.frequency.linearRampToValueAtTime(110,ctx.currentTime+1);g.gain.setValueAtTime(0,ctx.currentTime);g.gain.linearRampToValueAtTime(0.05,ctx.currentTime+0.15);osc.start();spinOsc=osc;spinGain=g;}catch(e){}}
+function stopSpinSound(){try{if(spinOsc&&AudioCtx.ctx){spinGain.gain.exponentialRampToValueAtTime(0.001,AudioCtx.ctx.currentTime+0.3);spinOsc.stop(AudioCtx.ctx.currentTime+0.35);spinOsc=null;spinGain=null;}}catch(e){}}
+function spin(){if(W.spin)return;if(W.bet<=0){T('请先下注','lose');return;}if(!W.sel){T('请选择下注项','lose');return;}var target=Math.floor(Math.random()*W.slots);doSpin(target,6000);}
+function doSpin(target,dur){
+if(W.spin)return;
+W.spin=true;W.lastTick=-1;
+var N=W.slots,arc=2*Math.PI/N;
+var ta=-(target+0.5)*arc;ta+=(Math.random()-0.5)*arc*0.5;
+var turns=8+Math.floor(Math.random()*5);ta+=turns*2*Math.PI;
+var sr=W.rot;while(ta<sr+4*Math.PI)ta+=2*Math.PI;
+var td=ta-sr,st=performance.now();
+var btn=$('wheelSpinBtn');if(btn){btn.disabled=true;btn.textContent='转动中';}
+startSpinSound();
+function step(now){
+var t=Math.min(1,(now-st)/dur);
+W.rot=sr+td*ease(t);draw();
+var r=((W.rot%(2*Math.PI))+2*Math.PI)%(2*Math.PI);
+var ps=Math.floor(((2*Math.PI-r)%(2*Math.PI))/arc);
+if(ps!==W.lastTick){W.lastTick=ps;AP('tick');}
+if(t<1){W.anim=requestAnimationFrame(step);}
+else{W.rot=ta;draw();W.spin=false;stopSpinSound();if(btn){btn.disabled=false;btn.textContent='旋转';}onStop(target);}
+}
+W.anim=requestAnimationFrame(step);
+}
+function buildOpts(){
+var el=$('wheelOptions');if(!el)return;
+el.textContent='';
+function add(labelTxt,sub,selKey,cls){
+var b=document.createElement('button');
+b.type='button';b.className='wheel-opt'+(cls?' '+cls:'');
+b.innerHTML='<div>'+labelTxt+'</div>'+(sub?'<div class="num">'+sub+'</div>':'');
+b.onclick=function(){
+AI();V(8);
+var all=el.querySelectorAll('.wheel-opt');
+for(var i=0;i<all.length;i++)all[i].classList.remove('on');
+b.classList.add('on');W.sel=selKey;
+setText($('wheelStatus'),'已选：'+labelTxt+(sub?' '+sub:''));
+};
+el.appendChild(b);
+}
+var k=cur.key;
+if(k==='animal'){if(!window.ANIMALS)return;ANIMALS.forEach(function(a){add(a[1],('00'+a[0]).slice(-3),String(a[0]),'');});}
+else if(k==='classic'){
+add('🔴 红','1.95x','red','red');add('⚫ 黑','1.95x','black','black');add('🟢 绿0','35x','green','green');
+add('小 1-18','1.95x','small','wide');add('大 19-36','1.95x','big','wide');add('奇','1.95x','odd','');add('偶','1.95x','even','');
+add('1st 12','2.9x','1st','wide');add('2nd 12','2.9x','2nd','wide');add('3rd 12','2.9x','3rd','wide');
+for(var i=0;i<37;i++){var c=i===0?'green':(i%2?'red':'black');add(String(i),'','n_'+i,c);}
+}else if(k==='multi'){
+var rr=['0.5x','1x','2x','3x','5x','10x','20x','50x'];
+for(var b=0;b<8;b++)add(rr[b],'档','b_'+b,'wide');
+add('≥2x','2.05x','u_2','');add('≥3x','2.2x','u_3','');add('≥5x','2.4x','u_4','');
+add('≥10x','2.75x','u_5','');add('≥20x','3.6x','u_6','');add('50x','7.5x','u_7','');
+}else if(k==='rainbow'){
+add('🔴 红','2.3x','red','red');add('⚫ 黑','2.3x','black','black');
+add('小 1-24','1.95x','small','wide');add('大 25-48','1.95x','big','wide');
+add('奇','1.95x','odd','');add('偶','1.95x','even','');
+add('区1','3.9x','z_0','wide');add('区2','3.9x','z_1','wide');add('区3','3.9x','z_2','wide');add('区4','3.9x','z_3','wide');
+for(var j=0;j<48;j++)add(String(j+1),'','n_'+j,'');
+}
+}
+function placeBet(){
+if(W.spin){T('转动中','lose');return;}
+if(!W.sel){T('请选择下注项','lose');return;}
+if(!window.state){T('状态未加载','lose');return;}
+if(state.coins<chip){T('余额不足','lose');return;}
+state.coins-=chip;state.todayFlow+=chip;W.bet+=chip;
+state.fundLog.unshift({type:'转盘下注',amount:-chip,ts:Date.now()});
+if(state.fundLog.length>200)state.fundLog.pop();
+try{if(window.Storage)Storage.save();}catch(e){}
+updateInfo();spin();
+}
+function onStop(slot){
+var win=isWin(slot),od=odds(),pay=win?Math.floor(W.bet*od):0;
+var e=$('wheelResultEmoji'),t=$('wheelResultTitle'),a=$('wheelResultAmount');
+if(e)e.textContent=win?'🎉':(cur.key==='animal'&&window.ANIMALS?ANIMALS[slot][1]:'🎯');
+if(win){
+if(window.state){state.coins+=pay;state.fundLog.unshift({type:'转盘中奖',amount:pay,ts:Date.now()});if(state.fundLog.length>200)state.fundLog.pop();}
+AP('win');
+if(t)t.textContent='🎉 恭喜中奖！';
+if(a){a.textContent='+¥'+pay.toFixed(2);a.style.color='var(--green)';}
+T('+¥'+pay.toFixed(2),'win');
+}else{
+if(t)t.textContent='未中奖';
+if(a){a.textContent='-¥'+W.bet.toFixed(2);a.style.color='var(--red)';}
+T('未中奖','lose');
+}
+var pop=$('wheelResultPop');if(pop)pop.classList.add('show');
+W.bet=0;W.sel=null;
+var opts=$('wheelOptions').querySelectorAll('.wheel-opt');
+for(var i=0;i<opts.length;i++)opts[i].classList.remove('on');
+updateInfo();setText($('wheelStatus'),'请选择下注项');
+try{if(window.Storage)Storage.save();}catch(e){}
+try{if(window.updateSummary)updateSummary();}catch(e){}
+}
+function updateInfo(){
+var el=$('wheelCoins');
+if(el)el.textContent='¥'+(window.state?state.coins.toFixed(2):'0.00');
+setText($('wheelBet'),W.bet);
+setText($('wheelWin'),Math.floor(W.bet*(W.sel?odds():2)));
+}
+function bindChips(){
+var grid=$('wheelChipGrid');if(!grid)return;
+var chips=grid.querySelectorAll('.chip');
+for(var i=0;i<chips.length;i++){
+(function(c){
+c.onclick=function(){
+AI();V(10);
+for(var j=0;j<chips.length;j++)chips[j].classList.remove('on');
+c.classList.add('on');chip=Number(c.getAttribute('data-v'));
+var mi=$('wheelManualInput');if(mi)mi.value='';
+};
+})(chips[i]);
+}
+if(chips[0])chips[0].classList.add('on');
+var inp=$('wheelManualInput');
+if(inp){
+inp.oninput=function(){
+var v=parseInt(inp.value,10);
+if(isNaN(v)||v<=0){for(var j=0;j<chips.length;j++)chips[j].classList.remove('on');if(chips[0])chips[0].classList.add('on');chip=1;inp.value='';return;}
+if(v>1000){v=1000;inp.value='1000';}
+for(var k=0;k<chips.length;k++)chips[k].classList.remove('on');
+chip=v;
+};
+}
+}
+function bindEvents(){
+var b1=$('btnWheelHubBack');if(b1)b1.onclick=function(){show('view-games');};
+var b2=$('btnWheelPlayBack');if(b2)b2.onclick=function(){show('view-wheel-hub');};
+var sb=$('wheelSpinBtn');if(sb)sb.onclick=function(){spin();};
+var cb=$('wheelConfirmBet');if(cb)cb.onclick=function(){placeBet();};
+var rc=$('wheelResultClose');if(rc)rc.onclick=function(){$('wheelResultPop').classList.remove('show');};
+}
+function bindEntry(){
+document.addEventListener('click',function(e){
+var t=e.target;
+while(t&&t!==document.body){
+if(t.classList&&t.classList.contains('game-card')&&t.getAttribute('data-game')==='wheel'){
+e.stopPropagation();e.preventDefault();show('view-wheel-hub');return false;
+}
+t=t.parentNode;
+}
+},true);
+}
+function init(){inject();buildHub();bindChips();bindEvents();bindEntry();console.log('[Wheel] 4 游戏转盘已加载');}
+setTimeout(init,800);
+})();
+</script>
+</body><!-- ========== 注册登录系统 开始 ========== -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-card">
+    <div class="auth-logo">👑</div>
+    <div class="auth-title">南宫国际娱乐</div>
+    <div class="auth-sub">NANGONG INTERNATIONAL</div>
+
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="login">登录</div>
+      <div class="auth-tab" data-tab="register">注册</div>
+    </div>
+
+    <!-- 登录表单 -->
+    <div class="auth-form" id="authLoginForm">
+      <div class="auth-field">
+        <label>手机号</label>
+        <input type="tel" id="loginPhone" placeholder="请输入手机号" maxlength="11" autocomplete="off">
+      </div>
+      <div class="auth-field">
+        <label>密码</label>
+        <input type="password" id="loginPwd" placeholder="请输入密码" autocomplete="off">
+      </div>
+      <button class="auth-btn" id="btnLogin" type="button">登 录</button>
+      <div class="auth-tip">还没有账号？<a id="toRegister">立即注册</a></div>
+    </div>
+
+    <!-- 注册表单 -->
+    <div class="auth-form" id="authRegisterForm" style="display:none;">
+      <div class="auth-field">
+        <label>手机号</label>
+        <input type="tel" id="regPhone" placeholder="请输入手机号" maxlength="11" autocomplete="off">
+      </div>
+      <div class="auth-field">
+        <label>密码</label>
+        <input type="password" id="regPwd" placeholder="请设置密码（6-20位）" autocomplete="off">
+      </div>
+      <div class="auth-field">
+        <label>确认密码</label>
+        <input type="password" id="regPwd2" placeholder="请再次输入密码" autocomplete="off">
+      </div>
+      <div class="auth-field">
+        <label>邀请码（选填）</label>
+        <input type="text" id="regInvite" placeholder="请输入邀请码" autocomplete="off">
+      </div>
+      <button class="auth-btn" id="btnRegister" type="button">注 册</button>
+      <div class="auth-tip">已有账号？<a id="toLogin">立即登录</a></div>
+    </div>
+
+    <div class="auth-footer">7×24 小时在线客服 · 安全加密</div>
+  </div>
+</div>
+<style>
+.auth-overlay{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 0%,#1a2a4a 0%,#0a1220 80%);display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .3s}
+.auth-overlay.hidden{display:none}
+.auth-card{width:100%;max-width:400px;background:linear-gradient(135deg,#1e2d4a,#141b2e);border:1px solid rgba(251,191,36,.3);border-radius:20px;padding:32px 26px;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative;overflow:hidden}
+.auth-card::before{content:'';position:absolute;top:-50%;right:-20%;width:220px;height:220px;background:radial-gradient(circle,rgba(251,191,36,.25),transparent 65%);pointer-events:none}
+.auth-logo{width:70px;height:70px;border-radius:20px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 14px;box-shadow:0 8px 24px rgba(251,191,36,.45);position:relative;z-index:1}
+.auth-title{font-size:22px;font-weight:900;text-align:center;margin-bottom:4px;background:linear-gradient(to right,#fbbf24,#f59e0b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:1}
+.auth-sub{font-size:10px;color:#8ba0c0;text-align:center;letter-spacing:2px;margin-bottom:22px;position:relative;z-index:1}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:rgba(0,0,0,.25);padding:5px;border-radius:12px;margin-bottom:20px;position:relative;z-index:1}
+.auth-tab{text-align:center;padding:10px 0;border-radius:9px;font-size:13px;font-weight:700;color:#8ba0c0;cursor:pointer;transition:all .2s}
+.auth-tab.active{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000}
+.auth-form{position:relative;z-index:1}
+.auth-field{margin-bottom:12px}
+.auth-field label{display:block;font-size:12px;color:#8ba0c0;margin-bottom:6px;font-weight:600}
+.auth-field input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #3b517a;background:#0a1220;color:#f0f4f9;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box}
+.auth-field input:focus{border-color:#fbbf24;box-shadow:0 0 0 3px rgba(251,191,36,.15)}
+.auth-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-size:15px;font-weight:900;border:none;cursor:pointer;font-family:inherit;margin-top:8px}
+.auth-btn:active{transform:scale(.98)}
+.auth-btn:disabled{opacity:.6;cursor:not-allowed}
+.auth-tip{font-size:12px;color:#8ba0c0;text-align:center;margin-top:14px}
+.auth-tip a{color:#fbbf24;font-weight:700;cursor:pointer;text-decoration:none}
+.auth-footer{font-size:10px;color:#8ba0c0;text-align:center;margin-top:18px;position:relative;z-index:1}
+.auth-toast{position:fixed;top:30%;left:50%;transform:translate(-50%,-50%) scale(.8);background:rgba(14,22,38,.98);border:1px solid #3b517a;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700;color:#f0f4f9;opacity:0;transition:all .25s;z-index:10000;pointer-events:none;white-space:nowrap}
+.auth-toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.auth-toast.error{border-color:#ef4444;color:#ef4444}
+.auth-toast.success{border-color:#10b981;color:#10b981}
+</style>
+<script>
+(function(){
+  'use strict';
+  var USERS_KEY = 'ng_users';
+  var CURRENT_KEY = 'ng_current_user';
+
+  function $(id){return document.getElementById(id);}
+  function toast(text, type){
+    var el = document.createElement('div');
+    el.className = 'auth-toast ' + (type || '');
+    el.textContent = text;
+    document.body.appendChild(el);
+    setTimeout(function(){el.classList.add('show');}, 10);
+    setTimeout(function(){
+      el.classList.remove('show');
+      setTimeout(function(){el.parentNode && el.parentNode.removeChild(el);}, 300);
+    }, 1800);
+  }
+  function getUsers(){
+    try{ return JSON.parse(localStorage.getItem(USERS_KEY) || '[]'); }catch(e){ return []; }
+  }
+  function saveUsers(list){
+    localStorage.setItem(USERS_KEY, JSON.stringify(list));
+  }
+  function getCurrent(){
+    try{ return JSON.parse(localStorage.getItem(CURRENT_KEY) || 'null'); }catch(e){ return null; }
+  }
+  function setCurrent(user){
+    if(user) localStorage.setItem(CURRENT_KEY, JSON.stringify(user));
+    else localStorage.removeItem(CURRENT_KEY);
+  }
+
+  function showAuth(){
+    var el = $('authOverlay');
+    if(el) el.classList.remove('hidden');
+  }
+  function hideAuth(){
+    var el = $('authOverlay');
+    if(el) el.classList.add('hidden');
+  }
+
+  function switchTab(name){
+    var tabs = document.querySelectorAll('.auth-tab');
+    for(var i=0;i<tabs.length;i++){
+      if(tabs[i].getAttribute('data-tab')===name) tabs[i].classList.add('active');
+      else tabs[i].classList.remove('active');
+    }
+    $('authLoginForm').style.display = name==='login' ? 'block' : 'none';
+    $('authRegisterForm').style.display = name==='register' ? 'block' : 'none';
+  }
+
+  function doRegister(){
+    var phone = ($('regPhone').value || '').trim();
+    var pwd = ($('regPwd').value || '').trim();
+    var pwd2 = ($('regPwd2').value || '').trim();
+    var invite = ($('regInvite').value || '').trim();
+
+    if(!/^1\d{10}$/.test(phone)){ toast('请输入正确的手机号','error'); return; }
+    if(pwd.length < 6 || pwd.length > 20){ toast('密码需 6-20 位','error'); return; }
+    if(pwd !== pwd2){ toast('两次密码不一致','error'); return; }
+
+    var users = getUsers();
+    if(users.some(function(u){ return u.phone === phone; })){
+      toast('该手机号已注册','error'); return;
+    }
+
+    var newUser = {
+      id: 'NG' + Date.now().toString(36).toUpperCase(),
+      phone: phone,
+      password: pwd,
+      nickname: '玩家' + phone.slice(-4),
+      avatar: '👑',
+      inviteCode: 'NG' + phone.slice(-4) + Math.random().toString(36).slice(2,6).toUpperCase(),
+      invitedBy: invite,
+      coins: 0,
+      vipLevel: 0,
+      createdAt: Date.now()
+    };
+    users.push(newUser);
+    saveUsers(users);
+    setCurrent(newUser);
+    toast('注册成功！','success');
+    setTimeout(function(){ hideAuth(); onLoginSuccess(newUser); }, 600);
+  }
+
+  function doLogin(){
+    var phone = ($('loginPhone').value || '').trim();
+    var pwd = ($('loginPwd').value || '').trim();
+
+    if(!/^1\d{10}$/.test(phone)){ toast('请输入正确的手机号','error'); return; }
+    if(!pwd){ toast('请输入密码','error'); return; }
+
+    var users = getUsers();
+    var user = users.filter(function(u){ return u.phone === phone; })[0];
+    if(!user){ toast('账号不存在，请先注册','error'); return; }
+    if(user.password !== pwd){ toast('密码错误','error'); return; }
+
+    setCurrent(user);
+    toast('登录成功','success');
+    setTimeout(function(){ hideAuth(); onLoginSuccess(user); }, 500);
+  }
+
+  function onLoginSuccess(user){
+    try{
+      if(window.state && state.userInfo){
+        state.userInfo.nickname = user.nickname;
+        state.userInfo.avatar = user.avatar;
+      }
+      if(window.updateProfileUI) updateProfileUI();
+      if(window.updateSummary) updateSummary();
+    }catch(e){}
+    injectLogoutButton();
+  }
+
+  function injectLogoutButton(){
+    var menuList = $('menuList');
+    if(!menuList) return;
+    if($('logoutMenuItem')) return;
+    var item = document.createElement('div');
+    item.className = 'menu-item';
+    item.id = 'logoutMenuItem';
+    item.innerHTML = '<div class="m-icon red">🚪</div><div class="m-label" style="color:#ef4444;">退出登录</div><div class="m-arrow">›</div>';
+    item.onclick = function(){
+      if(!confirm('确认退出登录？')) return;
+      setCurrent(null);
+      showAuth();
+      var li = $('loginPhone'); if(li) li.value = '';
+      var lp = $('loginPwd'); if(lp) lp.value = '';
+    };
+    menuList.appendChild(item);
+  }
+
+  function bindEvents(){
+    var tabs = document.querySelectorAll('.auth-tab');
+    for(var i=0;i<tabs.length;i++){
+      (function(t){
+        t.onclick = function(){ switchTab(t.getAttribute('data-tab')); };
+      })(tabs[i]);
+    }
+    var tr = $('toRegister'); if(tr) tr.onclick = function(){ switchTab('register'); };
+    var tl = $('toLogin'); if(tl) tl.onclick = function(){ switchTab('login'); };
+    var bl = $('btnLogin'); if(bl) bl.onclick = doLogin;
+    var br = $('btnRegister'); if(br) br.onclick = doRegister;
+    var lp = $('loginPwd'); if(lp) lp.onkeydown = function(e){ if(e.key==='Enter') doLogin(); };
+    var rp2 = $('regPwd2'); if(rp2) rp2.onkeydown = function(e){ if(e.key==='Enter') doRegister(); };
+  }
+
+  function init(){
+    var cur = getCurrent();
+    if(cur){
+      hideAuth();
+      setTimeout(function(){ onLoginSuccess(cur); }, 300);
+    }else{
+      showAuth();
+    }
+    bindEvents();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  }else{
+    init();
+  }
+})();
+</script>
+<!-- ========== 注册登录系统 结束 ========== -->
+</html>
