@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>南宫国际娱乐 · 后台管理系统</title>
+<style>
+:root{--bg:#0a1220;--sidebar:#0d1728;--panel:#1a263d;--panel2:#26375c;--line:#3b517a;--text:#f0f4f9;--dim:#8ba0c0;--gold:#fbbf24;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--purple:#8b5cf6;--pink:#ec4899}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+/* 登录页 */
+.login-page{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 0%,#1a2a4a 0%,#0a1220 80%);z-index:100;padding:20px}
+.login-page.hidden{display:none}
+.login-card{width:100%;max-width:400px;background:linear-gradient(135deg,#1e2d4a,#141b2e);border:1px solid rgba(251,191,36,.3);border-radius:20px;padding:36px 28px;box-shadow:0 20px 60px rgba(0,0,0,.5);position:relative;overflow:hidden}
+.login-card::before{content:'';position:absolute;top:-50%;right:-20%;width:220px;height:220px;background:radial-gradient(circle,rgba(251,191,36,.25),transparent 65%);pointer-events:none}
+.login-logo{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 16px;box-shadow:0 8px 24px rgba(251,191,36,.4);position:relative;z-index:1}
+.login-title{font-size:22px;font-weight:900;text-align:center;margin-bottom:6px;background:linear-gradient(to right,#fbbf24,#f59e0b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:1}
+.login-sub{font-size:12px;color:var(--dim);text-align:center;margin-bottom:26px;position:relative;z-index:1}
+.login-field{margin-bottom:14px;position:relative;z-index:1}
+.login-field label{display:block;font-size:12px;color:var(--dim);margin-bottom:6px;font-weight:600}
+.login-field input{width:100%;padding:13px 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:14px;outline:none}
+.login-field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(251,191,36,.15)}
+.login-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-size:15px;font-weight:900;border:none;margin-top:10px;position:relative;z-index:1}
+.login-btn:active{transform:scale(.98)}
+.login-btn:disabled{opacity:.6;cursor:not-allowed}
+/* 主布局 */
+.admin-app{display:none;min-height:100vh}
+.admin-app.show{display:flex}
+.sidebar{width:220px;background:var(--sidebar);border-right:1px solid var(--line);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:50;transition:transform .3s}
+.sidebar-header{padding:18px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.sidebar-logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.sidebar-title{font-size:14px;font-weight:900;background:linear-gradient(to right,#fbbf24,#f59e0b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sidebar-sub{font-size:10px;color:var(--dim);margin-top:2px}
+.nav{padding:10px 8px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;color:var(--dim);font-size:13px;font-weight:600;cursor:pointer;margin-bottom:2px;transition:all .2s}
+.nav-item:hover{background:rgba(251,191,36,.08);color:var(--text)}
+.nav-item.active{background:linear-gradient(135deg,rgba(251,191,36,.25),rgba(245,158,11,.1));color:var(--gold);box-shadow:inset 0 0 0 1px rgba(251,191,36,.3)}
+.nav-item .ni-icon{font-size:16px;width:20px;text-align:center}
+.nav-group{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;padding:14px 14px 6px;font-weight:700}
+.main-content{flex:1;margin-left:220px;min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--sidebar);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.menu-toggle{display:none;width:36px;height:36px;border-radius:10px;background:var(--panel);border:1px solid var(--line);color:var(--text);font-size:18px;align-items:center;justify-content:center}
+.topbar-title{font-size:16px;font-weight:800}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.admin-info{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--panel);border:1px solid var(--line);border-radius:20px;font-size:12px}
+.admin-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:14px}
+.btn-logout{background:transparent;border:1px solid var(--line);color:var(--dim);padding:6px 12px;border-radius:20px;font-size:11px}
+.btn-logout:hover{color:var(--red);border-color:var(--red)}
+.page-content{padding:20px;flex:1}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.page-header h2{font-size:22px;font-weight:900}
+.page-header .ph-sub{font-size:12px;color:var(--dim);margin-top:4px}
+.page-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 18px;border-radius:10px;font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--panel);color:var(--text);display:inline-flex;align-items:center;gap:6px}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;border-color:transparent}
+.btn.success{background:linear-gradient(135deg,#10b981,#047857);color:#fff;border-color:transparent}
+.btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;border-color:transparent}
+.btn.ghost{background:transparent}
+.btn.small{padding:6px 12px;font-size:11px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.card-title{font-size:14px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:-50%;right:-30%;width:120px;height:120px;background:radial-gradient(circle,rgba(251,191,36,.15),transparent 65%);pointer-events:none}
+.stat-label{font-size:11px;color:var(--dim);margin-bottom:6px}
+.stat-value{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums}
+.stat-value.gold{color:var(--gold)}
+.stat-value.green{color:var(--green)}
+.stat-value.red{color:var(--red)}
+.stat-value.blue{color:#60a5fa}
+.stat-value.purple{color:var(--purple)}
+.stat-extra{font-size:10px;color:var(--dim);margin-top:4px}
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line);background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:rgba(0,0,0,.25);color:var(--dim);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+tr:hover td{background:rgba(251,191,36,.04)}
+tr:last-child td{border-bottom:none}
+td.actions{white-space:nowrap}
+.badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:10px;font-weight:800}
+.badge.green{background:rgba(16,185,129,.2);color:#34d399}
+.badge.gold{background:rgba(251,191,36,.2);color:var(--gold)}
+.badge.red{background:rgba(239,68,68,.2);color:#f87171}
+.badge.blue{background:rgba(59,130,246,.2);color:#60a5fa}
+.badge.gray{background:rgba(139,160,192,.15);color:var(--dim)}
+.badge.purple{background:rgba(139,92,246,.2);color:#a78bfa}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;color:var(--dim);margin-bottom:6px;font-weight:600}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:13px;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
+.form-group textarea{min-height:80px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;overflow-y:auto}
+.modal-mask.show{display:flex}
+.modal{width:100%;max-width:600px;background:var(--panel);border-radius:16px;border:1px solid var(--line);max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:15px;font-weight:800}
+.modal-close{width:32px;height:32px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);color:var(--text);font-size:16px;display:flex;align-items:center;justify-content:center}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
+.modal-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end}
+.admin-toast{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--panel);border:1px solid var(--line);padding:12px 24px;border-radius:12px;font-size:13px;font-weight:700;z-index:300;transition:transform .3s;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.admin-toast.show{transform:translateX(-50%) translateY(0)}
+.admin-toast.success{border-color:var(--green);color:var(--green)}
+.admin-toast.error{border-color:var(--red);color:var(--red)}
+.admin-toast.info{border-color:var(--blue);color:#60a5fa}
+.search-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.search-bar input,.search-bar select{padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:12px;outline:none;min-width:140px}
+.search-bar input:focus,.search-bar select:focus{border-color:var(--gold)}
+.empty{padding:60px 20px;text-align:center;color:var(--dim)}
+.empty .e-icon{font-size:48px;opacity:.4;margin-bottom:10px}
+.empty .e-text{font-size:13px}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+.tab{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;color:var(--dim);background:var(--panel);border:1px solid var(--line);cursor:pointer}
+.tab.active{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;border-color:transparent}
+.switch{position:relative;width:44px;height:24px;background:var(--panel2);border-radius:12px;cursor:pointer;transition:all .2s;border:1px solid var(--line);display:inline-block;vertical-align:middle}
+.switch::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:all .2s}
+.switch.on{background:var(--green);border-color:var(--green)}
+.switch.on::after{left:22px}
+.pagination{display:flex;gap:6px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.pagination button{min-width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:12px;font-weight:700}
+.pagination button.active{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;border-color:transparent}
+.pagination button:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:768px){
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.main-content{margin-left:0}
+.menu-toggle{display:flex}
+.form-row,.form-row-3{grid-template-columns:1fr}
+.stat-grid{grid-template-columns:repeat(2,1fr)}
+.page-content{padding:14px}
+.admin-info .admin-name{display:none}
+}
+</style>
+</head><body>
+
+<!-- ============ 登录页 ============ -->
+<div class="login-page" id="loginPage">
+<div class="login-card">
+<div class="login-logo">👑</div>
+<div class="login-title">南宫国际娱乐 · 后台</div>
+<div class="login-sub">Admin Management System</div>
+<div class="login-field">
+<label>管理员账号</label>
+<input type="text" id="loginUser" placeholder="" autocomplete="off">
+</div>
+<div class="login-field">
+<label>登录密码</label>
+<input type="password" id="loginPass" placeholder="" autocomplete="off">
+</div>
+<button class="login-btn" id="loginBtn" type="button">登 录</button>
+</div>
+</div>
+
+<!-- ============ 后台主界面 ============ -->
+<div class="admin-app" id="adminApp">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo">👑</div>
+<div>
+<div class="sidebar-title">南宫国际</div>
+<div class="sidebar-sub">后台管理系统</div>
+</div>
+</div>
+<nav class="nav" id="navMenu"></nav>
+</aside>
+
+<main class="main-content">
+<div class="topbar">
+<div class="topbar-left">
+<button class="menu-toggle" id="menuToggle" type="button">☰</button>
+<div class="topbar-title" id="pageTitle">数据概览</div>
+</div>
+<div class="topbar-right">
+<div class="admin-info">
+<div class="admin-avatar">👤</div>
+<span class="admin-name" id="adminName">admin</span>
+</div>
+<button class="btn-logout" id="logoutBtn" type="button">退出</button>
+</div>
+</div>
+<div class="page-content" id="pageContent"></div>
+</main>
+</div>
+
+<!-- 通用弹窗 -->
+<div class="modal-mask" id="modalMask">
+<div class="modal">
+<div class="modal-head">
+<div class="modal-title" id="modalTitle">标题</div>
+<button class="modal-close" id="modalClose" type="button">✕</button>
+</div>
+<div class="modal-body" id="modalBody"></div>
+<div class="modal-foot" id="modalFoot"></div>
+</div>
+</div>
+
+<!-- Toast -->
+<div class="admin-toast" id="adminToast"></div><script>
+// ================================================================
+// 【工具函数】
+// ================================================================
+function $(id){return document.getElementById(id);}
+function setText(el,t){if(el&&el.textContent!==String(t))el.textContent=String(t);}
+function padZero(n,l){var s=String(n);while(s.length<l)s='0'+s;return s;}
+function fmtMoney(n){return Number(n||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtInt(n){return Number(n||0).toLocaleString('zh-CN');}
+function fmtTime(ts){if(!ts)return '-';var d=new Date(ts);return d.getFullYear()+'-'+padZero(d.getMonth()+1,2)+'-'+padZero(d.getDate(),2)+' '+padZero(d.getHours(),2)+':'+padZero(d.getMinutes(),2)+':'+padZero(d.getSeconds(),2);}
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+padZero(d.getMonth()+1,2)+'-'+padZero(d.getDate(),2);}
+function maskName(name){if(!name)return '***';if(name.length<=2)return name.charAt(0)+'*';if(name.length<=4)return name.charAt(0)+'**'+name.charAt(name.length-1);return name.charAt(0)+'***'+name.charAt(name.length-1);}
+function genId(prefix){return (prefix||'ID')+Date.now()+Math.floor(Math.random()*1000);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+
+function toast(msg,type){
+var el=$('adminToast');
+if(!el)return;
+el.className='admin-toast '+(type||'');
+el.textContent=msg;
+setTimeout(function(){el.classList.add('show');},10);
+clearTimeout(el._t);
+el._t=setTimeout(function(){el.classList.remove('show');},2000);
+}
+
+function openModal(title,bodyHtml,footHtml){
+setText($('modalTitle'),title);
+$('modalBody').innerHTML=bodyHtml||'';
+$('modalFoot').innerHTML=footHtml||'<button class="btn" onclick="closeModal()" type="button">关闭</button>';
+$('modalMask').classList.add('show');
+}
+function closeModal(){$('modalMask').classList.remove('show');}
+
+// ================================================================
+// 【数据层 AdminDB】
+// 与用户端 localStorage 打通
+// 用户端key：ng_users / ng_announcements / ng_fund_logs / ng_bets / animal_3d_v4
+// 后台key：  ng_admins / ng_settings / ng_game_config / ng_vip_config / ng_channel_config / ng_activity_config / ng_admin_logs
+// ================================================================
+var AdminDB={
+KEY_ADMINS:'ng_admins',
+KEY_ANNOUNCE:'ng_announcements',
+KEY_USERS:'ng_users',
+KEY_FUNDS:'ng_fund_logs',
+KEY_BETS:'ng_bets',
+KEY_GAME:'ng_game_config',
+KEY_VIP:'ng_vip_config',
+KEY_CHANNEL:'ng_channel_config',
+KEY_ACTIVITY:'ng_activity_config',
+KEY_SETTING:'ng_settings',
+KEY_LOGS:'ng_admin_logs',
+KEY_CURRENT:'ng_admin_current',
+
+// ---- 管理员 ----
+getAdmins:function(){
+try{
+var raw=localStorage.getItem(this.KEY_ADMINS);
+if(raw){
+var d=JSON.parse(raw);
+if(d&&d.length)return d;
+}
+}catch(e){}
+var def=[{id:'admin',pwd:'admin888',name:'超级管理员',role:'super',createdAt:Date.now()}];
+localStorage.setItem(this.KEY_ADMINS,JSON.stringify(def));
+return def;
+},
+saveAdmins:function(list){localStorage.setItem(this.KEY_ADMINS,JSON.stringify(list));},
+
+// ---- 用户（来自用户端） ----
+getUsers:function(){try{return JSON.parse(localStorage.getItem(this.KEY_USERS)||'[]');}catch(e){return [];}},
+saveUsers:function(list){localStorage.setItem(this.KEY_USERS,JSON.stringify(list));},
+
+// ---- 资金流水 ----
+getFunds:function(){try{return JSON.parse(localStorage.getItem(this.KEY_FUNDS)||'[]');}catch(e){return [];}},
+saveFunds:function(list){localStorage.setItem(this.KEY_FUNDS,JSON.stringify(list));},
+
+// ---- 投注记录 ----
+getBets:function(){try{return JSON.parse(localStorage.getItem(this.KEY_BETS)||'[]');}catch(e){return [];}},
+
+// ---- 公告 ----
+getAnnounce:function(){try{return JSON.parse(localStorage.getItem(this.KEY_ANNOUNCE)||'[]');}catch(e){return [];}},
+saveAnnounce:function(list){localStorage.setItem(this.KEY_ANNOUNCE,JSON.stringify(list));},
+
+// ---- 游戏配置 ----
+getGame:function(){
+try{
+var raw=localStorage.getItem(this.KEY_GAME);
+if(raw)return JSON.parse(raw);
+}catch(e){}
+var def={
+lucky:{name:'幸运兽 3D',enabled:true,oddsAnimal:33,oddsSize:1.95,oddsOE:1.95,oddsTail:8.5,roundSeconds:60,lockBefore:10,presetWin:null},
+animal:{name:'动物大转盘',enabled:true,duration:6000,winRate:null},
+classic:{name:'经典轮盘',enabled:true,duration:6000,winRate:null},
+multi:{name:'倍率转盘',enabled:true,duration:6000,winRate:null},
+rainbow:{name:'综合轮盘',enabled:true,duration:6000,winRate:null}
+};
+localStorage.setItem(this.KEY_GAME,JSON.stringify(def));
+return def;
+},
+saveGame:function(d){localStorage.setItem(this.KEY_GAME,JSON.stringify(d));},
+
+// ---- VIP 配置 ----
+getVip:function(){
+try{
+var raw=localStorage.getItem(this.KEY_VIP);
+if(raw)return JSON.parse(raw);
+}catch(e){}
+var def=[
+{level:0, upRecharge:0, upFlow:0, keepFlow:0, withdrawTimes:3, singleLimit:1000, platformRebate:0.1, selfRebate:1.0},
+{level:1, upRecharge:500, upFlow:600, keepFlow:3000, withdrawTimes:3, singleLimit:5000, platformRebate:0.2, selfRebate:1.0},
+{level:2, upRecharge:1000,upFlow:1500, keepFlow:6000, withdrawTimes:5, singleLimit:10000, platformRebate:0.3, selfRebate:1.2},
+{level:3, upRecharge:2000,upFlow:3000, keepFlow:15000, withdrawTimes:5, singleLimit:20000, platformRebate:0.4, selfRebate:1.4},
+{level:4, upRecharge:5000,upFlow:8000, keepFlow:40000, withdrawTimes:8, singleLimit:50000, platformRebate:0.5, selfRebate:1.5},
+{level:5, upRecharge:10000,upFlow:15000, keepFlow:80000, withdrawTimes:8, singleLimit:100000, platformRebate:0.6, selfRebate:1.6},
+{level:6, upRecharge:20000,upFlow:30000, keepFlow:150000, withdrawTimes:10, singleLimit:200000, platformRebate:0.7, selfRebate:1.8},
+{level:7, upRecharge:50000,upFlow:80000, keepFlow:400000, withdrawTimes:10, singleLimit:500000, platformRebate:0.8, selfRebate:2.0},
+{level:8, upRecharge:100000,upFlow:150000,keepFlow:800000, withdrawTimes:15, singleLimit:500000, platformRebate:0.9, selfRebate:2.2},
+{level:9, upRecharge:200000,upFlow:300000,keepFlow:1500000,withdrawTimes:15, singleLimit:800000, platformRebate:1.0, selfRebate:2.4},
+{level:10,upRecharge:500000,upFlow:800000,keepFlow:4000000,withdrawTimes:20, singleLimit:1000000, platformRebate:1.2, selfRebate:2.5}
+];
+localStorage.setItem(this.KEY_VIP,JSON.stringify(def));
+return def;
+},
+saveVip:function(d){localStorage.setItem(this.KEY_VIP,JSON.stringify(d));},
+
+// ---- 通道配置 ----
+getChannel:function(){
+try{
+var raw=localStorage.getItem(this.KEY_CHANNEL);
+if(raw)return JSON.parse(raw);
+}catch(e){}
+var def=[
+{key:'usdt',name:'USDT',icon:'₮',enabled:true,rate:7.2,address:'TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',notice:'1. 请使用 USDT-TRC20 通道转账\n2. 转账金额必须与订单一致\n3. 30 分钟内未付款订单自动关闭'},
+{key:'wechat',name:'微信',icon:'💚',enabled:false,rate:1,address:'',notice:''},
+{key:'alipay',name:'支付宝',icon:'💙',enabled:false,rate:1,address:'',notice:''},
+{key:'bank',name:'银行卡',icon:'🏦',enabled:false,rate:1,address:'',notice:''},
+{key:'rmb',name:'数字人民币',icon:'💴',enabled:false,rate:1,address:'',notice:''}
+];
+localStorage.setItem(this.KEY_CHANNEL,JSON.stringify(def));
+return def;
+},
+saveChannel:function(d){localStorage.setItem(this.KEY_CHANNEL,JSON.stringify(d));},
+
+// ---- 活动配置 ----
+getActivity:function(){
+try{
+var raw=localStorage.getItem(this.KEY_ACTIVITY);
+if(raw)return JSON.parse(raw);
+}catch(e){}
+var def=[
+{id:'newbie',icon:'🎁',title:'新人礼包',desc:'完善认证后申请 88 彩金',enabled:true,reward:88},
+{id:'sign',icon:'📅',title:'每日签到',desc:'每日签到领彩金',enabled:true,reward:0},
+{id:'recharge',icon:'💰',title:'首充奖励',desc:'首次充值 100 送 20',enabled:true,reward:20},
+{id:'flow',icon:'🔥',title:'流水挑战',desc:'当日流水满 1000 送 50',enabled:true,reward:50},
+{id:'invite',icon:'🤝',title:'邀请返利',desc:'邀请好友充值得 5% 返利',enabled:false,reward:0}
+];
+localStorage.setItem(this.KEY_ACTIVITY,JSON.stringify(def));
+return def;
+},
+saveActivity:function(d){localStorage.setItem(this.KEY_ACTIVITY,JSON.stringify(d));},
+
+// ---- 系统设置 ----
+getSetting:function(){
+try{
+var raw=localStorage.getItem(this.KEY_SETTING);
+if(raw)return JSON.parse(raw);
+}catch(e){}
+var def={
+siteName:'南宫国际娱乐',
+minRecharge:100,
+minWithdraw:100,
+needFlowForWithdraw:1,
+orderTimeout:30,
+registerGift:88,
+siteNotice:'欢迎光临南宫国际娱乐'
+};
+localStorage.setItem(this.KEY_SETTING,JSON.stringify(def));
+return def;
+},
+saveSetting:function(d){localStorage.setItem(this.KEY_SETTING,JSON.stringify(d));},
+
+// ---- 操作日志 ----
+getLogs:function(){try{return JSON.parse(localStorage.getItem(this.KEY_LOGS)||'[]');}catch(e){return [];}},
+addLog:function(action){
+var list=this.getLogs();
+list.unshift({admin:currentAdmin?currentAdmin.id:'-',action:action,ts:Date.now()});
+if(list.length>500)list.length=500;
+localStorage.setItem(this.KEY_LOGS,JSON.stringify(list));
+},
+
+// ---- 当前登录 ----
+getCurrent:function(){try{return JSON.parse(localStorage.getItem(this.KEY_CURRENT)||'null');}catch(e){return null;}},
+setCurrent:function(a){if(a)localStorage.setItem(this.KEY_CURRENT,JSON.stringify(a));else localStorage.removeItem(this.KEY_CURRENT);}
+};
+
+// ================================================================
+// 【登录 / 退出】
+// ================================================================
+var currentAdmin=null;
+
+function doLogin(){
+var u=($('loginUser').value||'').trim();
+var p=($('loginPass').value||'').trim();
+if(!u||!p){toast('请输入账号和密码','error');return;}
+var admins=AdminDB.getAdmins();
+var found=null;
+for(var i=0;i<admins.length;i++){
+if(admins[i].id===u&&admins[i].pwd===p){found=admins[i];break;}
+}
+if(!found){toast('账号或密码错误','error');return;}
+currentAdmin=found;
+AdminDB.setCurrent({id:found.id,name:found.name,role:found.role});
+AdminDB.addLog('登录');
+$('loginPage').classList.add('hidden');
+$('adminApp').classList.add('show');
+setText($('adminName'),found.name||found.id);
+startAdmin();
+}
+
+function doLogout(){
+if(!confirm('确认退出登录？'))return;
+AdminDB.addLog('退出');
+currentAdmin=null;
+AdminDB.setCurrent(null);
+$('adminApp').classList.remove('show');
+$('loginPage').classList.remove('hidden');
+$('loginPass').value='';
+}
+
+// ================================================================
+// 【菜单】
+// ================================================================
+var MENU=[
+{key:'dashboard',icon:'📊',label:'数据概览',group:'核心'},
+{key:'users',icon:'👥',label:'用户管理',group:'核心'},
+{key:'funds',icon:'💰',label:'资金管理',group:'核心'},
+{key:'bets',icon:'🎯',label:'投注记录',group:'核心'},
+{key:'games',icon:'🎮',label:'游戏管理',group:'核心'},
+{key:'announce',icon:'📢',label:'公告管理',group:'运营'},
+{key:'activity',icon:'🎉',label:'活动管理',group:'运营'},
+{key:'risk',icon:'🛡️',label:'风控管理',group:'运营'},
+{key:'vip',icon:'👑',label:'VIP 配置',group:'高级'},
+{key:'channel',icon:'🏦',label:'通道管理',group:'高级'},
+{key:'report',icon:'📈',label:'报表统计',group:'高级'},
+{key:'admins',icon:'🔧',label:'管理员',group:'系统'},
+{key:'setting',icon:'⚙️',label:'系统设置',group:'系统'}
+];
+var currentPage='dashboard';
+
+function buildNav(){
+var el=$('navMenu');
+el.textContent='';
+var lastGroup='';
+MENU.forEach(function(m){
+if(m.group!==lastGroup){
+var g=document.createElement('div');
+g.className='nav-group';
+g.textContent=m.group;
+el.appendChild(g);
+lastGroup=m.group;
+}
+var item=document.createElement('div');
+item.className='nav-item'+(m.key===currentPage?' active':'');
+item.setAttribute('data-key',m.key);
+item.innerHTML='<span class="ni-icon">'+m.icon+'</span><span>'+m.label+'</span>';
+item.onclick=function(){navTo(m.key);};
+el.appendChild(item);
+});
+}
+
+function navTo(key){
+currentPage=key;
+var items=document.querySelectorAll('.nav-item');
+for(var i=0;i<items.length;i++){
+if(items[i].getAttribute('data-key')===key)items[i].classList.add('active');
+else items[i].classList.remove('active');
+}
+$('sidebar').classList.remove('open');
+var m=null;
+for(var j=0;j<MENU.length;j++){if(MENU[j].key===key){m=MENU[j];break;}}
+if(m)setText($('pageTitle'),m.label);
+renderPage(key);
+}
+
+function renderPage(key){
+var c=$('pageContent');
+var fn={
+dashboard:renderDashboard,
+users:renderUsers,
+funds:renderFunds,
+bets:renderBets,
+games:renderGames,
+announce:renderAnnounce,
+activity:renderActivity,
+risk:renderRisk,
+vip:renderVip,
+channel:renderChannel,
+report:renderReport,
+admins:renderAdmins,
+setting:renderSetting
+}[key];
+if(fn)fn(c);
+else c.innerHTML='<div class="empty"><div class="e-icon">🚧</div><div class="e-text">该模块开发中</div></div>';
+}
+
+// ================================================================
+// 【数据统计辅助】
+// ================================================================
+function getStats(){
+var users=AdminDB.getUsers();
+var funds=AdminDB.getFunds();
+var bets=AdminDB.getBets();
+var today=todayStr();
+var todayStart=new Date(today).getTime();
+var s={
+totalUsers:users.length,
+todayRecharge:0,todayWithdraw:0,todayBet:0,todayPayout:0,
+pendingRecharge:0,pendingWithdraw:0,
+frozenUsers:0,
+onlineCount:Math.floor(Math.random()*2000)+500
+};
+users.forEach(function(u){if(u.frozen)s.frozenUsers++;});
+funds.forEach(function(f){
+if(f.ts>=todayStart){
+if(f.type==='充值')s.todayRecharge+=Math.abs(f.amount);
+if(f.type==='提现')s.todayWithdraw+=Math.abs(f.amount);
+}
+});
+bets.forEach(function(b){
+if(b.ts>=todayStart){s.todayBet+=b.bet;s.todayPayout+=b.payout;}
+});
+s.profit=s.todayBet-s.todayPayout;
+return s;
+}
+
+// ================================================================
+// 【数据概览】
+// ================================================================
+function renderDashboard(c){
+var s=getStats();
+var html='';
+html+='<div class="page-header"><div><h2>📊 数据概览</h2><div class="ph-sub">实时数据统计 · '+fmtTime(Date.now())+'</div></div><div class="page-actions"><button class="btn" onclick="navTo(\'dashboard\')" type="button">🔄 刷新</button></div></div>';
+html+='<div class="stat-grid">';
+html+='<div class="stat-card"><div class="stat-label">总用户数</div><div class="stat-value blue">'+fmtInt(s.totalUsers)+'</div><div class="stat-extra">冻结 '+s.frozenUsers+' 人</div></div>';
+html+='<div class="stat-card"><div class="stat-label">今日充值</div><div class="stat-value gold">¥'+fmtMoney(s.todayRecharge)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">今日提现</div><div class="stat-value red">¥'+fmtMoney(s.todayWithdraw)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">今日投注</div><div class="stat-value gold">¥'+fmtMoney(s.todayBet)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">今日派奖</div><div class="stat-value green">¥'+fmtMoney(s.todayPayout)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">平台盈亏</div><div class="stat-value '+(s.profit>=0?'green':'red')+'">'+(s.profit>=0?'+':'-')+'¥'+fmtMoney(Math.abs(s.profit))+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">投注笔数</div><div class="stat-value purple">'+AdminDB.getBets().length+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">公告数</div><div class="stat-value gold">'+AdminDB.getAnnounce().length+'</div></div>';
+html+='</div>';
+
+html+='<div class="card"><div class="card-title">⚡ 快捷操作</div><div style="display:flex;gap:8px;flex-wrap:wrap;">';
+html+='<button class="btn primary" onclick="navTo(\'announce\')" type="button">📢 发布公告</button>';
+html+='<button class="btn" onclick="navTo(\'users\')" type="button">👥 用户管理</button>';
+html+='<button class="btn" onclick="navTo(\'games\')" type="button">🎮 游戏配置</button>';
+html+='<button class="btn" onclick="navTo(\'admins\')" type="button">🔧 管理员</button>';
+html+='</div></div>';
+
+var logs=AdminDB.getLogs().slice(0,10);
+html+='<div class="card"><div class="card-title">📋 最近操作日志</div>';
+if(logs.length===0){
+html+='<div class="empty" style="padding:20px;"><div class="e-text">暂无日志</div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>管理员</th><th>操作</th><th>时间</th></tr></thead><tbody>';
+logs.forEach(function(l){
+html+='<tr><td>'+esc(l.admin)+'</td><td>'+esc(l.action)+'</td><td>'+fmtTime(l.ts)+'</td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+c.innerHTML=html;
+}
+
+// ================================================================
+// 【用户管理】
+// ================================================================
+var userPage=1,userPageSize=10,userKeyword='',userFilter='all';
+
+function renderUsers(c){
+var users=AdminDB.getUsers();
+var html='';
+html+='<div class="page-header"><div><h2>👥 用户管理</h2><div class="ph-sub">共 '+users.length+' 位用户</div></div></div>';
+html+='<div class="search-bar"><input type="text" id="userKw" placeholder="搜索 ID / 手机号 / 昵称" value="'+esc(userKeyword)+'"><select id="userFt"><option value="all">全部</option><option value="vip">VIP用户</option><option value="frozen">已冻结</option><option value="verified">已实名</option></select><button class="btn" onclick="applyUserFilter()" type="button">搜索</button></div>';
+html+='<div class="table-wrap"><table><thead><tr><th>ID</th><th>手机号</th><th>昵称</th><th>VIP</th><th>余额</th><th>状态</th><th>实名</th><th>最后活跃</th><th>操作</th></tr></thead><tbody id="userTbody"></tbody></table></div>';
+html+='<div class="pagination" id="userPage"></div>';
+c.innerHTML=html;
+setTimeout(function(){
+var ft=$('userFt');if(ft)ft.value=userFilter;
+var kw=$('userKw');if(kw)kw.onkeydown=function(e){if(e.key==='Enter')applyUserFilter();};
+},20);
+renderUserList();
+}
+
+function applyUserFilter(){
+userKeyword=($('userKw').value||'').trim();
+userFilter=$('userFt').value;
+userPage=1;
+renderUserList();
+}
+
+function getFilteredUsers(){
+var list=AdminDB.getUsers().slice();
+if(userKeyword){
+var kw=userKeyword.toLowerCase();
+list=list.filter(function(u){
+return String(u.id||'').indexOf(kw)>=0||(u.phone||'').indexOf(kw)>=0||(u.nickname||'').toLowerCase().indexOf(kw)>=0;
+});
+}
+if(userFilter==='vip')list=list.filter(function(u){return (u.vipLevel||0)>0;});
+else if(userFilter==='frozen')list=list.filter(function(u){return u.frozen;});
+else if(userFilter==='verified')list=list.filter(function(u){return u.realName==='已认证';});
+return list;
+}
+
+function renderUserList(){
+var list=getFilteredUsers();
+var total=list.length;
+var totalPages=Math.max(1,Math.ceil(total/userPageSize));
+if(userPage>totalPages)userPage=totalPages;
+var start=(userPage-1)*userPageSize;
+var pageList=list.slice(start,start+userPageSize);
+
+var tbody=$('userTbody');
+if(!tbody)return;
+tbody.textContent='';
+if(pageList.length===0){
+tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--dim);">暂无数据<br><span style="font-size:10px;">用户端注册后自动出现</span></td></tr>';
+}else{
+pageList.forEach(function(u){
+var tr=document.createElement('tr');
+var statusHtml=u.frozen?'<span class="badge red">已冻结</span>':'<span class="badge green">正常</span>';
+var realHtml=u.realName==='已认证'?'<span class="badge green">已认证</span>':'<span class="badge gray">未认证</span>';
+var vipHtml='<span class="badge gold">VIP '+(u.vipLevel||0)+'</span>';
+tr.innerHTML='<td style="font-size:10px;">'+esc(u.id||'-')+'</td>'
++'<td>'+esc(u.phone||'-')+'</td>'
++'<td>'+esc(u.nickname||'-')+'</td>'
++'<td>'+vipHtml+'</td>'
++'<td style="color:var(--gold);font-weight:800;">¥'+fmtMoney(u.coins||0)+'</td>'
++'<td>'+statusHtml+'</td>'
++'<td>'+realHtml+'</td>'
++'<td style="font-size:11px;color:var(--dim);">'+fmtTime(u.lastActive)+'</td>'
++'<td class="actions"><button class="btn small" onclick="viewUser(\''+esc(u.id)+'\')" type="button">查看</button> <button class="btn small ghost" onclick="toggleFreeze(\''+esc(u.id)+'\')" type="button">'+(u.frozen?'解冻':'冻结')+'</button></td>';
+tbody.appendChild(tr);
+});
+}
+
+var pg=$('userPage');
+if(!pg)return;
+pg.textContent='';
+if(totalPages<=1)return;
+var prevBtn=document.createElement('button');
+prevBtn.textContent='‹';
+prevBtn.disabled=userPage<=1;
+prevBtn.onclick=function(){if(userPage>1){userPage--;renderUserList();}};
+pg.appendChild(prevBtn);
+var pages=[];
+for(var i=1;i<=totalPages;i++){
+if(i===1||i===totalPages||Math.abs(i-userPage)<=2)pages.push(i);
+else if(pages[pages.length-1]!=='...')pages.push('...');
+}
+pages.forEach(function(p){
+if(p==='...'){var sp=document.createElement('span');sp.textContent='...';sp.style.padding='8px';pg.appendChild(sp);return;}
+var b=document.createElement('button');
+b.textContent=p;
+if(p===userPage)b.classList.add('active');
+b.onclick=function(){userPage=p;renderUserList();};
+pg.appendChild(b);
+});
+var nextBtn=document.createElement('button');
+nextBtn.textContent='›';
+nextBtn.disabled=userPage>=totalPages;
+nextBtn.onclick=function(){if(userPage<totalPages){userPage++;renderUserList();}};
+pg.appendChild(nextBtn);
+}
+
+function viewUser(id){
+var u=AdminDB.getUsers().filter(function(x){return x.id===id;})[0];
+if(!u){toast('用户不存在','error');return;}
+var html='<div class="form-row"><div class="form-group"><label>用户ID</label><input type="text" value="'+esc(u.id)+'" readonly></div><div class="form-group"><label>手机号</label><input type="text" value="'+esc(u.phone)+'" readonly></div></div>'
++'<div class="form-row"><div class="form-group"><label>昵称</label><input type="text" value="'+esc(u.nickname)+'" readonly></div><div class="form-group"><label>邀请码</label><input type="text" value="'+esc(u.inviteCode||'-')+'" readonly></div></div>'
++'<div class="form-row-3"><div class="form-group"><label>VIP 等级</label><input type="text" value="VIP '+(u.vipLevel||0)+'" readonly></div><div class="form-group"><label>余额（可编辑）</label><input type="number" id="editCoins" value="'+(u.coins||0)+'"></div><div class="form-group"><label>实名状态</label><input type="text" value="'+esc(u.realName||'未认证')+'" readonly></div></div>'
++'<div class="form-row"><div class="form-group"><label>注册时间</label><input type="text" value="'+fmtTime(u.createdAt)+'" readonly></div><div class="form-group"><label>最后活跃</label><input type="text" value="'+fmtTime(u.lastActive)+'" readonly></div></div>'
++'<div class="form-group"><label>账号状态</label><div style="padding:8px 0;"><span class="badge '+(u.frozen?'red':'green')+'">'+(u.frozen?'已冻结':'正常')+'</span></div></div>';
+openModal('用户详情 · '+u.id,html,
+'<button class="btn" onclick="closeModal()" type="button">关闭</button>'
++'<button class="btn danger" onclick="toggleFreeze(\''+esc(u.id)+'\');closeModal();" type="button">'+(u.frozen?'解冻':'冻结')+'</button>'
++'<button class="btn primary" onclick="saveUserCoins(\''+esc(u.id)+'\')" type="button">保存余额</button>'
+);
+}
+
+function saveUserCoins(id){
+var v=parseFloat($('editCoins').value);
+if(isNaN(v)||v<0){toast('请输入有效金额','error');return;}
+var list=AdminDB.getUsers();
+for(var i=0;i<list.length;i++){
+if(list[i].id===id){
+var old=list[i].coins||0;
+list[i].coins=v;
+AdminDB.saveUsers(list);
+AdminDB.addLog('修改用户 '+id+' 余额 '+old+' → '+v);
+toast('余额已更新','success');
+closeModal();
+renderUserList();
+return;
+}
+}
+toast('用户不存在','error');
+}
+
+function toggleFreeze(id){
+var list=AdminDB.getUsers();
+for(var i=0;i<list.length;i++){
+if(list[i].id===id){
+list[i].frozen=!list[i].frozen;
+AdminDB.saveUsers(list);
+AdminDB.addLog((list[i].frozen?'冻结':'解冻')+'用户 '+id);
+toast(list[i].frozen?'已冻结':'已解冻',list[i].frozen?'error':'success');
+renderUserList();
+return;
+}
+}
+}
+// ================================================================
+// 【资金管理】充值/提现/流水 三合一
+// ================================================================
+var fundTab='fundlog';
+
+function renderFunds(c){
+var html='';
+html+='<div class="page-header"><div><h2>💰 资金管理</h2><div class="ph-sub">资金流水 · 充值审核 · 提现审核</div></div></div>';
+html+='<div class="tabs">';
+html+='<div class="tab '+(fundTab==='fundlog'?'active':'')+'" onclick="switchFundTab(\'fundlog\')">资金流水</div>';
+html+='<div class="tab '+(fundTab==='recharge'?'active':'')+'" onclick="switchFundTab(\'recharge\')">充值审核</div>';
+html+='<div class="tab '+(fundTab==='withdraw'?'active':'')+'" onclick="switchFundTab(\'withdraw\')">提现审核</div>';
+html+='</div>';
+html+='<div id="fundTabContent"></div>';
+c.innerHTML=html;
+renderFundTabContent();
+}
+
+function switchFundTab(t){
+fundTab=t;
+var tabs=document.querySelectorAll('.tab');
+for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');
+var all=document.querySelectorAll('.tab');
+for(var j=0;j<all.length;j++){
+var txt=all[j].textContent;
+if((t==='fundlog'&&txt.indexOf('流水')>=0)||(t==='recharge'&&txt.indexOf('充值')>=0)||(t==='withdraw'&&txt.indexOf('提现')>=0))all[j].classList.add('active');
+}
+renderFundTabContent();
+}
+
+function renderFundTabContent(){
+var el=$('fundTabContent');
+if(!el)return;
+if(fundTab==='fundlog')renderFundLogList(el);
+else if(fundTab==='recharge')renderRechargeList(el);
+else renderWithdrawList(el);
+}
+
+function renderFundLogList(el){
+var list=AdminDB.getFunds();
+var html='<div class="card"><div class="card-title">💰 资金流水（最近 200 条）</div>';
+if(list.length===0){
+html+='<div class="empty"><div class="e-icon">💰</div><div class="e-text">暂无资金流水<br><span style="font-size:10px;">用户端充值/投注/中奖后自动同步</span></div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>用户</th><th>手机号</th><th>类型</th><th>金额</th><th>时间</th></tr></thead><tbody>';
+list.slice(0,200).forEach(function(f){
+html+='<tr><td>'+esc(f.nickname||'-')+'</td><td style="font-size:10px;">'+esc(f.userId||'-')+'</td><td>'+esc(f.type)+'</td><td style="color:'+(f.amount>0?'var(--green)':'var(--red)')+';font-weight:800;">'+(f.amount>0?'+':'-')+'¥'+fmtMoney(Math.abs(f.amount))+'</td><td style="font-size:11px;color:var(--dim);">'+fmtTime(f.ts)+'</td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+el.innerHTML=html;
+}
+
+function renderRechargeList(el){
+var list=AdminDB.getFunds().filter(function(f){return f.type==='充值';});
+var html='<div class="card"><div class="card-title">💳 充值订单（共 '+list.length+' 笔）</div>';
+if(list.length===0){
+html+='<div class="empty"><div class="e-icon">💳</div><div class="e-text">暂无充值订单</div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>用户</th><th>手机号</th><th>金额</th><th>状态</th><th>时间</th><th>操作</th></tr></thead><tbody>';
+list.slice(0,100).forEach(function(f){
+html+='<tr><td>'+esc(f.nickname||'-')+'</td><td style="font-size:10px;">'+esc(f.userId||'-')+'</td><td style="color:var(--gold);font-weight:800;">¥'+fmtMoney(f.amount)+'</td><td><span class="badge green">已到账</span></td><td style="font-size:11px;color:var(--dim);">'+fmtTime(f.ts)+'</td><td><button class="btn small ghost" onclick="toast(\'该订单已自动到账\',\'info\')" type="button">详情</button></td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+el.innerHTML=html;
+}
+
+function renderWithdrawList(el){
+var list=AdminDB.getFunds().filter(function(f){return f.type==='提现';});
+var html='<div class="card"><div class="card-title">💸 提现订单（共 '+list.length+' 笔）</div>';
+if(list.length===0){
+html+='<div class="empty"><div class="e-icon">💸</div><div class="e-text">暂无提现订单</div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>用户</th><th>手机号</th><th>金额</th><th>状态</th><th>时间</th><th>操作</th></tr></thead><tbody>';
+list.slice(0,100).forEach(function(f){
+html+='<tr><td>'+esc(f.nickname||'-')+'</td><td style="font-size:10px;">'+esc(f.userId||'-')+'</td><td style="color:var(--red);font-weight:800;">¥'+fmtMoney(Math.abs(f.amount))+'</td><td><span class="badge gold">已提交</span></td><td style="font-size:11px;color:var(--dim);">'+fmtTime(f.ts)+'</td><td><button class="btn small ghost" onclick="toast(\'该订单已同步\',\'info\')" type="button">详情</button></td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+el.innerHTML=html;
+}
+
+// ================================================================
+// 【投注记录】
+// ================================================================
+function renderBets(c){
+var list=AdminDB.getBets();
+var html='';
+html+='<div class="page-header"><div><h2>🎯 投注记录</h2><div class="ph-sub">最近 200 条（共 '+list.length+' 条）</div></div></div>';
+if(list.length===0){
+html+='<div class="card"><div class="empty"><div class="e-icon">🎯</div><div class="e-text">暂无投注记录<br><span style="font-size:10px;">用户端投注后自动同步</span></div></div></div>';
+}else{
+var totalBet=0,totalPay=0;
+list.forEach(function(b){totalBet+=b.bet;totalPay+=b.payout;});
+html+='<div class="stat-grid">';
+html+='<div class="stat-card"><div class="stat-label">总投注</div><div class="stat-value gold">¥'+fmtMoney(totalBet)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">总派奖</div><div class="stat-value green">¥'+fmtMoney(totalPay)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">平台盈亏</div><div class="stat-value '+(totalBet-totalPay>=0?'green':'red')+'">'+(totalBet-totalPay>=0?'+':'-')+'¥'+fmtMoney(Math.abs(totalBet-totalPay))+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">投注笔数</div><div class="stat-value blue">'+list.length+'</div></div>';
+html+='</div>';
+html+='<div class="card"><div class="table-wrap"><table><thead><tr><th>用户</th><th>期号</th><th>开奖</th><th>押注</th><th>中奖</th><th>时间</th></tr></thead><tbody>';
+list.slice(0,200).forEach(function(b){
+html+='<tr><td>'+esc(b.nickname||'-')+'</td><td style="font-size:10px;">'+esc(b.round||'-')+'</td><td>'+esc(b.emoji||'')+' '+padZero(b.winId||0,3)+'</td><td style="color:var(--gold);">¥'+fmtMoney(b.bet||0)+'</td><td style="color:'+(b.payout>0?'var(--green)':'var(--red)')+';font-weight:800;">'+(b.payout>0?'+¥'+fmtMoney(b.payout):'-¥'+fmtMoney(b.bet||0))+'</td><td style="font-size:11px;color:var(--dim);">'+fmtTime(b.ts)+'</td></tr>';
+});
+html+='</tbody></table></div></div>';
+}
+c.innerHTML=html;
+}
+
+// ================================================================
+// 【游戏管理】
+// ================================================================
+function renderGames(c){
+var g=AdminDB.getGame();
+var html='';
+html+='<div class="page-header"><div><h2>🎮 游戏管理</h2><div class="ph-sub">赔率 / 时长 / 中奖率 / 预设开奖</div></div></div>';
+
+html+='<div class="card"><div class="card-title">🦄 幸运兽 3D</div>';
+html+='<div class="form-row-3">';
+html+='<div class="form-group"><label>动物赔率</label><input type="number" id="g_oddsAnimal" value="'+(g.lucky.oddsAnimal||33)+'" step="0.1"></div>';
+html+='<div class="form-group"><label>大小赔率</label><input type="number" id="g_oddsSize" value="'+(g.lucky.oddsSize||1.95)+'" step="0.01"></div>';
+html+='<div class="form-group"><label>单双赔率</label><input type="number" id="g_oddsOE" value="'+(g.lucky.oddsOE||1.95)+'" step="0.01"></div>';
+html+='</div>';
+html+='<div class="form-row-3">';
+html+='<div class="form-group"><label>尾数赔率</label><input type="number" id="g_oddsTail" value="'+(g.lucky.oddsTail||8.5)+'" step="0.1"></div>';
+html+='<div class="form-group"><label>每局秒数</label><input type="number" id="g_roundSeconds" value="'+(g.lucky.roundSeconds||60)+'"></div>';
+html+='<div class="form-group"><label>封盘秒数</label><input type="number" id="g_lockBefore" value="'+(g.lucky.lockBefore||10)+'"></div>';
+html+='</div>';
+html+='<div class="form-group"><label>启用状态</label><div class="switch '+(g.lucky.enabled?'on':'')+'" onclick="this.classList.toggle(\'on\')" id="g_luckyEnable"></div></div>';
+html+='<button class="btn primary" onclick="saveLuckyGame()" type="button">💾 保存</button>';
+html+='</div>';
+
+html+='<div class="card"><div class="card-title">🎡 幸运大转盘</div>';
+html+='<div class="table-wrap"><table><thead><tr><th>游戏</th><th>时长(ms)</th><th>中奖率(0-1)</th><th>状态</th><th>操作</th></tr></thead><tbody>';
+['animal','classic','multi','rainbow'].forEach(function(k){
+var gg=g[k];
+if(!gg)return;
+html+='<tr><td>'+esc(gg.name)+'</td><td><input type="number" data-wg="'+k+'_dur" value="'+(gg.duration||6000)+'" style="width:100px;padding:6px;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--text);"></td><td><input type="text" data-wg="'+k+'_rate" value="'+(gg.winRate===null?'':gg.winRate)+'" placeholder="null=随机" style="width:120px;padding:6px;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--text);"></td><td><span class="badge '+(gg.enabled?'green':'gray')+'">'+(gg.enabled?'启用':'禁用')+'</span></td><td><button class="btn small" onclick="saveWheelGame(\''+k+'\')" type="button">保存</button></td></tr>';
+});
+html+='</tbody></table></div>';
+html+='<div style="font-size:11px;color:var(--dim);margin-top:10px;">💡 中奖率留空 = 纯随机；填 0.3 表示本局 30% 概率中奖。</div>';
+html+='</div>';
+
+html+='<div class="card" style="border-color:var(--gold);"><div class="card-title">🎯 动物游戏预设开奖 <span style="font-size:11px;color:var(--dim);font-weight:400;">（输入 1~36，下一次开奖固定使用）</span></div>';
+html+='<div class="form-row">';
+html+='<div class="form-group"><label>预设号码（1~36）</label><input type="number" id="presetNum" value="'+(g.lucky.presetWin||'')+'" placeholder="留空=随机开奖" min="1" max="36"></div>';
+html+='<div class="form-group"><label>当前状态</label><div style="padding:8px 0;font-size:12px;">'+(g.lucky.presetWin?'<span class="badge gold">已预设 '+g.lucky.presetWin+'</span>':'<span class="badge green">随机开奖</span>')+'</div></div>';
+html+='</div>';
+html+='<div style="display:flex;gap:8px;">';
+html+='<button class="btn primary" onclick="savePreset()" type="button">💾 预设保存</button>';
+html+='<button class="btn" onclick="clearPreset()" type="button">🗑️ 清除预设</button>';
+html+='</div>';
+html+='<div style="font-size:11px;color:var(--dim);margin-top:10px;">💡 保存后用户端下一局开奖固定为此号码；开奖后自动清除。</div>';
+html+='</div>';
+
+c.innerHTML=html;
+}
+
+function saveLuckyGame(){
+var g=AdminDB.getGame();
+g.lucky.oddsAnimal=parseFloat($('g_oddsAnimal').value)||33;
+g.lucky.oddsSize=parseFloat($('g_oddsSize').value)||1.95;
+g.lucky.oddsOE=parseFloat($('g_oddsOE').value)||1.95;
+g.lucky.oddsTail=parseFloat($('g_oddsTail').value)||8.5;
+g.lucky.roundSeconds=parseInt($('g_roundSeconds').value,10)||60;
+g.lucky.lockBefore=parseInt($('g_lockBefore').value,10)||10;
+g.lucky.enabled=$('g_luckyEnable').classList.contains('on');
+AdminDB.saveGame(g);
+AdminDB.addLog('修改幸运兽3D配置');
+toast('配置已保存','success');
+}
+
+function saveWheelGame(key){
+var durInput=document.querySelector('[data-wg="'+key+'_dur"]');
+var rateInput=document.querySelector('[data-wg="'+key+'_rate"]');
+var g=AdminDB.getGame();
+if(!g[key])return;
+g[key].duration=parseInt(durInput.value,10)||6000;
+var rateVal=rateInput.value.trim();
+g[key].winRate=rateVal===''?null:Math.max(0,Math.min(1,parseFloat(rateVal)));
+AdminDB.saveGame(g);
+AdminDB.addLog('修改'+g[key].name+'配置');
+toast(g[key].name+' 配置已保存','success');
+}
+
+function savePreset(){
+var v=parseInt($('presetNum').value,10);
+if(!v||v<1||v>36){toast('请输入 1~36 的号码','error');return;}
+var g=AdminDB.getGame();
+g.lucky.presetWin=v;
+AdminDB.saveGame(g);
+AdminDB.addLog('设置预设开奖 '+v);
+toast('预设号码已保存','success');
+renderGames($('pageContent'));
+}
+
+function clearPreset(){
+var g=AdminDB.getGame();
+g.lucky.presetWin=null;
+AdminDB.saveGame(g);
+AdminDB.addLog('清除预设开奖');
+toast('预设已清除','success');
+renderGames($('pageContent'));
+}
+
+// ================================================================
+// 【公告管理】
+// ================================================================
+function renderAnnounce(c){
+var list=AdminDB.getAnnounce();
+var html='';
+html+='<div class="page-header"><div><h2>📢 公告管理</h2><div class="ph-sub">发布后用户端 30 秒内自动弹窗</div></div><div class="page-actions"><button class="btn primary" onclick="openAnnounceEdit()" type="button">+ 发布公告</button></div></div>';
+html+='<div class="card">';
+if(list.length===0){
+html+='<div class="empty"><div class="e-icon">📢</div><div class="e-text">暂无公告<br><span style="font-size:10px;">点击右上角发布</span></div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>标题</th><th>内容</th><th>状态</th><th>发布时间</th><th>操作</th></tr></thead><tbody>';
+list.forEach(function(a){
+html+='<tr><td><b>'+esc(a.title)+'</b></td><td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">'+esc(a.content)+'</td><td><span class="badge '+(a.active?'green':'gray')+'">'+(a.active?'启用':'停用')+'</span></td><td style="font-size:11px;color:var(--dim);">'+fmtTime(a.ts)+'</td><td><button class="btn small" onclick="editAnnounce(\''+a.id+'\')" type="button">编辑</button> <button class="btn small ghost" onclick="toggleAnnounce(\''+a.id+'\')" type="button">'+(a.active?'停用':'启用')+'</button> <button class="btn small danger" onclick="delAnnounce(\''+a.id+'\')" type="button">删除</button></td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+c.innerHTML=html;
+}
+
+function openAnnounceEdit(a){
+var isEdit=!!a;
+var html='<div class="form-group"><label>公告标题</label><input type="text" id="anTitle" placeholder="请输入标题" value="'+(isEdit?esc(a.title):'')+'"></div>'
++'<div class="form-group"><label>公告内容</label><textarea id="anContent" rows="5" placeholder="请输入公告内容（支持换行）">'+(isEdit?esc(a.content):'')+'</textarea></div>'
++'<div class="form-group"><label>状态</label><select id="anActive"><option value="1"'+(isEdit&&a.active?' selected':'')+'>启用</option><option value="0"'+(isEdit&&!a.active?' selected':'')+'>停用</option></select></div>'
++'<div style="font-size:11px;color:var(--dim);margin-top:8px;">💡 发布后，用户端 30 秒内自动弹窗显示</div>';
+openModal(isEdit?'编辑公告':'发布公告',html,
+'<button class="btn" onclick="closeModal()" type="button">取消</button>'
++'<button class="btn primary" onclick="saveAnnounce('+(isEdit?"'"+a.id+"'":'null')+')" type="button">保存并发布</button>'
+);
+}
+
+function saveAnnounce(id){
+var title=($('anTitle').value||'').trim();
+var content=($('anContent').value||'').trim();
+var active=$('anActive').value==='1';
+if(!title||!content){toast('请填写完整','error');return;}
+var list=AdminDB.getAnnounce();
+if(id){
+for(var i=0;i<list.length;i++){
+if(list[i].id===id){
+list[i].title=title;list[i].content=content;list[i].active=active;list[i].ts=Date.now();
+break;
+}
+}
+AdminDB.addLog('编辑公告 '+title);
+}else{
+list.unshift({id:'AN'+Date.now(),title:title,content:content,active:active,ts:Date.now()});
+AdminDB.addLog('发布公告 '+title);
+}
+AdminDB.saveAnnounce(list);
+toast('公告已保存','success');
+closeModal();
+renderAnnounce($('pageContent'));
+}
+
+function editAnnounce(id){
+var list=AdminDB.getAnnounce();
+var a=null;
+for(var i=0;i<list.length;i++){if(list[i].id===id){a=list[i];break;}}
+if(a)openAnnounceEdit(a);
+}
+
+function toggleAnnounce(id){
+var list=AdminDB.getAnnounce();
+for(var i=0;i<list.length;i++){
+if(list[i].id===id){list[i].active=!list[i].active;break;}
+}
+AdminDB.saveAnnounce(list);
+toast('已切换状态','success');
+renderAnnounce($('pageContent'));
+}
+
+function delAnnounce(id){
+if(!confirm('确认删除此公告？'))return;
+var list=AdminDB.getAnnounce();
+list=list.filter(function(x){return x.id!==id;});
+AdminDB.saveAnnounce(list);
+AdminDB.addLog('删除公告 '+id);
+toast('已删除','success');
+renderAnnounce($('pageContent'));
+}
+
+// ================================================================
+// 【活动管理】
+// ================================================================
+function renderActivity(c){
+var list=AdminDB.getActivity();
+var html='';
+html+='<div class="page-header"><div><h2>🎉 活动管理</h2><div class="ph-sub">活动配置 / 奖励金额</div></div></div>';
+html+='<div class="card"><div class="table-wrap"><table><thead><tr><th>图标</th><th>活动</th><th>描述</th><th>奖励</th><th>状态</th><th>操作</th></tr></thead><tbody>';
+list.forEach(function(a){
+html+='<tr><td style="font-size:22px;">'+a.icon+'</td><td><b>'+esc(a.title)+'</b></td><td>'+esc(a.desc)+'</td><td style="color:var(--gold);font-weight:800;">'+(a.reward>0?'¥'+fmtMoney(a.reward):'-')+'</td><td><span class="badge '+(a.enabled?'green':'gray')+'">'+(a.enabled?'启用':'禁用')+'</span></td><td><button class="btn small" onclick="editActivity(\''+a.id+'\')" type="button">编辑</button></td></tr>';
+});
+html+='</tbody></table></div></div>';
+c.innerHTML=html;
+}
+
+function editActivity(id){
+var list=AdminDB.getActivity();
+var a=null;
+for(var i=0;i<list.length;i++){if(list[i].id===id){a=list[i];break;}}
+if(!a)return;
+var html='<div class="form-group"><label>活动标题</label><input type="text" id="actTitle" value="'+esc(a.title)+'"></div>'
++'<div class="form-group"><label>活动描述</label><input type="text" id="actDesc" value="'+esc(a.desc)+'"></div>'
++'<div class="form-group"><label>奖励金额（元）</label><input type="number" id="actReward" value="'+a.reward+'"></div>'
++'<div class="form-group"><label>启用状态</label><div class="switch '+(a.enabled?'on':'')+'" id="actSwitch" onclick="this.classList.toggle(\'on\')"></div></div>';
+openModal('编辑活动 · '+a.title,html,
+'<button class="btn" onclick="closeModal()" type="button">取消</button>'
++'<button class="btn primary" onclick="saveActivity(\''+id+'\')" type="button">保存</button>'
+);
+}
+
+function saveActivity(id){
+var list=AdminDB.getActivity();
+for(var i=0;i<list.length;i++){
+if(list[i].id===id){
+list[i].title=($('actTitle').value||'').trim();
+list[i].desc=($('actDesc').value||'').trim();
+list[i].reward=parseFloat($('actReward').value)||0;
+list[i].enabled=$('actSwitch').classList.contains('on');
+break;
+}
+}
+AdminDB.saveActivity(list);
+AdminDB.addLog('编辑活动 '+id);
+toast('活动已保存','success');
+closeModal();
+renderActivity($('pageContent'));
+}
+
+// ================================================================
+// 【风控管理】
+// ================================================================
+function renderRisk(c){
+var users=AdminDB.getUsers();
+var frozenUsers=users.filter(function(u){return u.frozen;});
+var html='';
+html+='<div class="page-header"><div><h2>🛡️ 风控管理</h2><div class="ph-sub">风控规则 / 冻结账号 / 违规记录</div></div></div>';
+
+html+='<div class="card"><div class="card-title">⚙️ 风控规则</div>';
+html+='<div class="form-row-3">';
+html+='<div class="form-group"><label>单格报警阈值(¥)</label><input type="number" value="3000" readonly></div>';
+html+='<div class="form-group"><label>单格上限(¥)</label><input type="number" value="5000" readonly></div>';
+html+='<div class="form-group"><label>单期总上限(¥)</label><input type="number" value="50000" readonly></div>';
+html+='</div>';
+html+='<div class="form-row">';
+html+='<div class="form-group"><label>对冲检测</label><div style="padding:8px 0;"><span class="badge green">已启用</span> 大+小 · 单+双 · ≥5尾数</div></div>';
+html+='<div class="form-group"><label>同IP多账号</label><div style="padding:8px 0;"><span class="badge green">已启用</span> 自动冻结</div></div>';
+html+='</div>';
+html+='</div>';
+
+html+='<div class="card"><div class="card-title">🚫 已冻结账号（'+frozenUsers.length+' 个）</div>';
+if(frozenUsers.length===0){
+html+='<div class="empty" style="padding:20px;"><div class="e-text">暂无冻结账号</div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>用户ID</th><th>手机号</th><th>昵称</th><th>余额</th><th>操作</th></tr></thead><tbody>';
+frozenUsers.forEach(function(u){
+html+='<tr><td style="font-size:10px;">'+esc(u.id)+'</td><td>'+esc(u.phone||'-')+'</td><td>'+esc(u.nickname||'-')+'</td><td style="color:var(--gold);">¥'+fmtMoney(u.coins||0)+'</td><td><button class="btn small success" onclick="toggleFreeze(\''+esc(u.id)+'\');renderRisk($(\'pageContent\'));" type="button">解冻</button></td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+
+var bets=AdminDB.getBets();
+var bigBets=bets.filter(function(b){return b.bet>=3000;});
+html+='<div class="card"><div class="card-title">⚠️ 大额投注（≥ ¥3,000，共 '+bigBets.length+' 笔）</div>';
+if(bigBets.length===0){
+html+='<div class="empty" style="padding:20px;"><div class="e-text">暂无大额投注</div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>用户</th><th>期号</th><th>押注</th><th>时间</th></tr></thead><tbody>';
+bigBets.slice(0,50).forEach(function(b){
+html+='<tr><td>'+esc(b.nickname||'-')+'</td><td style="font-size:10px;">'+esc(b.round||'-')+'</td><td style="color:var(--gold);font-weight:800;">¥'+fmtMoney(b.bet)+'</td><td style="font-size:11px;color:var(--dim);">'+fmtTime(b.ts)+'</td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+
+c.innerHTML=html;
+}
+// ================================================================
+// 【VIP 配置】
+// ================================================================
+function renderVip(c){
+var list=AdminDB.getVip();
+var html='';
+html+='<div class="page-header"><div><h2>👑 VIP 配置</h2><div class="ph-sub">等级 / 晋升条件 / 保级 / 反水点位</div></div></div>';
+html+='<div class="card"><div class="table-wrap"><table><thead><tr><th>等级</th><th>晋升充值</th><th>晋升流水</th><th>90天保级</th><th>提现次数/日</th><th>单笔上限</th><th>平台反水</th><th>自研反水</th><th>操作</th></tr></thead><tbody>';
+list.forEach(function(v,i){
+html+='<tr><td><span class="badge gold">VIP '+v.level+'</span></td><td>¥'+fmtInt(v.upRecharge)+'</td><td>¥'+fmtInt(v.upFlow)+'</td><td>¥'+fmtInt(v.keepFlow)+'</td><td>'+v.withdrawTimes+'</td><td>¥'+fmtInt(v.singleLimit)+'</td><td style="color:var(--gold);">'+v.platformRebate+'%</td><td style="color:#f472b6;">'+v.selfRebate+'%</td><td><button class="btn small" onclick="editVip('+i+')" type="button">编辑</button></td></tr>';
+});
+html+='</tbody></table></div></div>';
+c.innerHTML=html;
+}
+
+function editVip(idx){
+var list=AdminDB.getVip();
+var v=list[idx];
+if(!v)return;
+var html='<div class="form-row-3">'
++'<div class="form-group"><label>晋升充值(¥)</label><input type="number" id="v_upR" value="'+v.upRecharge+'"></div>'
++'<div class="form-group"><label>晋升流水(¥)</label><input type="number" id="v_upF" value="'+v.upFlow+'"></div>'
++'<div class="form-group"><label>90天保级(¥)</label><input type="number" id="v_keep" value="'+v.keepFlow+'"></div>'
++'</div><div class="form-row-3">'
++'<div class="form-group"><label>提现次数/日</label><input type="number" id="v_wt" value="'+v.withdrawTimes+'"></div>'
++'<div class="form-group"><label>单笔上限(¥)</label><input type="number" id="v_sl" value="'+v.singleLimit+'"></div>'
++'</div><div class="form-row">'
++'<div class="form-group"><label>平台反水(%)</label><input type="number" id="v_pr" value="'+v.platformRebate+'" step="0.1"></div>'
++'<div class="form-group"><label>自研反水(%)</label><input type="number" id="v_sr" value="'+v.selfRebate+'" step="0.1"></div>'
++'</div>';
+openModal('编辑 VIP '+v.level,html,
+'<button class="btn" onclick="closeModal()" type="button">取消</button>'
++'<button class="btn primary" onclick="saveVip('+idx+')" type="button">保存</button>'
+);
+}
+
+function saveVip(idx){
+var list=AdminDB.getVip();
+var v=list[idx];
+if(!v)return;
+v.upRecharge=parseFloat($('v_upR').value)||0;
+v.upFlow=parseFloat($('v_upF').value)||0;
+v.keepFlow=parseFloat($('v_keep').value)||0;
+v.withdrawTimes=parseInt($('v_wt').value,10)||0;
+v.singleLimit=parseFloat($('v_sl').value)||0;
+v.platformRebate=parseFloat($('v_pr').value)||0;
+v.selfRebate=parseFloat($('v_sr').value)||0;
+AdminDB.saveVip(list);
+AdminDB.addLog('修改 VIP'+v.level+' 配置');
+toast('已保存','success');
+closeModal();
+renderVip($('pageContent'));
+}
+
+// ================================================================
+// 【通道管理】
+// ================================================================
+function renderChannel(c){
+var list=AdminDB.getChannel();
+var html='';
+html+='<div class="page-header"><div><h2>🏦 通道管理</h2><div class="ph-sub">充值通道 / 汇率 / 收款地址</div></div></div>';
+html+='<div class="card"><div class="table-wrap"><table><thead><tr><th>通道</th><th>图标</th><th>汇率</th><th>收款地址</th><th>状态</th><th>操作</th></tr></thead><tbody>';
+list.forEach(function(ch){
+html+='<tr><td><b>'+esc(ch.name)+'</b></td><td style="font-size:22px;">'+ch.icon+'</td><td>'+ch.rate+'</td><td style="font-size:10px;max-width:180px;overflow:hidden;text-overflow:ellipsis;">'+esc(ch.address||'-')+'</td><td><span class="badge '+(ch.enabled?'green':'gray')+'">'+(ch.enabled?'启用':'维护中')+'</span></td><td><button class="btn small" onclick="editChannel(\''+ch.key+'\')" type="button">编辑</button></td></tr>';
+});
+html+='</tbody></table></div></div>';
+c.innerHTML=html;
+}
+
+function editChannel(key){
+var list=AdminDB.getChannel();
+var ch=null;
+for(var i=0;i<list.length;i++){if(list[i].key===key){ch=list[i];break;}}
+if(!ch)return;
+var html='<div class="form-row"><div class="form-group"><label>通道名称</label><input type="text" value="'+esc(ch.name)+'" readonly></div><div class="form-group"><label>汇率</label><input type="number" id="ch_rate" value="'+ch.rate+'" step="0.01"></div></div>'
++'<div class="form-group"><label>收款地址</label><input type="text" id="ch_addr" value="'+esc(ch.address)+'"></div>'
++'<div class="form-group"><label>充值须知</label><textarea id="ch_notice">'+esc(ch.notice)+'</textarea></div>'
++'<div class="form-group"><label>启用状态</label><div class="switch '+(ch.enabled?'on':'')+'" id="chSwitch" onclick="this.classList.toggle(\'on\')"></div></div>';
+openModal('编辑通道 · '+ch.name,html,
+'<button class="btn" onclick="closeModal()" type="button">取消</button>'
++'<button class="btn primary" onclick="saveChannel(\''+key+'\')" type="button">保存</button>'
+);
+}
+
+function saveChannel(key){
+var list=AdminDB.getChannel();
+for(var i=0;i<list.length;i++){
+if(list[i].key===key){
+list[i].rate=parseFloat($('ch_rate').value)||1;
+list[i].address=($('ch_addr').value||'').trim();
+list[i].notice=($('ch_notice').value||'').trim();
+list[i].enabled=$('chSwitch').classList.contains('on');
+break;
+}
+}
+AdminDB.saveChannel(list);
+AdminDB.addLog('修改通道 '+key);
+toast('通道已保存','success');
+closeModal();
+renderChannel($('pageContent'));
+}
+
+// ================================================================
+// 【报表统计】
+// ================================================================
+function renderReport(c){
+var users=AdminDB.getUsers();
+var funds=AdminDB.getFunds();
+var bets=AdminDB.getBets();
+var totalRecharge=0,totalWithdraw=0,totalBet=0,totalPayout=0;
+funds.forEach(function(f){
+if(f.type==='充值')totalRecharge+=Math.abs(f.amount);
+if(f.type==='提现')totalWithdraw+=Math.abs(f.amount);
+});
+bets.forEach(function(b){totalBet+=b.bet;totalPayout+=b.payout;});
+var html='';
+html+='<div class="page-header"><div><h2>📈 报表统计</h2><div class="ph-sub">平台运营数据总览</div></div><div class="page-actions"><button class="btn" onclick="exportReport()" type="button">📥 导出报表</button></div></div>';
+html+='<div class="stat-grid">';
+html+='<div class="stat-card"><div class="stat-label">累计充值</div><div class="stat-value gold">¥'+fmtMoney(totalRecharge)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">累计提现</div><div class="stat-value red">¥'+fmtMoney(totalWithdraw)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">累计投注</div><div class="stat-value gold">¥'+fmtMoney(totalBet)+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">累计派奖</div><div class="stat-value green">¥'+fmtMoney(totalPayout)+'</div></div>';
+var profit=totalBet-totalPayout;
+html+='<div class="stat-card"><div class="stat-label">平台盈亏</div><div class="stat-value '+(profit>=0?'green':'red')+'">'+(profit>=0?'+':'-')+'¥'+fmtMoney(Math.abs(profit))+'</div></div>';
+html+='<div class="stat-card"><div class="stat-label">净充值</div><div class="stat-value blue">¥'+fmtMoney(totalRecharge-totalWithdraw)+'</div></div>';
+html+='</div>';
+
+html+='<div class="card"><div class="card-title">📊 用户排行（余额 TOP 10）</div>';
+var topUsers=users.slice().sort(function(a,b){return (b.coins||0)-(a.coins||0);}).slice(0,10);
+if(topUsers.length===0){
+html+='<div class="empty" style="padding:20px;"><div class="e-text">暂无用户数据</div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>排名</th><th>用户ID</th><th>手机号</th><th>昵称</th><th>VIP</th><th>余额</th></tr></thead><tbody>';
+topUsers.forEach(function(u,i){
+html+='<tr><td><span class="badge '+(i<3?'gold':'gray')+'">#'+(i+1)+'</span></td><td style="font-size:10px;">'+esc(u.id)+'</td><td>'+esc(u.phone||'-')+'</td><td>'+esc(u.nickname||'-')+'</td><td>VIP '+(u.vipLevel||0)+'</td><td style="color:var(--gold);font-weight:800;">¥'+fmtMoney(u.coins||0)+'</td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+c.innerHTML=html;
+}
+
+function exportReport(){
+var users=AdminDB.getUsers();
+var funds=AdminDB.getFunds();
+var bets=AdminDB.getBets();
+var lines=['南宫国际娱乐 · 报表导出','导出时间,'+new Date().toLocaleString(),'','=== 用户列表 ===','用户ID,手机号,昵称,VIP,余额,实名'];
+users.forEach(function(u){lines.push([u.id,u.phone,u.nickname,'VIP'+(u.vipLevel||0),u.coins||0,u.realName||'未认证'].join(','));});
+lines.push('');
+lines.push('=== 资金流水（最近200条） ===');
+lines.push('用户,手机号,类型,金额,时间');
+funds.slice(0,200).forEach(function(f){lines.push([f.nickname||'-',f.userId||'-',f.type,f.amount,fmtTime(f.ts)].join(','));});
+lines.push('');
+lines.push('=== 投注记录（最近200条） ===');
+lines.push('用户,期号,开奖号码,押注,派奖,时间');
+bets.slice(0,200).forEach(function(b){lines.push([b.nickname||'-',b.round||'-',b.winId||0,b.bet,b.payout,fmtTime(b.ts)].join(','));});
+var blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');
+a.href=url;a.download='report_'+Date.now()+'.csv';a.click();
+setTimeout(function(){URL.revokeObjectURL(url);},1000);
+AdminDB.addLog('导出报表');
+toast('报表已导出','success');
+}
+
+// ================================================================
+// 【管理员】含修改自己密码 / 开通新管理员
+// ================================================================
+function renderAdmins(c){
+var list=AdminDB.getAdmins();
+var html='';
+html+='<div class="page-header"><div><h2>🔧 管理员</h2><div class="ph-sub">账号管理 / 密码修改 / 操作日志</div></div><div class="page-actions"><button class="btn primary" onclick="openAdminAdd()" type="button">+ 开通管理员</button></div></div>';
+
+html+='<div class="card"><div class="card-title">👤 管理员列表</div>';
+html+='<div class="table-wrap"><table><thead><tr><th>账号</th><th>名称</th><th>权限</th><th>创建时间</th><th>操作</th></tr></thead><tbody>';
+list.forEach(function(a){
+var isSuper=a.role==='super';
+html+='<tr><td><b>'+esc(a.id)+'</b></td><td>'+esc(a.name)+'</td><td><span class="badge '+(isSuper?'gold':'blue')+'">'+(isSuper?'超级管理员':'普通管理员')+'</span></td><td style="font-size:11px;color:var(--dim);">'+fmtTime(a.createdAt)+'</td><td><button class="btn small" onclick="openChangePwd(\''+esc(a.id)+'\')" type="button">改密码</button> '+(a.id==='admin'?'<span style="font-size:11px;color:var(--dim);">不可删</span>':'<button class="btn small danger" onclick="delAdmin(\''+esc(a.id)+'\')" type="button">删除</button>')+'</td></tr>';
+});
+html+='</tbody></table></div></div>';
+
+html+='<div class="card"><div class="card-title">🔑 修改当前账号密码</div>';
+html+='<button class="btn primary" onclick="openChangePwd(\''+(currentAdmin?currentAdmin.id:'')+'\')" type="button">修改我的密码</button>';
+html+='</div>';
+
+var logs=AdminDB.getLogs().slice(0,50);
+html+='<div class="card"><div class="card-title">📋 操作日志（最近 50 条）</div>';
+if(logs.length===0){
+html+='<div class="empty" style="padding:20px;"><div class="e-text">暂无日志</div></div>';
+}else{
+html+='<div class="table-wrap"><table><thead><tr><th>管理员</th><th>操作</th><th>时间</th></tr></thead><tbody>';
+logs.forEach(function(l){
+html+='<tr><td>'+esc(l.admin)+'</td><td>'+esc(l.action)+'</td><td style="font-size:11px;color:var(--dim);">'+fmtTime(l.ts)+'</td></tr>';
+});
+html+='</tbody></table></div>';
+}
+html+='</div>';
+c.innerHTML=html;
+}
+
+function openAdminAdd(){
+var html='<div class="form-group"><label>账号（登录用，英文/数字）</label><input type="text" id="admId" placeholder="例如：operator01" autocomplete="off"></div>'
++'<div class="form-group"><label>显示名称</label><input type="text" id="admName" placeholder="例如：运营小王" autocomplete="off"></div>'
++'<div class="form-group"><label>登录密码</label><input type="password" id="admPwd" placeholder="请设置密码（至少6位）" autocomplete="off"></div>'
++'<div class="form-group"><label>权限</label><select id="admRole"><option value="normal">普通管理员</option><option value="super">超级管理员</option></select></div>';
+openModal('开通管理员账号',html,
+'<button class="btn" onclick="closeModal()" type="button">取消</button>'
++'<button class="btn primary" onclick="addAdmin()" type="button">确定开通</button>'
+);
+}
+
+function addAdmin(){
+var id=($('admId').value||'').trim();
+var name=($('admName').value||'').trim();
+var pwd=($('admPwd').value||'').trim();
+var role=$('admRole').value;
+if(!id||!name||!pwd){toast('请填写完整','error');return;}
+if(id.length<3){toast('账号至少3位','error');return;}
+if(pwd.length<6){toast('密码至少6位','error');return;}
+var list=AdminDB.getAdmins();
+for(var i=0;i<list.length;i++){
+if(list[i].id===id){toast('账号已存在','error');return;}
+}
+list.push({id:id,name:name,pwd:pwd,role:role,createdAt:Date.now()});
+AdminDB.saveAdmins(list);
+AdminDB.addLog('开通管理员 '+id);
+toast('管理员已开通','success');
+closeModal();
+renderAdmins($('pageContent'));
+}
+
+function delAdmin(id){
+if(!confirm('确认删除管理员「'+id+'」？'))return;
+var list=AdminDB.getAdmins();
+list=list.filter(function(x){return x.id!==id;});
+AdminDB.saveAdmins(list);
+AdminDB.addLog('删除管理员 '+id);
+toast('已删除','success');
+renderAdmins($('pageContent'));
+}
+
+function openChangePwd(id){
+var target=null;
+var list=AdminDB.getAdmins();
+for(var i=0;i<list.length;i++){if(list[i].id===id){target=list[i];break;}}
+if(!target){toast('账号不存在','error');return;}
+var html='<div class="form-group"><label>账号</label><input type="text" value="'+esc(target.id)+'" readonly></div>'
++'<div class="form-group"><label>当前密码</label><input type="password" id="cpOld" placeholder="请输入当前密码" autocomplete="off"></div>'
++'<div class="form-group"><label>新密码</label><input type="password" id="cpNew" placeholder="至少6位" autocomplete="off"></div>'
++'<div class="form-group"><label>确认新密码</label><input type="password" id="cpNew2" placeholder="请再次输入新密码" autocomplete="off"></div>';
+openModal('修改密码 · '+target.id,html,
+'<button class="btn" onclick="closeModal()" type="button">取消</button>'
++'<button class="btn primary" onclick="saveChangePwd(\''+esc(id)+'\')" type="button">确认修改</button>'
+);
+}
+
+function saveChangePwd(id){
+var oldP=($('cpOld').value||'').trim();
+var newP=($('cpNew').value||'').trim();
+var newP2=($('cpNew2').value||'').trim();
+if(!oldP||!newP||!newP2){toast('请填写完整','error');return;}
+if(newP.length<6){toast('新密码至少6位','error');return;}
+if(newP!==newP2){toast('两次密码不一致','error');return;}
+var list=AdminDB.getAdmins();
+for(var i=0;i<list.length;i++){
+if(list[i].id===id){
+if(list[i].pwd!==oldP){toast('当前密码错误','error');return;}
+list[i].pwd=newP;
+AdminDB.saveAdmins(list);
+AdminDB.addLog('修改账号 '+id+' 密码');
+toast('密码已修改，请重新登录','success');
+closeModal();
+setTimeout(function(){
+if(id=== (currentAdmin?currentAdmin.id:'')){
+doLogout();
+}
+},600);
+return;
+}
+}
+toast('账号不存在','error');
+}
+
+// ================================================================
+// 【系统设置】
+// ================================================================
+function renderSetting(c){
+var s=AdminDB.getSetting();
+var html='';
+html+='<div class="page-header"><div><h2>⚙️ 系统设置</h2><div class="ph-sub">站点信息 / 交易参数</div></div></div>';
+
+html+='<div class="card"><div class="card-title">🏷️ 站点信息</div>';
+html+='<div class="form-row">';
+html+='<div class="form-group"><label>站点名称</label><input type="text" id="st_name" value="'+esc(s.siteName)+'"></div>';
+html+='<div class="form-group"><label>注册赠送(¥)</label><input type="number" id="st_gift" value="'+(s.registerGift||0)+'"></div>';
+html+='</div>';
+html+='<div class="form-group"><label>站点公告（滚动条）</label><input type="text" id="st_notice" value="'+esc(s.siteNotice)+'"></div>';
+html+='</div>';
+
+html+='<div class="card"><div class="card-title">💰 交易参数</div>';
+html+='<div class="form-row-3">';
+html+='<div class="form-group"><label>最低充值(¥)</label><input type="number" id="st_minR" value="'+(s.minRecharge||100)+'"></div>';
+html+='<div class="form-group"><label>最低提现(¥)</label><input type="number" id="st_minW" value="'+(s.minWithdraw||100)+'"></div>';
+html+='<div class="form-group"><label>提现流水倍数</label><input type="number" id="st_flow" value="'+(s.needFlowForWithdraw||1)+'"></div>';
+html+='</div>';
+html+='<div class="form-group"><label>订单超时(分钟)</label><input type="number" id="st_timeout" value="'+(s.orderTimeout||30)+'" style="max-width:200px;"></div>';
+html+='</div>';
+
+html+='<div class="card"><div class="card-title">💾 数据管理</div>';
+html+='<div style="display:flex;gap:8px;flex-wrap:wrap;">';
+html+='<button class="btn" onclick="exportAllData()" type="button">📥 导出全部数据</button>';
+html+='<button class="btn" onclick="importAllData()" type="button">📤 导入数据</button>';
+html+='<button class="btn danger" onclick="resetAllData()" type="button">⚠️ 重置所有数据</button>';
+html+='</div>';
+html+='</div>';
+
+html+='<div style="text-align:right;"><button class="btn primary" onclick="saveSetting()" type="button">💾 保存所有设置</button></div>';
+c.innerHTML=html;
+}
+
+function saveSetting(){
+var s=AdminDB.getSetting();
+s.siteName=($('st_name').value||'').trim();
+s.registerGift=parseFloat($('st_gift').value)||0;
+s.siteNotice=($('st_notice').value||'').trim();
+s.minRecharge=parseFloat($('st_minR').value)||100;
+s.minWithdraw=parseFloat($('st_minW').value)||100;
+s.needFlowForWithdraw=parseFloat($('st_flow').value)||1;
+s.orderTimeout=parseInt($('st_timeout').value,10)||30;
+AdminDB.saveSetting(s);
+AdminDB.addLog('修改系统设置');
+toast('设置已保存','success');
+}
+
+function exportAllData(){
+var data={
+admins:AdminDB.getAdmins(),
+announcements:AdminDB.getAnnounce(),
+users:AdminDB.getUsers(),
+funds:AdminDB.getFunds(),
+bets:AdminDB.getBets(),
+game:AdminDB.getGame(),
+vip:AdminDB.getVip(),
+channel:AdminDB.getChannel(),
+activity:AdminDB.getActivity(),
+setting:AdminDB.getSetting(),
+logs:AdminDB.getLogs()
+};
+var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');
+a.href=url;a.download='nangong_backup_'+Date.now()+'.json';a.click();
+setTimeout(function(){URL.revokeObjectURL(url);},1000);
+toast('数据已导出','success');
+}
+
+function importAllData(){
+var input=document.createElement('input');
+input.type='file';input.accept='.json';
+input.onchange=function(e){
+var file=e.target.files[0];
+if(!file)return;
+var reader=new FileReader();
+reader.onload=function(ev){
+try{
+var d=JSON.parse(ev.target.result);
+if(d.admins)localStorage.setItem(AdminDB.KEY_ADMINS,JSON.stringify(d.admins));
+if(d.announcements)localStorage.setItem(AdminDB.KEY_ANNOUNCE,JSON.stringify(d.announcements));
+if(d.game)localStorage.setItem(AdminDB.KEY_GAME,JSON.stringify(d.game));
+if(d.vip)localStorage.setItem(AdminDB.KEY_VIP,JSON.stringify(d.vip));
+if(d.channel)localStorage.setItem(AdminDB.KEY_CHANNEL,JSON.stringify(d.channel));
+if(d.activity)localStorage.setItem(AdminDB.KEY_ACTIVITY,JSON.stringify(d.activity));
+if(d.setting)localStorage.setItem(AdminDB.KEY_SETTING,JSON.stringify(d.setting));
+toast('数据已导入，刷新页面生效','success');
+setTimeout(function(){location.reload();},1500);
+}catch(err){toast('文件格式错误','error');}
+};
+reader.readAsText(file);
+};
+input.click();
+}
+
+function resetAllData(){
+if(!confirm('⚠️ 确认重置所有后台配置？此操作不可恢复！'))return;
+if(!confirm('再次确认：公告、游戏配置、VIP、通道配置将被重置！'))return;
+localStorage.removeItem(AdminDB.KEY_ANNOUNCE);
+localStorage.removeItem(AdminDB.KEY_GAME);
+localStorage.removeItem(AdminDB.KEY_VIP);
+localStorage.removeItem(AdminDB.KEY_CHANNEL);
+localStorage.removeItem(AdminDB.KEY_ACTIVITY);
+localStorage.removeItem(AdminDB.KEY_SETTING);
+localStorage.removeItem(AdminDB.KEY_LOGS);
+toast('配置已重置','success');
+setTimeout(function(){location.reload();},1500);
+}
+
+// ================================================================
+// 【启动】
+// ================================================================
+function startAdmin(){
+buildNav();
+navTo('dashboard');
+}
+
+function bindGlobalEvents(){
+$('loginBtn').onclick=doLogin;
+$('loginPass').onkeydown=function(e){if(e.key==='Enter')doLogin();};
+$('loginUser').onkeydown=function(e){if(e.key==='Enter')$('loginPass').focus();};
+$('logoutBtn').onclick=doLogout;
+$('menuToggle').onclick=function(){$('sidebar').classList.toggle('open');};
+$('modalClose').onclick=closeModal;
+$('modalMask').onclick=function(e){if(e.target===this)closeModal();};
+}
+
+function boot(){
+AdminDB.getAdmins();
+AdminDB.getGame();
+AdminDB.getVip();
+AdminDB.getChannel();
+AdminDB.getActivity();
+AdminDB.getSetting();
+bindGlobalEvents();
+var cur=AdminDB.getCurrent();
+if(cur&&cur.id){
+var admins=AdminDB.getAdmins();
+var found=null;
+for(var i=0;i<admins.length;i++){if(admins[i].id===cur.id){found=admins[i];break;}}
+if(found){
+currentAdmin=found;
+$('loginPage').classList.add('hidden');
+$('adminApp').classList.add('show');
+setText($('adminName'),found.name||found.id);
+startAdmin();
+}
+}
+console.log('[Admin] 后台管理系统已加载');
+}
+
+if(document.readyState==='loading'){
+document.addEventListener('DOMContentLoaded',boot);
+}else{
+boot();
+}
+</script>
+</body>
+</html>
